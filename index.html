@@ -184,11 +184,16 @@ function reminderMessage(id){let s=db.students.find(x=>x.id===id),r=reminderFor(
 function shareReceiptWhatsApp(){let el=document.getElementById('receipt');if(!el)return;let text='VIDYARTHIMITRA Receipt - '+el.innerText;if(navigator.share){navigator.share({title:'VIDYARTHIMITRA Receipt',text}).catch(()=>{})}else{navigator.clipboard?.writeText(text);alert('Receipt text copy केला आहे. WhatsApp मध्ये paste करा.')}}function shareReminderWhatsApp(id){let s=db.students.find(x=>x.id===id),r=reminderFor(s),lines=r.oldDetails.map(x=>`${x.month}: ₹${x.amount}`).join('\n');let text=`VIDYARTHIMITRA Reminder\nStudent: ${s.name}\nCurrent ${r.m}: ₹${r.current}\n${lines?lines+'\n':''}TOTAL DUE: ₹${r.total}`;if(navigator.share)navigator.share({title:'VIDYARTHIMITRA Reminder',text}).catch(()=>{});else{navigator.clipboard?.writeText(text);alert('Reminder copy केला आहे. WhatsApp मध्ये paste करा.')}}
 let selectedParentContacts=new Map(),parentSendIndex=0;
 function parentPhoneDigits(v){return String(v||'').replace(/\D/g,'')}
+function parentNumbers(st){
+ let raw=st.contacts;
+ let values=Array.isArray(raw)?raw:(raw?[raw]:[]);
+ ['contact','mobile','mobileNo','phone','contact1','contact2','contact3','mobile1','mobile2','mobile3','mobileNo1','mobileNo2','mobileNo3','phone1','phone2','phone3','c1','c2','c3'].forEach(k=>{if(st[k])values.push(st[k])});
+ return [...new Set(values.map(v=>String(v&&typeof v==='object'?(v.phone||v.mobile||v.number||''):v||'').trim()).filter(Boolean))];
+}
 function renderParentContacts(){
  let q=(document.getElementById('parentSearch')?.value||'').toLowerCase(),items=[];
- db.students.forEach(st=>(Array.isArray(st.contacts)?st.contacts:[]).forEach(phone=>{
-  phone=String(phone||'').trim();if(!phone)return;
-  let key=st.id+'|'+phone;if((st.name+' '+phone).toLowerCase().includes(q))items.push({key,id:st.id,name:st.name,phone});
+ db.students.forEach(st=>parentNumbers(st).forEach(phone=>{
+  let key=st.id+'|'+phone;if((String(st.name||'')+' '+phone).toLowerCase().includes(q))items.push({key,id:st.id,name:st.name||'विद्यार्थी',phone});
  }));
  let box=document.getElementById('parentContactList');if(!box)return;
  box.innerHTML=items.map(x=>{
@@ -202,9 +207,9 @@ function renderParentContacts(){
 function toggleParentKey(encoded){let key=decodeURIComponent(encoded),parts=key.split('|'),st=db.students.find(x=>x.id===parts[0]);if(!st)return;let phone=parts.slice(1).join('|');if(selectedParentContacts.has(key))selectedParentContacts.delete(key);else selectedParentContacts.set(key,{name:st.name,phone});parentSendIndex=0;renderParentContacts()}
 function selectVisibleParents(checked){
  let q=(document.getElementById('parentSearch')?.value||'').toLowerCase();
- db.students.forEach(st=>(Array.isArray(st.contacts)?st.contacts:[]).forEach(phone=>{
-  phone=String(phone||'').trim();let d=parentPhoneDigits(phone),valid=d.length===10||(d.length===12&&d.startsWith('91'));
-  if(valid&&(st.name+' '+phone).toLowerCase().includes(q)){let key=st.id+'|'+phone;if(checked)selectedParentContacts.set(key,{name:st.name,phone});else selectedParentContacts.delete(key)}
+ db.students.forEach(st=>parentNumbers(st).forEach(phone=>{
+  let d=parentPhoneDigits(phone),valid=d.length===10||(d.length===12&&d.startsWith('91'));
+  if(valid&&(String(st.name||'')+' '+phone).toLowerCase().includes(q)){let key=st.id+'|'+phone;if(checked)selectedParentContacts.set(key,{name:st.name||'विद्यार्थी',phone});else selectedParentContacts.delete(key)}
  }));
  parentSendIndex=0;renderParentContacts();
 }
