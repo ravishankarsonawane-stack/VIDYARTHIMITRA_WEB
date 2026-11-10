@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#062957"/><stop offset="1" stop-color="#0b65b8"/></linearGradient><linearGradient id="gold" x2="0" y2="1"><stop stop-color="#ffe47a"/><stop offset="1" stop-color="#e9a91c"/></linearGradient></defs>
+<rect width="512" height="512" rx="112" fill="url(#bg)"/>
+<circle cx="256" cy="246" r="190" fill="none" stroke="#f5c542" stroke-width="10" opacity=".9"/>
+<path d="M70 365h372" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".9"/>
+<path d="M90 392h332" stroke="#f5c542" stroke-width="7" stroke-linecap="round" stroke-dasharray="24 18"/>
+<!-- auto rickshaw -->
+<path d="M125 286q0-20 22-25l18-77q7-24 31-24h106q28 0 39 25l25 76q25 6 25 29v57H125z" fill="url(#gold)" stroke="#fff" stroke-width="10" stroke-linejoin="round"/>
+<path d="M183 191h113l22 68H166z" fill="#b9e7ff" stroke="#062957" stroke-width="9" stroke-linejoin="round"/>
+<path d="M143 278h239v43H143z" fill="#07366d"/>
+<path d="M160 321h206" stroke="#fff" stroke-width="8"/>
+<circle cx="184" cy="354" r="28" fill="#172b43" stroke="#fff" stroke-width="9"/><circle cx="332" cy="354" r="28" fill="#172b43" stroke="#fff" stroke-width="9"/>
+<circle cx="137" cy="292" r="9" fill="#fff4b0"/><circle cx="382" cy="292" r="9" fill="#fff4b0"/>
+<!-- school children walking -->
+<g stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="100" cy="155" r="24" fill="#ffd5a5"/><path d="M78 147q21-33 44 0" fill="#263d65"/><path d="M100 181v61m0-38-24 25m24-25 24 22m-24 16-20 33m20-33 23 31" fill="none"/>
+<circle cx="410" cy="150" r="23" fill="#ffd5a5"/><path d="M388 143q22-32 44 0" fill="#263d65"/><path d="M410 176v62m0-39-22 23m22-23 23 21m-23 18-18 33m18-33 22 30" fill="none"/>
+</g>
+<path d="M62 111q35-29 71 0M379 102q34-26 70 0" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".8"/>
+</svg>
