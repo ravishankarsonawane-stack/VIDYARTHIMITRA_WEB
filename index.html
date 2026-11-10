@@ -179,7 +179,7 @@ function updateAllocationPreview(){
  let manual=document.getElementById('manualMonthSelector');if(manual)manual.style.display=(fType.value==='oldBalance'||(fType.value==='monthly'&&mode==='auto'))?'none':'block';
  if(!s){box.textContent='विद्यार्थी निवडा / Select a student';return}
  if(fType.value==='oldBalance'){let due=Number(s.oldBalance)||0,paid=Math.min(amount,due);box.innerHTML=`जुनी बाकी: <b>₹${due.toFixed(2)}</b><br>या वेळी जमा: <b>₹${paid.toFixed(2)}</b><br>उर्वरित बाकी: <b>₹${Math.max(0,due-paid).toFixed(2)}</b>${amount>due?'<br><span style="color:#b42318">भरलेली रक्कम जुन्या बाकीपेक्षा जास्त आहे.</span>':''}`;return}
- if(f.type==='custom'){box.textContent='इतर जमा नोंद';return}
+ if(fType.value==='custom'){box.textContent='इतर जमा नोंद';return}
  let plan;
  if(fAllocationMode.value==='auto')plan=autoFeeAllocationPlan(s,amount);
  else{
