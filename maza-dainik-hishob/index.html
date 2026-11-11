@@ -92,7 +92,19 @@ label{color:#334b6c}
 .bottom button.active{background:#234777;color:#f4d98e}
 .note{background:#fff9e9;border:1px solid #eedba8;color:#6c5521}
 
-\n.bank-summary{border-top:3px solid #d6ad52}.bank-summary .entry{align-items:center;margin:7px 0}.bank-summary .entry strong{font-size:19px;white-space:nowrap}\n</style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
+\n.bank-summary{border-top:3px solid #d6ad52}.bank-summary .entry{align-items:center;margin:7px 0}.bank-summary .entry strong{font-size:19px;white-space:nowrap}\n
+/* Month > date folders to keep the daily ledger compact */
+.month-folder,.date-folder{border:1px solid #e1e8f2;border-radius:13px;background:#fff;margin:9px 0;overflow:hidden}
+.month-folder>summary,.date-folder>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px;cursor:pointer}
+.month-folder>summary::-webkit-details-marker,.date-folder>summary::-webkit-details-marker{display:none}
+.month-folder>summary{background:#f0f4fa;border-left:4px solid #d6ad52}
+.date-folder>summary{background:#fbfcff;border-left:3px solid #174b91;padding:11px 12px}
+.month-folder summary span:first-child,.date-folder summary span:first-child{display:flex;flex-direction:column;gap:3px;min-width:0}
+.month-folder summary b{color:#173e72;font-size:15px}.date-folder summary b{color:#24466f;font-size:13px}
+.month-folder summary small,.date-folder summary small{font-size:11px;color:#65758b;line-height:1.5}
+.folder-arrow{color:#174b91;font-size:19px;transition:transform .15s}.month-folder[open]>summary .folder-arrow,.date-folder[open]>summary .folder-arrow{transform:rotate(180deg)}
+.month-content{padding:2px 9px 9px}.date-content{padding:0 8px 8px}.date-content .entry{margin:6px 0}
+</style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
 <body>
 <header class="hero"><small>घरखर्च + रिक्षा व्यवहार</small><h1>माझा दैनिक हिशोब</h1><p>सोपे नोंदवही • दिवसनिहाय नोंदी • महिन्याचा अहवाल</p></header>
 <main class="wrap">
@@ -142,7 +154,25 @@ function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function editEntry(id){let e=db.entries.find(x=>x.id===id);if(!e)return;showPage('add');document.getElementById('formTitle').textContent='नोंद बदला';document.getElementById('editId').value=e.id;document.getElementById('kind').value=e.kind;document.getElementById('area').value=e.area;fillCategories();document.getElementById('category').value=e.category;document.getElementById('amount').value=e.amount;document.getElementById('date').value=e.date;document.getElementById('mode').value=e.mode;fillBanks();document.getElementById('bankAccount').value=e.bank||'';document.getElementById('memo').value=e.memo||''}
 function delEntry(id){if(confirm('ही नोंद हटवायची का?')){db.entries=db.entries.filter(x=>x.id!==id);persist()}}
 function renderHome(){let t=isoToday(),m=monthNow(),today=db.entries.filter(x=>x.date===t),mon=db.entries.filter(x=>x.date.startsWith(m));document.getElementById('todayIn').textContent=money(sum(today,'income'));document.getElementById('todayOut').textContent=money(sum(today,'expense'));document.getElementById('monthIn').textContent=money(sum(mon,'income'));document.getElementById('monthOut').textContent=money(sum(mon,'expense'));let hb=document.getElementById('homeBankBalances');if(hb){let rows=db.banks.map((b,i)=>{let tx=db.entries.filter(e=>String(e.bank??'')===String(i)&&['UPI','Bank Transfer','Card'].includes(e.mode)),inc=tx.filter(e=>e.kind==='income').reduce((s,e)=>s+Number(e.amount||0),0),out=tx.filter(e=>e.kind==='expense').reduce((s,e)=>s+Number(e.amount||0),0),bal=Number(b.opening||0)+inc-out;return '<div class="entry"><div><b>'+esc(b.name)+'</b><div class="meta">सुरुवातीची शिल्लक '+money(b.opening||0)+' · जमा '+money(inc)+' · खर्च '+money(out)+'</div></div><strong class="'+(bal>=0?'green':'red')+'">'+money(bal)+'</strong></div>'}).join('');hb.innerHTML=rows||'<p class="muted">बँक खाते जोडलेले नाही. अहवाल विभागात बँक खाते जोडा.</p>'}document.getElementById('todayList').innerHTML=today.length?today.map(entryHtml).join(''):'<p class="muted">आजची नोंद नाही.</p>'}
-function renderDays(){let groups={};db.entries.slice().sort((a,b)=>b.date.localeCompare(a.date)).forEach(e=>(groups[e.date]??=[]).push(e));document.getElementById('dayList').innerHTML=Object.keys(groups).length?Object.keys(groups).map(d=>'<div class="dategroup"><b>'+d+'</b>'+groups[d].map(entryHtml).join('')+'</div>').join(''):'<p class="muted">अजून नोंदी नाहीत.</p>'}
+function renderDays(){
+  const months={};
+  db.entries.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).forEach(e=>{
+    const month=(e.date||'').slice(0,7)||'तारीख नाही';
+    (months[month]??=[]).push(e);
+  });
+  const monthKeys=Object.keys(months).sort((a,b)=>b.localeCompare(a));
+  document.getElementById('dayList').innerHTML=monthKeys.length?monthKeys.map((m,mi)=>{
+    const rows=months[m],inc=sum(rows,'income'),out=sum(rows,'expense');
+    const label=/^\\d{4}-\\d{2}$/.test(m)?new Date(Number(m.slice(0,4)),Number(m.slice(5,7))-1,1).toLocaleDateString('mr-IN',{month:'long',year:'numeric'}):m;
+    const dates={};rows.forEach(e=>(dates[e.date]??=[]).push(e));
+    const dateKeys=Object.keys(dates).sort((a,b)=>b.localeCompare(a));
+    return '<details class="month-folder" '+(mi===0?'open':'')+'><summary><span><b>'+esc(label)+'</b><small>'+rows.length+' नोंदी • उत्पन्न '+money(inc)+' • खर्च '+money(out)+'</small></span><span class="folder-arrow">⌄</span></summary><div class="month-content">'+dateKeys.map((d,di)=>{
+      const dayRows=dates[d],dayIn=sum(dayRows,'income'),dayOut=sum(dayRows,'expense');
+      const dateLabel=/^\\d{4}-\\d{2}-\\d{2}$/.test(d)?new Date(Number(d.slice(0,4)),Number(d.slice(5,7))-1,Number(d.slice(8,10))).toLocaleDateString('mr-IN',{day:'numeric',month:'short',year:'numeric'}):d;
+      return '<details class="date-folder"><summary><span><b>'+esc(dateLabel)+'</b><small>'+dayRows.length+' नोंदी • जमा '+money(dayIn)+' • खर्च '+money(dayOut)+'</small></span><span class="folder-arrow">⌄</span></summary><div class="date-content">'+dayRows.map(entryHtml).join('')+'</div></details>';
+    }).join('')+'</div></details>';
+  }).join(''):'<p class="muted">अजून नोंदी नाहीत.</p>';
+}
 function renderReport(){let m=document.getElementById('reportMonth');if(!m.value)m.value=monthNow();let arr=db.entries.filter(e=>e.date.startsWith(m.value));let r=sum(arr,'income'),c=sum(arr,'expense');document.getElementById('reportBox').innerHTML='<div class="totals" style="margin:12px 0"><div class="total"><span>एकूण उत्पन्न</span><strong class="green">'+money(r)+'</strong></div><div class="total"><span>एकूण खर्च</span><strong class="red">'+money(c)+'</strong></div></div><div class="total"><span>निव्वळ शिल्लक</span><strong class="'+(r-c>=0?'green':'red')+'">'+money(r-c)+'</strong></div><h2 style="margin-top:16px">महिन्यातील नोंदी</h2>'+(arr.length?arr.sort((a,b)=>b.date.localeCompare(a.date)).map(entryHtml).join(''):'<p class="muted">या महिन्यात नोंदी नाहीत.</p>');renderCategories()}
 document.getElementById('reportMonth').addEventListener('change',renderReport);
 function addBank(){let name=document.getElementById('bankName').value.trim(),last4=document.getElementById('bankLast4').value.trim(),upi=document.getElementById('bankUpi').value.trim(),opening=Number(document.getElementById('bankOpening').value||0);if(!name){alert('बँकेचे नाव भरा');return}if(last4&&!/^\d{4}$/.test(last4)){alert('शेवटचे 4 अंक भरा');return}if(!Number.isFinite(opening)){alert('सुरुवातीची शिल्लक तपासा');return}db.banks.push({name,last4,upi,opening});document.getElementById('bankName').value='';document.getElementById('bankLast4').value='';document.getElementById('bankUpi').value='';document.getElementById('bankOpening').value='';persist();renderBanks();fillBanks()}
