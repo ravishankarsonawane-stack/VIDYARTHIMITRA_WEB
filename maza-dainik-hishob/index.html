@@ -164,6 +164,29 @@ async function uploadDriveBackup(){if(!driveToken){driveStatus('आधी Google
 async function driveBackupNow(){if(!driveToken){connectDrive();return}await uploadDriveBackup()}
 async function restoreFromDrive(){if(!driveToken){connectDrive();driveStatus('Drive जोडल्यावर पुन्हा Restore दाबा.');return}try{let id=driveFileId||await findDriveBackup();if(!id){driveStatus('Drive मध्ये बॅकअप फाइल सापडली नाही.');return}let res=await driveRequest('https://www.googleapis.com/drive/v3/files/'+encodeURIComponent(id)+'?alt=media');let raw=await res.json();let x=normalizeBackupData(raw);if(!confirm('Drive मधील '+x.entries.length+' नोंदी आणायच्या का? सध्याच्या नोंदी बदलल्या जातील. आधी JSON बॅकअप घ्या.'))return;db=x;driveFileId=id;localStorage.setItem(KEY+'_driveFileId',id);persist();driveStatus('✓ Google Drive मधून '+db.entries.length+' नोंदी Restore झाल्या.')}catch(e){driveStatus('Restore अयशस्वी: '+e.message)}}
 
+
+function normalizeBackupData(x){
+  if(!x||!Array.isArray(x.entries))throw new Error('JSON मध्ये entries यादी सापडली नाही');
+  const cats=JSON.parse(JSON.stringify(defaults));
+  if(x.cats&&typeof x.cats==='object'){
+    ['rickshaw','home'].forEach(a=>['income','expense'].forEach(k=>{
+      if(Array.isArray(x.cats[a]?.[k]))cats[a][k]=[...new Set([...cats[a][k],...x.cats[a][k]])];
+    }));
+  }
+  const entries=x.entries.map((e,i)=>{
+    const kind=e.kind||e.type;
+    if(!['income','expense'].includes(kind))throw new Error('नोंद '+(i+1)+' चा प्रकार ओळखता आला नाही');
+    const originalArea=e.area||'';
+    const area=['rickshaw','home'].includes(originalArea)?originalArea:(originalArea==='रिक्षा'?'rickshaw':'home');
+    const category=String(e.category||'इतर खर्च');
+    if(!cats[area][kind].includes(category))cats[area][kind].push(category);
+    let mode=e.mode||'Cash';
+    if(mode==='रोख')mode='Cash';else if(mode==='UPI / ऑनलाइन')mode='UPI';else if(mode==='बँक')mode='Bank Transfer';
+    return {id:String(e.id||('restored-'+Date.now()+'-'+i)),date:String(e.date||isoToday()),kind,area,category,amount:Number(e.amount||0),mode,bank:e.bank??'',memo:String(e.memo??e.desc??''),legacyArea:originalArea};
+  });
+  return {entries,cats,banks:Array.isArray(x.banks)?x.banks:[],budgets:x.budgets||{}};
+}
+
 function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Maza_Dainik_Hishob_Backup_'+isoToday()+'.json';a.click();URL.revokeObjectURL(url)}
 function restore(){let f=document.getElementById('restoreFile').files[0];if(!f){alert('आधी JSON बॅकअप फाइल निवडा');return}let r=new FileReader();r.onload=()=>{try{let raw=JSON.parse(r.result);let x=normalizeBackupData(raw);if(confirm('बॅकअपमधील '+x.entries.length+' नोंदी आणायच्या का? सध्याच्या नोंदी बदलल्या जातील. आधी सध्याचा बॅकअप घ्या.')){db=x;persist();renderCategories();alert('बॅकअप Restore झाला. एकूण '+db.entries.length+' नोंदी आणल्या.')}}catch(e){alert('Restore झाले नाही: '+e.message)}};r.readAsText(f)}
 function render(){renderHome();if(!document.getElementById('days').classList.contains('hidden'))renderDays();if(!document.getElementById('reports').classList.contains('hidden'))renderReport()}
