@@ -276,6 +276,7 @@ function vmCloudScheduleSync(){
     catch(e){window.vmCloudReady=false;vmCloudStatus('Cloud Backup अयशस्वी: '+(e.message||e),true)}
   },1800);
 }
+window.addEventListener('online',()=>{if(vmCloudUser){vmCloudStatus('इंटरनेट परत आले. Cloud Sync तपासत आहे…');vmCloudStart().catch(e=>vmCloudStatus('Cloud Sync अयशस्वी: '+(e.message||e),true))}});
 async function vmCloudConnect(){
   try{
     if(!vmCloudAuth){vmCloudStatus('Firebase सुरू होत आहे…');return}
