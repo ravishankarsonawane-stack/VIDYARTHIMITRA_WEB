@@ -430,7 +430,7 @@ async function makeReceiptPdfBlob(){
  host.style.cssText='position:fixed;left:0;top:0;width:96mm;z-index:-1;opacity:0.01;pointer-events:none;background:#fff;overflow:visible;';
  let copy=el.cloneNode(true);
  copy.querySelectorAll('.actions').forEach(x=>x.remove());
- copy.style.cssText+=';display:block!important;visibility:visible!important;opacity:1!important;width:96mm!important;max-width:96mm!important;margin:0!important;box-shadow:none!important;overflow:visible!important;background:#fff!important;color:#102642!important;';
+ copy.style.cssText+=';display:block!important;visibility:visible!important;opacity:1!important;position:relative!important;z-index:1!important;width:96mm!important;max-width:96mm!important;min-height:120mm!important;margin:0!important;box-shadow:none!important;overflow:visible!important;background:#fff!important;color:#102642!important;';
  host.appendChild(copy);
  document.body.appendChild(host);
  try{
@@ -464,7 +464,7 @@ async function shareReceiptWhatsApp(){try{let blob=await makeReceiptPdfBlob();le
  let message='आदरणीय पालक,\\nआपल्या पाल्याच्या रिक्षा सेवेची फी बाकी आहे. कृपया सोयीने फी जमा करावी.\\n\\nDear Parents,\\nYour child’s transport fee is pending. Kindly pay the fee at your convenience.\\n\\nधन्यवाद 🙏 | Thank you';
  if(typeof html2pdf==='undefined')return alert('PDF सुविधा लोड झाली नाही. इंटरनेट तपासा.');
  let host=document.createElement('div'),copy=el.cloneNode(true);
- host.style.cssText='position:fixed;left:0;top:0;width:96mm;z-index:-1;opacity:1;visibility:visible;pointer-events:none;background:#fff;overflow:visible;';
+ host.style.cssText='position:fixed;left:0;top:0;width:96mm;z-index:2147483000;opacity:1;visibility:visible;pointer-events:none;background:#fff;overflow:visible;display:block;';
  copy.querySelectorAll('.actions').forEach(x=>x.remove());
  copy.style.cssText+=';display:block!important;visibility:visible!important;opacity:1!important;width:96mm!important;max-width:96mm!important;margin:0!important;box-shadow:none!important;overflow:visible!important;background:#fff!important;color:#102642!important;';
  host.appendChild(copy);document.body.appendChild(host);
