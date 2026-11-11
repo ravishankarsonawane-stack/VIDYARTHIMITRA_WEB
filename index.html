@@ -283,8 +283,23 @@ async function vmCloudConnect(){
     if(vmCloudUser){await vmCloudStart();return}
     const provider=new firebase.auth.GoogleAuthProvider();
     provider.setCustomParameters({prompt:'select_account'});
-    await vmCloudAuth.signInWithRedirect(provider);
-  }catch(e){vmCloudStatus('Google Login अयशस्वी: '+(e.message||e),true)}
+    await vmCloudAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    vmCloudStatus('Google खाते सुरक्षितपणे जोडत आहे…');
+    const result=await vmCloudAuth.signInWithPopup(provider);
+    if(result&&result.user){
+      vmCloudUser=result.user;
+      vmCloudStatus('Google खाते जोडले. Cloud Backup तपासत आहे…');
+      await vmCloudStart();
+    }else{
+      vmCloudStatus('Google Login पूर्ण झाले नाही. कृपया पुन्हा प्रयत्न करा.',true);
+    }
+  }catch(e){
+    let msg=e.message||String(e);
+    if(e.code==='auth/popup-blocked')msg='ब्राउझरने Google Login विंडो रोखली. Chrome मध्ये Pop-ups परवानगी द्या.';
+    else if(e.code==='auth/popup-closed-by-user')msg='Google Login विंडो बंद झाली. पुन्हा प्रयत्न करा.';
+    else if(e.code==='auth/unauthorized-domain')msg='हा वेबसाइट डोमेन Firebase Authorized domains मध्ये जोडा.';
+    vmCloudStatus('Google Login अयशस्वी: '+msg,true);
+  }
 }
 try{
   if(!firebase.apps.length)firebase.initializeApp(vmFirebaseConfig);
