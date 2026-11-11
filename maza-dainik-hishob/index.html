@@ -111,6 +111,32 @@ label{color:#334b6c}
 .bottom .navicon{font-size:20px;line-height:1.1;font-weight:800}
 .bottom button span:last-child{font-size:10.5px;font-weight:750}
 .report-chart{display:grid;gap:10px;margin:12px 0 4px}.chart-row{min-width:0}.chart-label{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-bottom:4px}.chart-label span{overflow-wrap:anywhere}.chart-track{height:10px;border-radius:20px;background:#edf1f7;overflow:hidden}.chart-bar{height:100%;border-radius:20px;min-width:3px}.bar-in{background:linear-gradient(90deg,#168052,#48b987)}.bar-out{background:linear-gradient(90deg,#c04442,#ed8a78)}
+
+@media print{
+ @page{size:A4;margin:12mm}
+ body{background:#fff!important;color:#111!important;font-size:11px}
+ body *{visibility:hidden!important}
+ #reports,#reports *{visibility:visible!important}
+ #reports{display:block!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;margin:0!important;padding:0!important}
+ #reports>.panel{display:none!important}
+ #reports>.panel:first-child{display:block!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}
+ #reports>.panel:first-child>label,#reports>.panel:first-child>input,#reports>.panel:first-child>.row,#reports>.panel:first-child>button{display:none!important}
+ .pdf-brand{display:flex!important;align-items:center;gap:12px;border-bottom:2px solid #c69b35;padding:0 0 12px;margin:0 0 14px}
+ .pdf-logo{display:flex!important;align-items:center;justify-content:center;width:54px;height:54px;border-radius:14px;background:#101820!important;color:#f4c65e!important;font-size:30px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+ .pdf-brand h1{font-size:20px;margin:0;color:#172b4d}
+ .pdf-brand p{font-size:10px;margin:3px 0 0;color:#555}
+ #reportBox .totals{display:grid!important;grid-template-columns:repeat(2,1fr);gap:8px}
+ #reportBox .total{break-inside:avoid;border:1px solid #ddd!important;background:#fff!important}
+ #reportBox details{display:block!important;break-inside:auto;border:1px solid #ddd;margin:6px 0;padding:6px}
+ #reportBox details>summary{display:block!important}
+ #reportBox details>.date-content{display:block!important}
+ #reportBox .entry{break-inside:avoid;border-bottom:1px solid #eee;padding:5px 0}
+ #reportBox .entry-actions{display:none!important}
+ #reportBox .report-chart{break-inside:avoid}
+ #reportBox .chart-bar{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+ .hero,.bottom,button{display:none!important}
+}
+.pdf-brand{display:none}
 </style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
 <body>
 <header class="hero"><small>घरखर्च + रिक्षा व्यवहार</small><h1>माझा दैनिक हिशोब</h1><p>सोपे नोंदवही • दिवसनिहाय नोंदी • महिन्याचा अहवाल</p></header>
@@ -138,10 +164,10 @@ label{color:#334b6c}
 </div></section>
 <section id="days" class="hidden"><div class="panel"><h2>तारीखनिहाय नोंदी</h2><div id="dayList"></div></div></section>
 <section id="reports" class="hidden">
-<div class="panel"><h2>महिन्याचा अहवाल</h2>
+<div class="panel"><div class="pdf-brand"><div class="pdf-logo">🛺</div><div><h1>माझा दैनिक हिशोब</h1><p>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</p></div></div><h2>महिन्याचा अहवाल</h2>
 <label>महिना निवडा</label><input type="month" id="reportMonth">
 <div class="row"><div><label>विभागानुसार</label><select id="reportArea"><option value="all">सर्व विभाग</option><option value="rickshaw">रिक्षा</option><option value="home">घरखर्च</option><option value="personal">वैयक्तिक</option><option value="other">इतर</option></select></div><div><label>नोंदीचा प्रकार</label><select id="reportKind"><option value="all">उत्पन्न + खर्च</option><option value="income">फक्त उत्पन्न</option><option value="expense">फक्त खर्च</option></select></div></div>
-<div id="reportBox"></div></div>
+<button class="full" onclick="downloadReportPDF()">📄 PDF तयार करा / प्रिंट</button><p class="muted">प्रिंटमध्ये “Save as PDF / PDF म्हणून सेव्ह” निवडा.</p><div id="reportBox"></div></div>
 <div class="panel"><h2>बँक व पेमेंट तपशील</h2><label>बँक / खाते नाव</label><input id="bankName" placeholder="उदा. Axis Bank / Saraswat Bank"><label>सुरुवातीची शिल्लक (₹)</label><input id="bankOpening" type="number" inputmode="decimal" placeholder="आजच्या आधीची शिल्लक"><div class="row"><div><label>खाते ओळख (शेवटचे 4 अंक)</label><input id="bankLast4" maxlength="4" inputmode="numeric" placeholder="1234"></div><div><label>UPI ID (ऐच्छिक)</label><input id="bankUpi" placeholder="name@bank"></div></div><button class="full" onclick="addBank()">＋ बँक खाते जोडा</button><div id="bankList"></div><p class="muted">पूर्ण खाते क्रमांक किंवा PIN येथे साठवू नका.</p></div>
 <div class="panel"><h2>श्रेणी व्यवस्थापन</h2><label>विभाग</label><select id="catArea"><option value="rickshaw">रिक्षा</option><option value="home">घरखर्च</option><option value="personal">वैयक्तिक</option><option value="other">इतर</option></select><label>प्रकार</label><select id="catKind"><option value="income">उत्पन्न</option><option value="expense">खर्च</option></select><div class="row"><input id="newCat" placeholder="नवीन श्रेणी"><button onclick="addCategory()">श्रेणी जोडा</button></div><div id="categoryList"></div></div>
 </section>
@@ -260,6 +286,7 @@ function normalizeBackupData(x){
 }
 
 function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Maza_Dainik_Hishob_Backup_'+isoToday()+'.json';a.click();URL.revokeObjectURL(url)}
+function downloadReportPDF(){renderReport();window.print()}
 function mergeImportedBackup(current,incoming){const map=new Map();(current.entries||[]).forEach(e=>map.set(String(e.id),e));(incoming.entries||[]).forEach(e=>map.set(String(e.id),e));const deletedCats=[...new Set([...(current.deletedCats||[]),...(incoming.deletedCats||[])])];const cats=JSON.parse(JSON.stringify(current.cats||defaults));Object.keys(incoming.cats||{}).forEach(a=>{cats[a]=cats[a]||{income:[],expense:[]};['income','expense'].forEach(k=>cats[a][k]=[...new Set([...(cats[a][k]||[]),...((incoming.cats[a]||{})[k]||[])])])});const banks=[...(current.banks||[])];(incoming.banks||[]).forEach(b=>{if(!banks.some(x=>x.name===b.name&&x.last4===b.last4))banks.push(b)});return {entries:[...map.values()].sort((a,b)=>(a.date||'').localeCompare(b.date||'')),cats:cleanAllCats(cats,deletedCats),deletedCats,banks,budgets:{...(current.budgets||{}),...(incoming.budgets||{})}}}
 function applyImportedJson(raw){let x=normalizeBackupData(raw),merged=mergeImportedBackup(db,x);if(confirm('बॅकअपमधील '+x.entries.length+' नोंदी सध्याच्या नोंदींसोबत जोडायच्या का? समान ID असलेली नोंद बॅकअपमधील माहितीनुसार अपडेट होईल. इतर नोंदी सुरक्षित राहतील.')){db=merged;persist();renderCategories();alert('बॅकअप सुरक्षितपणे जोडला. एकूण '+db.entries.length+' नोंदी उपलब्ध आहेत.')}}
 function restore(){let f=document.getElementById('restoreFile').files[0];if(!f){alert('आधी JSON बॅकअप फाइल निवडा');return}let r=new FileReader();r.onload=()=>{try{applyImportedJson(JSON.parse(r.result))}catch(e){alert('Restore झाले नाही: '+e.message)}};r.readAsText(f)}
