@@ -174,7 +174,19 @@ function vmCloudSnapshot(){
   };
 }
 function vmCloudHash(value){
-  const str=JSON.stringify(value);let h=2166136261;
+  // Canonical JSON: Firestore can return object keys in a different order.
+  function stable(v){
+    if(Array.isArray(v))return v.map(stable);
+    if(v&&typeof v==='object'){
+      const out={};
+      Object.keys(v).sort().forEach(k=>{
+        if(v[k]!==undefined&&typeof v[k]!=='function')out[k]=stable(v[k]);
+      });
+      return out;
+    }
+    return v;
+  }
+  const str=JSON.stringify(stable(value));let h=2166136261;
   for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}
   return (h>>>0).toString(16);
 }
