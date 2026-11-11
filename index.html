@@ -269,16 +269,34 @@ async function vmCloudStart(){
     vmCloudStatus('✓ Cloud मधील जुना डेटा या फोनवर Restore झाला.');
     return;
   }
-  const choice=prompt('Cloud मध्ये आधीचा Backup आहे आणि फोनमधील डेटा वेगळा आहे.\n\n1 = Cloud मधील डेटा या फोनवर Restore करा (फोनमधील सध्याचा डेटा बदलेल).\n2 = या फोनचा डेटा Cloud मध्ये Upload करा (Cloud मधील जुना Backup बदलेल).\n0 = आत्ता निर्णय नको.');
-  if(choice==='1'){
-    await vmCloudRestore(remote.payload);window.vmCloudReady=true;
-    vmCloudStatus('✓ Cloud मधील डेटा Restore झाला.');
-  }else if(choice==='2'){
-    await vmCloudWrite(local);window.vmCloudReady=true;
-    vmCloudStatus('✓ या फोनचा डेटा Cloud मध्ये Upload झाला.');
-  }else{
-    vmCloudStatus('Google खाते जोडले आहे; Sync करण्याचा निर्णय बाकी आहे.');
-  }
+  // Safe non-destructive merge: keep records from both phone and cloud.
+  // For matching IDs, the current phone version wins; cloud-only records remain.
+  const mergeById=(cloudItems,phoneItems)=>{
+    const map=new Map();
+    (Array.isArray(cloudItems)?cloudItems:[]).forEach((item,i)=>{
+      const key=item&&item.id!=null?'id:'+item.id:'cloud:'+i+':'+JSON.stringify(item);
+      map.set(key,item);
+    });
+    (Array.isArray(phoneItems)?phoneItems:[]).forEach((item,i)=>{
+      const key=item&&item.id!=null?'id:'+item.id:'phone:'+i+':'+JSON.stringify(item);
+      map.set(key,item);
+    });
+    return Array.from(map.values());
+  };
+  const merged={
+    students:mergeById(remote.payload.students,local.students),
+    payments:mergeById(remote.payload.payments,local.payments),
+    settings:{...(remote.payload.settings||{}),...(local.settings||{}),pin:''},
+    meta:{...(remote.payload.meta||{}),...(local.meta||{})}
+  };
+  await vmCloudWrite(merged);
+  const localPin=(db.settings&&db.settings.pin)||'';
+  db={students:merged.students,payments:merged.payments,settings:{...merged.settings,pin:localPin},meta:merged.meta};
+  localStorage.setItem(KEY,JSON.stringify(db));
+  renderAll();
+  localStorage.setItem(KEY+'_cloud_hash',vmCloudHash(vmCloudSnapshot()));
+  window.vmCloudReady=true;
+  vmCloudStatus('✓ फोन आणि Cloud मधील नोंदी एकत्र सुरक्षित केल्या. दोन्ही बाजूंच्या स्वतंत्र नोंदी जतन झाल्या.');
 }
 function vmCloudScheduleSync(){
   if(!window.vmCloudReady||!vmCloudUser)return;
