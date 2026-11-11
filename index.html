@@ -339,23 +339,24 @@ async function createHolidayNoticeImage(){
  const reason=extra||({'गणेशोत्सव':'गणेशोत्सवानिमित्त','दिवाळी':'दिवाळी सणानिमित्त','होळी':'होळी सणानिमित्त','उन्हाळी सुट्टी':'उन्हाळी सुट्टीनिमित्त','शाळेची सुट्टी':'शाळेच्या सूचनेनुसार','इतर कारण':'विशेष कारणास्तव'}[t]||t);
  const period=fmt(d)+(last?' ते '+fmt(last):''),periodEn=fmtEn(d)+(last?' to '+fmtEn(last):'');
  const resume=restart?fmt(restart):'पुढील सूचनेनुसार',resumeEn=restart?fmtEn(restart):'until further notice';
+ const safe=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const card=document.createElement('div');
- card.style.cssText='position:fixed;left:-10000px;top:0;width:900px;box-sizing:border-box;padding:54px;background:linear-gradient(145deg,#eef6ff,#ffffff);color:#17345c;font-family:Arial,sans-serif;text-align:center;border:12px solid #d7b45a;border-radius:28px;';
- card.innerHTML='<div style="font-size:34px;font-weight:800;color:#123e79">विद्यार्थीमित्र 🚖</div><div style="font-size:48px;font-weight:900;margin:28px 0 12px;color:#123e79">📢 महत्त्वाची सूचना</div><div style="font-size:35px;font-weight:800;color:#a47716">'+t+' निमित्त सुट्टी</div><div style="font-size:30px;line-height:1.6;margin:32px 0">आदरणीय पालक,<br>'+reason+'<br>दिनांक <b>'+period+'</b> या कालावधीत विद्यार्थ्यांची रिक्षा सेवा बंद राहील.<br>रिक्षा सेवा पुन्हा <b>'+resume+'</b> पासून सुरू होईल.</div><div style="height:2px;background:#d7b45a;margin:25px 0"></div><div style="font-size:27px;font-weight:800;color:#123e79">Dear Parents,</div><div style="font-size:25px;line-height:1.55;margin:14px 0">The rickshaw service will remain closed from <b>'+periodEn+'</b>.<br>Service will resume on <b>'+resumeEn+'</b>.</div><div style="font-size:25px;margin-top:28px">आपल्या सहकार्याबद्दल धन्यवाद.<br>Thank you for your cooperation.</div>';
+ card.style.cssText='position:fixed;left:-12000px;top:0;width:900px;box-sizing:border-box;padding:42px;background:#f3f8ff;color:#17345c;font-family:"Noto Sans Devanagari","Mukta",Arial,sans-serif;text-align:center;border:10px solid #d6ad45;border-radius:30px;';
+ card.innerHTML='<div style="background:#ffffff;border:2px solid #dce8f7;border-radius:22px;padding:26px 30px 34px;box-shadow:0 8px 24px rgba(24,61,108,.10)"><img src="'+LOGO+'" alt="विद्यार्थीमित्र लोगो" style="display:block;width:190px;height:145px;object-fit:contain;margin:0 auto 12px"><div style="font-size:31px;font-weight:900;color:#174b89;letter-spacing:.4px">विद्यार्थीमित्र</div><div style="height:5px;width:120px;background:#d6ad45;border-radius:5px;margin:14px auto 22px"></div><div style="display:inline-block;background:#174b89;color:#fff;border-radius:40px;padding:12px 34px;font-size:37px;font-weight:900">महत्त्वाची सूचना</div><div style="font-size:31px;font-weight:900;color:#a47716;margin:22px 0 8px">'+safe(t)+' निमित्त सुट्टी</div><div style="background:#fff8e6;border:2px solid #e6c66e;border-radius:18px;padding:20px;margin:18px 0 22px"><div style="font-size:24px;font-weight:800;color:#87600d;margin-bottom:8px">सुट्टीचा कालावधी</div><div style="font-size:31px;font-weight:900;color:#173f75">'+safe(period)+'</div></div><div style="font-size:28px;line-height:1.75;color:#243b59;margin:18px 8px"><b style="color:#174b89">आदरणीय पालक,</b><br>'+safe(reason)+' या कालावधीत विद्यार्थ्यांची रिक्षा सेवा बंद राहील.</div><div style="background:#eaf3ff;border-left:8px solid #174b89;border-radius:14px;padding:17px 20px;margin:18px 0 24px;font-size:27px;line-height:1.55"><span style="font-weight:800;color:#174b89">सेवा पुन्हा सुरू होण्याची तारीख</span><br><b style="font-size:31px;color:#a47716">'+safe(resume)+'</b></div><div style="height:2px;background:#d8e2ef;margin:22px 0"></div><div style="font-size:25px;font-weight:900;color:#174b89;letter-spacing:.5px">DEAR PARENTS</div><div style="font-size:23px;line-height:1.65;color:#344a65;margin:12px 5px">The rickshaw service will remain closed from<br><b style="color:#174b89">'+safe(periodEn)+'</b>.<br>Service will resume on <b style="color:#a47716">'+safe(resumeEn)+'</b>.</div><div style="background:#174b89;color:#fff;border-radius:14px;padding:16px;font-size:23px;font-weight:800;line-height:1.55;margin-top:24px">आपल्या सहकार्याबद्दल धन्यवाद.<br>Thank you for your cooperation.</div></div>';
  document.body.appendChild(card);
  try{
-  const canvas=await html2canvas(card,{scale:2,backgroundColor:'#ffffff',useCORS:true});
+  if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+  const logo=card.querySelector('img');if(logo&&!logo.complete)await new Promise(resolve=>{logo.onload=resolve;logo.onerror=resolve;});
+  const canvas=await html2canvas(card,{scale:2,backgroundColor:'#f3f8ff',useCORS:true});
   const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
   if(!blob)throw new Error('PNG conversion failed');
   const file=new File([blob],'Sutticha_Sandesh.png',{type:'image/png'});
   const preview=document.getElementById('holidayImagePreview');preview.innerHTML='';
-  const img=document.createElement('img');img.src=URL.createObjectURL(blob);img.alt='सुट्टीचा संदेश';img.style.cssText='max-width:100%;height:auto;border-radius:12px;border:1px solid #d7b45a;margin-top:12px';preview.appendChild(img);
+  const img=document.createElement('img');img.src=URL.createObjectURL(blob);img.alt='विद्यार्थीमित्र सुट्टीचा संदेश';img.style.cssText='max-width:100%;height:auto;border-radius:12px;border:2px solid #d6ad45;margin-top:12px';preview.appendChild(img);
   const a=document.createElement('a');a.href=img.src;a.download='Sutticha_Sandesh.png';a.textContent='⬇️ PNG इमेज डाउनलोड करा';a.className='btn light';a.style.display='inline-block';a.style.margin='12px';preview.appendChild(a);
   const st=document.getElementById('parentSendStatus');
-  if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){
-   await navigator.share({files:[file],title:'सुट्टीचा संदेश',text:'विद्यार्थीमित्र – सुट्टीची सूचना'});
-   if(st)st.textContent='PNG इमेज शेअर मेनूमध्ये उघडली.';
-  }else if(st)st.textContent='PNG इमेज तयार झाली. डाउनलोड करा आणि WhatsApp वर फोटो म्हणून पाठवा.';
+  if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){await navigator.share({files:[file],title:'विद्यार्थीमित्र – सुट्टीचा संदेश'});if(st)st.textContent='लोगोसह PNG इमेज शेअर मेनूमध्ये उघडली.';}
+  else if(st)st.textContent='लोगोसह PNG इमेज तयार झाली. डाउनलोड करून WhatsApp वर फोटो म्हणून पाठवा.';
  }catch(e){if(e.name!=='AbortError')alert('इमेज तयार/शेअर करताना अडचण आली. कृपया पुन्हा प्रयत्न करा.');}
  finally{card.remove();}
 }
