@@ -315,17 +315,17 @@ function selectVisibleParents(checked){
 function clearParentSelection(){selectedParentContacts.clear();parentSendIndex=0;renderParentContacts();let st=document.getElementById('parentSendStatus');if(st)st.textContent='निवड रद्द केली.'}
 function applyHolidayTemplate(){let t=document.getElementById('holidayType').value,defaults={'गणेशोत्सव':'गणेशोत्सवानिमित्त','दिवाळी':'दिवाळी सणानिमित्त','होळी':'होळी सणानिमित्त','उन्हाळी सुट्टी':'उन्हाळी सुट्टीनिमित्त','शाळेची सुट्टी':'शाळेच्या सूचनेनुसार','इतर कारण':''};let el=document.getElementById('holidayReason');if(!el.value.trim()||Object.values(defaults).includes(el.value.trim()))el.value=defaults[t]||''}
 function fillHolidayMessage(){
- let d=document.getElementById('holidayDate').value,end=document.getElementById('holidayEndDate').value,t=document.getElementById('holidayType').value,extra=document.getElementById('holidayReason').value.trim();
+ let d=document.getElementById('holidayDate').value,restart=document.getElementById('holidayEndDate').value,t=document.getElementById('holidayType').value,extra=document.getElementById('holidayReason').value.trim();
  if(!d)return alert('सुट्टी सुरू होण्याची तारीख निवडा.');
- if(end&&end<d)return alert('शेवटची तारीख सुरुवातीच्या तारखेपेक्षा आधी असू शकत नाही.');
+ if(restart&&restart<d)return alert('सेवा पुन्हा सुरू होण्याची तारीख सुरुवातीच्या तारखेपेक्षा आधी असू शकत नाही.');
  let fmt=v=>new Date(v+'T00:00:00').toLocaleDateString('mr-IN',{day:'numeric',month:'long',year:'numeric'});
  let fmtEn=v=>new Date(v+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
- let period=fmt(d)+(end?' ते '+fmt(end):'');
- let periodEn=fmtEn(d)+(end?' to '+fmtEn(end):'');
- let restart=end?new Date(new Date(end+'T00:00:00').getTime()+86400000).toLocaleDateString('mr-IN',{day:'numeric',month:'long',year:'numeric'}):'पुढील सूचनेनुसार';
- let restartEn=end?new Date(new Date(end+'T00:00:00').getTime()+86400000).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}):'until further notice';
+ let lastDay=restart?new Date(new Date(restart+'T00:00:00').getTime()-86400000).toISOString().slice(0,10):'';
+ let period=fmt(d)+(lastDay?' ते '+fmt(lastDay):'');
+ let periodEn=fmtEn(d)+(lastDay?' to '+fmtEn(lastDay):'');
  let reason=extra||({'गणेशोत्सव':'गणेशोत्सवानिमित्त','दिवाळी':'दिवाळी सणानिमित्त','होळी':'होळी सणानिमित्त','उन्हाळी सुट्टी':'उन्हाळी सुट्टीनिमित्त','शाळेची सुट्टी':'शाळेच्या सूचनेनुसार','इतर कारण':'विशेष कारणास्तव'}[t]||t);
- document.getElementById('parentMessage').value='📢 महत्त्वाची सूचना – '+t+' 🙏\n\nआदरणीय पालक,\n\n'+reason+' दिनांक '+period+' या कालावधीत विद्यार्थ्यांची रिक्षा सेवा बंद राहील.\nरिक्षा सेवा पुन्हा '+(end?'दिनांक '+restart+' पासून':'पुढील सूचनेनुसार')+' नेहमीप्रमाणे सुरू होईल.\n\nDear Parents,\n\nThe rickshaw service will remain closed from '+periodEn+'.\nService will resume on '+restartEn+'.\n\nआपल्या सहकार्याबद्दल धन्यवाद.\nThank you for your cooperation.\n\nविद्यार्थीमित्र 🚖';
+ let restartMr=restart?fmt(restart):'पुढील सूचनेनुसार',restartEn=restart?fmtEn(restart):'until further notice';
+ document.getElementById('parentMessage').value='📢 महत्त्वाची सूचना – '+t+' 🙏\n\nआदरणीय पालक,\n\n'+reason+' दिनांक '+period+' या कालावधीत विद्यार्थ्यांची रिक्षा सेवा बंद राहील.\nरिक्षा सेवा पुन्हा '+restartMr+' पासून नेहमीप्रमाणे सुरू होईल.\n\nDear Parents,\n\nThe rickshaw service will remain closed from '+periodEn+'.\nService will resume on '+restartEn+'.\n\nआपल्या सहकार्याबद्दल धन्यवाद.\nThank you for your cooperation.\n\nविद्यार्थीमित्र 🚖';
 }
 function shareParentGroupMessage(){
  let msg=document.getElementById('parentMessage').value.trim();if(!msg)return alert('कृपया संदेश लिहा किंवा सुट्टीचा संदेश तयार करा.');
