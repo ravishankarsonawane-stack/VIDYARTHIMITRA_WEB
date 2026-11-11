@@ -464,7 +464,7 @@ async function shareReceiptWhatsApp(){try{let blob=await makeReceiptPdfBlob();le
  let message='आदरणीय पालक,\\nआपल्या पाल्याच्या रिक्षा सेवेची फी बाकी आहे. कृपया सोयीने फी जमा करावी.\\n\\nDear Parents,\\nYour child’s transport fee is pending. Kindly pay the fee at your convenience.\\n\\nधन्यवाद 🙏 | Thank you';
  if(typeof html2pdf==='undefined')return alert('PDF सुविधा लोड झाली नाही. इंटरनेट तपासा.');
  let host=document.createElement('div'),copy=el.cloneNode(true);
- host.style.cssText='position:fixed;left:0;top:0;width:96mm;z-index:-1;opacity:0.01;pointer-events:none;background:#fff;overflow:visible;';
+ host.style.cssText='position:fixed;left:0;top:0;width:96mm;z-index:-1;opacity:1;visibility:visible;pointer-events:none;background:#fff;overflow:visible;';
  copy.querySelectorAll('.actions').forEach(x=>x.remove());
  copy.style.cssText+=';display:block!important;visibility:visible!important;opacity:1!important;width:96mm!important;max-width:96mm!important;margin:0!important;box-shadow:none!important;overflow:visible!important;background:#fff!important;color:#102642!important;';
  host.appendChild(copy);document.body.appendChild(host);
@@ -473,6 +473,8 @@ async function shareReceiptWhatsApp(){try{let blob=await makeReceiptPdfBlob();le
   await Promise.all([...copy.querySelectorAll('img')].map(img=>new Promise(resolve=>{if(img.complete&&img.naturalWidth>0)return resolve();img.onload=resolve;img.onerror=resolve;setTimeout(resolve,5000)})));
   let blob=await html2pdf().set({margin:[3,2,3,2],filename:'VidyarthiMitra_Fee_Reminder.pdf',image:{type:'jpeg',quality:.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false},jsPDF:{unit:'mm',format:[100,216],orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:['.upi-pay-box','.row']}}).from(copy).outputPdf('blob');
   if(!blob||blob.size<4000)throw new Error('PDF रिकामा तयार झाला. पुन्हा प्रयत्न करा.');
+  let head=new Uint8Array(await blob.slice(0,5).arrayBuffer());
+  if(head[0]!==37||head[1]!==80||head[2]!==68||head[3]!==70)throw new Error('PDF फाइल योग्यरीत्या तयार झाली नाही.');
   let file=new File([blob],'VidyarthiMitra_'+String(s.name||'Student').replace(/[^a-z0-9_-]/gi,'_')+'_Reminder.pdf',{type:'application/pdf'});
   if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[file]}))){
    await navigator.share({files:[file],title:'विद्यार्थीमित्र फी स्मरण',text:message});
