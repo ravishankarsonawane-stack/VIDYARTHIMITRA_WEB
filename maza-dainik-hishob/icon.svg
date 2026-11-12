@@ -1,13 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#10264b"/><stop offset="1" stop-color="#071326"/></linearGradient><linearGradient id="gold" x2="0" y2="1"><stop stop-color="#ffe8a0"/><stop offset="1" stop-color="#c28b22"/></linearGradient></defs>
-<rect width="512" height="512" rx="112" fill="url(#bg)"/><circle cx="256" cy="242" r="213" fill="none" stroke="url(#gold)" stroke-width="14"/>
-<path d="M91 222 256 91l165 131" fill="none" stroke="url(#gold)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M127 215v166h258V215" fill="#f7faff" stroke="#e8c56c" stroke-width="12" stroke-linejoin="round"/>
-<rect x="177" y="258" width="158" height="116" rx="12" fill="#163c72" stroke="#d9b45b" stroke-width="8"/>
-<path d="M198 286h116M198 309h88M198 332h103" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
-<circle cx="226" cy="192" r="28" fill="#173b70"/><circle cx="286" cy="192" r="28" fill="#173b70"/>
-<path d="M180 248q6-43 46-43t46 43M240 248q6-43 46-43t46 43" fill="#173b70"/>
-<circle cx="365" cy="354" r="58" fill="url(#gold)" stroke="#fff1bd" stroke-width="8"/><text x="365" y="378" text-anchor="middle" font-size="63" font-weight="bold" fill="#17345f">₹</text>
-<path d="M72 417h368" stroke="#d9b45b" stroke-width="8" stroke-linecap="round"/>
-<text x="256" y="469" text-anchor="middle" font-family="sans-serif" font-size="29" font-weight="bold" fill="#ffe6a0">हिशोब सारथी</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
+<title id="t">हिशोब सारथी</title><desc id="d">घर, वही, नाणी आणि आर्थिक प्रगती दर्शवणारे निळे-सोनेरी चिन्ह</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#123d78"/><stop offset=".55" stop-color="#09264f"/><stop offset="1" stop-color="#061a38"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff0b8"/><stop offset=".45" stop-color="#f1c65e"/><stop offset="1" stop-color="#bd8524"/></linearGradient>
+ <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#dce9f8"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs>
+<rect x="8" y="8" width="496" height="496" rx="112" fill="url(#bg)"/>
+<rect x="19" y="19" width="474" height="474" rx="102" fill="none" stroke="url(#gold)" stroke-width="8"/>
+<circle cx="256" cy="220" r="175" fill="#fff" opacity=".045"/>
+<path d="M92 184 256 67l164 117" fill="none" stroke="url(#gold)" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M126 174v162h260V174" fill="#f8fbff" stroke="#e7c66f" stroke-width="8" stroke-linejoin="round"/>
+<rect x="216" y="105" width="80" height="54" rx="8" fill="#174b91"/>
+<path d="M256 106v53M217 132h78" stroke="#eaf2ff" stroke-width="6"/>
+<!-- friendly family silhouettes -->
+<circle cx="202" cy="205" r="35" fill="#163d72"/><path d="M151 294q5-61 51-61t51 61" fill="#174b91"/>
+<circle cx="300" cy="209" r="33" fill="#174b91"/><path d="M253 294q5-57 47-57t48 57" fill="#1d5da7"/>
+<path d="M181 210q20 18 42 0M284 213q17 15 34 0" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+<!-- open ledger -->
+<path d="M91 292q74-28 147 7v83q-73-33-147-5z" fill="url(#paper)" stroke="#d4ae55" stroke-width="6"/>
+<path d="M238 299q74-35 148-7v85q-74-28-148 5z" fill="url(#paper)" stroke="#d4ae55" stroke-width="6"/>
+<path d="M112 318q52-15 105 5M112 341q52-15 105 5M263 323q52-20 102-5M263 346q52-20 102-5" stroke="#4c79ad" stroke-width="5" stroke-linecap="round" fill="none"/>
+<!-- coins and growth -->
+<ellipse cx="393" cy="300" rx="31" ry="10" fill="#9e6d1d"/><rect x="362" y="265" width="62" height="35" rx="7" fill="url(#gold)"/><ellipse cx="393" cy="265" rx="31" ry="10" fill="#ffe8a0" stroke="#bd8524" stroke-width="4"/>
+<path d="M353 244 382 220l22 12 43-49" fill="none" stroke="#39a86b" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="m431 183 18-8-2 20" fill="none" stroke="#39a86b" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+<!-- gold title plate -->
+<rect x="44" y="393" width="424" height="78" rx="24" fill="#061a38" stroke="url(#gold)" stroke-width="6"/>
+<text x="256" y="438" text-anchor="middle" font-family="Noto Sans Devanagari, sans-serif" font-size="43" font-weight="800" fill="#fff">हिशोब <tspan fill="#f4ce70">सारथी</tspan></text>
+<text x="256" y="460" text-anchor="middle" font-family="Noto Sans Devanagari, sans-serif" font-size="12" font-weight="600" fill="#f6e6bd">तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती</text>
 </svg>
