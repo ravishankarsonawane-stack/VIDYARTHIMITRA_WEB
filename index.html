@@ -461,7 +461,7 @@ function reminderMessage(id){let s=db.students.find(x=>x.id===id),r=reminderFor(
 async function shareReceiptWhatsApp(){try{let blob=await makeReceiptPdfBlob();let file=new File([blob],'VidyarthiMitra_Receipt.pdf',{type:'application/pdf'});if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){await navigator.share({files:[file],title:'VIDYARTHIMITRA Fee Receipt'});return}let url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);alert('या फोनमध्ये PDF थेट शेअर करता येत नाही. PDF Downloads मध्ये सेव्ह झाला आहे. WhatsApp मध्ये Document म्हणून जोडा.')}catch(e){alert(e.message||'PDF शेअर करताना अडचण आली.')}}async function shareReminderImageWhatsApp(id){
  let el=document.getElementById('rem-'+id);
  if(!el)return alert('विद्यार्थ्याची Reminder माहिती सापडली नाही.');
- if(typeof html2pdf==='undefined')return alert('इमेज सुविधा लोड झाली नाही. इंटरनेट तपासा.');
+ if(typeof html2canvas==='undefined')return alert('इमेज सुविधा लोड झाली नाही. इंटरनेट तपासा आणि पुन्हा प्रयत्न करा.');
  let actionEls=[...el.querySelectorAll('.actions')],oldDisplays=actionEls.map(x=>x.style.display);
  try{
   actionEls.forEach(x=>x.style.display='none');
@@ -470,9 +470,9 @@ async function shareReceiptWhatsApp(){try{let blob=await makeReceiptPdfBlob();le
    if(img.complete&&img.naturalWidth>0)return resolve();
    img.onload=resolve;img.onerror=resolve;setTimeout(resolve,5000);
   })));
-  let canvas=await html2pdf().set({html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false,scrollX:0,scrollY:0,windowWidth:Math.max(document.documentElement.clientWidth,el.scrollWidth)}}).from(el).toCanvas().get('canvas');
+  let canvas=await html2canvas(el,{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#ffffff',logging:false,scrollX:0,scrollY:0});
   if(!canvas||canvas.width<100||canvas.height<100)throw new Error('Reminder इमेज तयार झाली नाही. पुन्हा प्रयत्न करा.');
-  let blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
+  let blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('PNG इमेज तयार झाली नाही.')),'image/png'));
   if(!blob||blob.size<5000)throw new Error('इमेज रिकामी तयार झाली. पुन्हा प्रयत्न करा.');
   let student=(db.students.find(x=>x.id===id)||{}).name||'Student';
   let file=new File([blob],'VidyarthiMitra_'+String(student).replace(/[^a-z0-9_-]/gi,'_')+'_Reminder.png',{type:'image/png'});
@@ -482,7 +482,7 @@ async function shareReceiptWhatsApp(){try{let blob=await makeReceiptPdfBlob();le
    let url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
    alert('Reminder इमेज Downloads मध्ये सेव्ह झाली आहे. WhatsApp मध्ये फोटो म्हणून जोडा.');
   }
- }catch(e){if(e&&e.name==='AbortError')return;alert(e.message||'Reminder इमेज WhatsApp वर पाठवताना अडचण आली.')}
+ }catch(e){if(e&&e.name==='AbortError')return;alert(e.message||'Reminder इमेज तयार करताना अडचण आली.')}
  finally{actionEls.forEach((x,i)=>x.style.display=oldDisplays[i])}
 }
 let selectedParentContacts=new Map(),parentSendIndex=0;
