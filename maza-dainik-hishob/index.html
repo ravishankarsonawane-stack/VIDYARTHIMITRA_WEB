@@ -207,6 +207,14 @@ const KEY='mazaDainikHishob_v1';
 const defaults={rickshaw:{income:['Ola उत्पन्न','Rapido उत्पन्न','शाळा सेवा','शाळेची फी','इतर उत्पन्न'],expense:['CNG','मेकॅनिक / मजुरी','स्पेअर पार्ट्स','इंजिन ऑईल','पास / परमिट','इतर रिक्षा खर्च']},home:{income:['पगार','घरखर्चासाठी मिळालेली रक्कम','इतर घर उत्पन्न'],expense:['किराणा','भाजीपाला','दूध','वीज बिल','गॅस','मोबाईल रिचार्ज','इंटरनेट','LIC','SIP / EMI','औषधे','हॉटेल / जेवण','घर दुरुस्ती','इतर घरखर्च']},personal:{income:['पगार','इतर वैयक्तिक उत्पन्न'],expense:['इतर वैयक्तिक खर्च','प्रवास']},other:{income:['इतर उत्पन्न'],expense:['इतर खर्च']}};
 let db=load();
 if(!Array.isArray(db.deletedCats))db.deletedCats=[];
+/* Keep old transactions, but use one current household electricity category. */
+db.cats.home=db.cats.home||JSON.parse(JSON.stringify(defaults.home));
+db.cats.home.income=[...new Set([...(defaults.home.income||[]),...(db.cats.home.income||[])])];
+const oldHomeElectricity=['लाईट बिल - घर 1','लाईट बिल - घर 2'];
+oldHomeElectricity.forEach(c=>{const k=catKey('home','expense',c);if(!db.deletedCats.includes(k))db.deletedCats.push(k)});
+db.cats.home.expense=[...new Set([...(defaults.home.expense||[]),...(db.cats.home.expense||[])])].filter(c=>!oldHomeElectricity.includes(c));
+/* Existing dated entries remain untouched; only new category choices are simplified. */
+localStorage.setItem(KEY,JSON.stringify(db));localStorage.setItem(KEY+'_autoBackup',JSON.stringify(db));
 const PROFILE_AREAS={my:['rickshaw','home'],homemaker:['home'],personal:['personal']};
 let activeProfile=localStorage.getItem(KEY+'_profile')||'my';
 if(!PROFILE_AREAS[activeProfile])activeProfile='my';
