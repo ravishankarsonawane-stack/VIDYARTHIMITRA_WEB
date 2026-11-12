@@ -1,10 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<rect width="512" height="512" rx="112" fill="#101827"/>
-<circle cx="256" cy="242" r="190" fill="none" stroke="#d8b45c" stroke-width="13"/>
-<path d="M72 237 175 137l103 100v157H72z" fill="#f4d58b" stroke="#f8e7b6" stroke-width="12" stroke-linejoin="round"/>
-<path d="M145 394V280h66v114" fill="#fff" stroke="#18243a" stroke-width="10"/>
-<path d="M242 333h194l-20-75H302l-35 39h-25z" fill="#d8b45c" stroke="#f8e7b6" stroke-width="10" stroke-linejoin="round"/>
-<path d="M306 258v-48h72l37 48" fill="none" stroke="#f8e7b6" stroke-width="9" stroke-linejoin="round"/>
-<circle cx="286" cy="354" r="30" fill="#101827" stroke="#f8e7b6" stroke-width="9"/><circle cx="395" cy="354" r="30" fill="#101827" stroke="#f8e7b6" stroke-width="9"/>
-<text x="256" y="463" text-anchor="middle" font-family="sans-serif" font-size="43" font-weight="700" fill="#f8e7b6">जीवन साथी</text>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#10264b"/><stop offset="1" stop-color="#071326"/></linearGradient><linearGradient id="gold" x2="0" y2="1"><stop stop-color="#ffe8a0"/><stop offset="1" stop-color="#c28b22"/></linearGradient></defs>
+<rect width="512" height="512" rx="112" fill="url(#bg)"/><circle cx="256" cy="242" r="213" fill="none" stroke="url(#gold)" stroke-width="14"/>
+<path d="M91 222 256 91l165 131" fill="none" stroke="url(#gold)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M127 215v166h258V215" fill="#f7faff" stroke="#e8c56c" stroke-width="12" stroke-linejoin="round"/>
+<rect x="177" y="258" width="158" height="116" rx="12" fill="#163c72" stroke="#d9b45b" stroke-width="8"/>
+<path d="M198 286h116M198 309h88M198 332h103" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+<circle cx="226" cy="192" r="28" fill="#173b70"/><circle cx="286" cy="192" r="28" fill="#173b70"/>
+<path d="M180 248q6-43 46-43t46 43M240 248q6-43 46-43t46 43" fill="#173b70"/>
+<circle cx="365" cy="354" r="58" fill="url(#gold)" stroke="#fff1bd" stroke-width="8"/><text x="365" y="378" text-anchor="middle" font-size="63" font-weight="bold" fill="#17345f">₹</text>
+<path d="M72 417h368" stroke="#d9b45b" stroke-width="8" stroke-linecap="round"/>
+<text x="256" y="469" text-anchor="middle" font-family="sans-serif" font-size="29" font-weight="bold" fill="#ffe6a0">हिशोब सारथी</text>
 </svg>
