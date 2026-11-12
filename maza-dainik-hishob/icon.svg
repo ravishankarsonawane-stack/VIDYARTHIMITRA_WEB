@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<rect width="512" height="512" rx="112" fill="#111318"/>
-<circle cx="256" cy="245" r="184" fill="none" stroke="#d8b45c" stroke-width="15"/>
-<path d="M112 295h34l22-82c5-18 18-30 38-30h104c18 0 31 8 42 23l48 66h28c16 0 28 12 28 28v27H112z" fill="#d8b45c" stroke="#f8e7b6" stroke-width="9" stroke-linejoin="round"/>
-<path d="M193 202h103c10 0 18 4 25 13l35 48H178l14-49c3-8 9-12 17-12z" fill="#202b3b" stroke="#fff1c9" stroke-width="7"/>
-<circle cx="194" cy="350" r="34" fill="#111318" stroke="#d8b45c" stroke-width="13"/>
-<circle cx="374" cy="350" r="34" fill="#111318" stroke="#d8b45c" stroke-width="13"/>
-<path d="M256 91v-24m-18 12h36" stroke="#d8b45c" stroke-width="12" stroke-linecap="round"/>
-<text x="256" y="443" text-anchor="middle" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#f8e7b6">माझा हिशोब</text>
+<rect width="512" height="512" rx="112" fill="#101827"/>
+<circle cx="256" cy="242" r="190" fill="none" stroke="#d8b45c" stroke-width="13"/>
+<path d="M72 237 175 137l103 100v157H72z" fill="#f4d58b" stroke="#f8e7b6" stroke-width="12" stroke-linejoin="round"/>
+<path d="M145 394V280h66v114" fill="#fff" stroke="#18243a" stroke-width="10"/>
+<path d="M242 333h194l-20-75H302l-35 39h-25z" fill="#d8b45c" stroke="#f8e7b6" stroke-width="10" stroke-linejoin="round"/>
+<path d="M306 258v-48h72l37 48" fill="none" stroke="#f8e7b6" stroke-width="9" stroke-linejoin="round"/>
+<circle cx="286" cy="354" r="30" fill="#101827" stroke="#f8e7b6" stroke-width="9"/><circle cx="395" cy="354" r="30" fill="#101827" stroke="#f8e7b6" stroke-width="9"/>
+<text x="256" y="463" text-anchor="middle" font-family="sans-serif" font-size="43" font-weight="700" fill="#f8e7b6">जीवन साथी</text>
 </svg>
