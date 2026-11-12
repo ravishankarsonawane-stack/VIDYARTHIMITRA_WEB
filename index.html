@@ -462,15 +462,30 @@ async function shareReceiptWhatsApp(){try{let blob=await makeReceiptPdfBlob();le
  let el=document.getElementById('rem-'+id);
  if(!el)return alert('विद्यार्थ्याची Reminder माहिती सापडली नाही.');
  if(typeof html2canvas==='undefined')return alert('इमेज सुविधा लोड झाली नाही. इंटरनेट तपासा आणि पुन्हा प्रयत्न करा.');
- let actionEls=[...el.querySelectorAll('.actions')],oldDisplays=actionEls.map(x=>x.style.display);
+ let host=null;
  try{
-  actionEls.forEach(x=>x.style.display='none');
   if(document.fonts&&document.fonts.ready)await document.fonts.ready;
-  await Promise.all([...el.querySelectorAll('img')].map(img=>new Promise(resolve=>{
+  let copy=el.cloneNode(true);
+  copy.querySelectorAll('.actions').forEach(x=>x.remove());
+  host=document.createElement('div');
+  host.style.cssText='position:absolute;left:-10000px;top:0;width:378px;background:#ffffff;padding:0;margin:0;z-index:-1;overflow:visible;';
+  copy.style.width='378px';
+  copy.style.maxWidth='378px';
+  copy.style.minWidth='378px';
+  copy.style.boxSizing='border-box';
+  copy.style.margin='0';
+  copy.style.padding='22px 14px 16px';
+  copy.style.overflow='visible';
+  copy.querySelectorAll('.big').forEach(x=>{x.style.display='block';x.style.width='100%';x.style.boxSizing='border-box';});
+  copy.querySelectorAll('.row').forEach(x=>{x.style.display='flex';x.style.width='100%';x.style.boxSizing='border-box';});
+  copy.querySelectorAll('.upi-pay-box').forEach(x=>{x.style.width='100%';x.style.boxSizing='border-box';});
+  host.appendChild(copy);
+  document.body.appendChild(host);
+  await Promise.all([...copy.querySelectorAll('img')].map(img=>new Promise(resolve=>{
    if(img.complete&&img.naturalWidth>0)return resolve();
    img.onload=resolve;img.onerror=resolve;setTimeout(resolve,5000);
   })));
-  let canvas=await html2canvas(el,{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#ffffff',logging:false,scrollX:0,scrollY:0});
+  let canvas=await html2canvas(copy,{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#ffffff',logging:false,scrollX:0,scrollY:0,windowWidth:400});
   if(!canvas||canvas.width<100||canvas.height<100)throw new Error('Reminder इमेज तयार झाली नाही. पुन्हा प्रयत्न करा.');
   let blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('PNG इमेज तयार झाली नाही.')),'image/png'));
   if(!blob||blob.size<5000)throw new Error('इमेज रिकामी तयार झाली. पुन्हा प्रयत्न करा.');
@@ -480,10 +495,10 @@ async function shareReceiptWhatsApp(){try{let blob=await makeReceiptPdfBlob();le
    await navigator.share({files:[file],title:'विद्यार्थीमित्र फी स्मरण'});
   }else{
    let url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
-   alert('Reminder इमेज Downloads मध्ये सेव्ह झाली आहे. WhatsApp मध्ये फोटो म्हणून जोडा.');
+   alert('उभी Reminder इमेज Downloads मध्ये सेव्ह झाली आहे. WhatsApp मध्ये फोटो म्हणून जोडा.');
   }
  }catch(e){if(e&&e.name==='AbortError')return;alert(e.message||'Reminder इमेज तयार करताना अडचण आली.')}
- finally{actionEls.forEach((x,i)=>x.style.display=oldDisplays[i])}
+ finally{if(host)host.remove()}
 }
 let selectedParentContacts=new Map(),parentSendIndex=0;
 function parentPhoneDigits(v){return String(v||'').replace(/\D/g,'')}
