@@ -175,6 +175,30 @@ body.profile-homemaker #workspace .account-strip{border-top:4px solid #48a77b}bo
 
 #appToast{position:fixed;left:50%;bottom:calc(78px + env(safe-area-inset-bottom));transform:translate(-50%,14px);opacity:0;pointer-events:none;z-index:99;background:#102b52;color:#fff;border:1px solid #d6ad52;border-radius:13px;padding:12px 18px;box-shadow:0 8px 24px #102b5240;font-size:13px;font-weight:750;max-width:calc(100% - 28px);text-align:center;transition:opacity .18s ease,transform .18s ease}#appToast.show{opacity:1;transform:translate(-50%,0)}
 body.landing .bottom{display:none!important}
+
+/* Final No.4 gold-H logo: larger, fully visible in every output */
+.brand-mark{width:88px;height:84px;flex:0 0 88px;padding:4px;overflow:visible}
+.brand-mark img{width:100%;height:100%;object-fit:contain;border-radius:12px}
+.brand-copy h1{font-size:26px}
+.brand-subline{margin-left:98px}
+.pdf-logo{width:86px!important;height:82px!important;min-width:86px;overflow:visible!important;padding:3px;box-sizing:border-box}
+.pdf-logo img{display:block;width:100%!important;height:100%!important;object-fit:contain!important;border-radius:10px}
+#loginGate .login-logo{width:132px;height:132px;padding:4px;overflow:visible}
+#loginGate .login-logo img{width:100%;height:100%;object-fit:contain}
+@media(max-width:420px){
+ .brand-head{gap:9px}
+ .brand-mark{width:76px;height:76px;flex-basis:76px}
+ .brand-copy h1{font-size:23px}
+ .brand-copy p{font-size:11px}
+ .brand-subline{margin-left:84px}
+ .pdf-brand{gap:7px!important}
+ .pdf-logo{width:72px!important;height:72px!important;min-width:72px}
+ .pdf-brand h1{font-size:18px!important}
+ .pdf-brand p{font-size:9px!important}
+ .pdf-section-icon{width:48px}
+ .pdf-section-icon svg{width:38px;height:34px}
+}
+
 </style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
 <body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-h.svg?v=goldh4" alt="हिशोब सारथी सोनेरी ह आणि कॅल्क्युलेटर लोगो"></div><h2>हिशोब सारथी लॉगिन</h2><p class="login-muted">तुमच्या Google खात्याने सुरक्षित लॉगिन करा. पहिल्यांदा 6 अंकी PIN तयार करा; पुढील वेळी या फोनवर PIN वापरा. प्रत्येक Google खात्याचा हिशोब स्वतंत्र राहील.</p><div id="loginLoadingStep" class="login-step active"><p style="text-align:center;padding:12px 0">खाते तपासत आहे…</p></div><div id="loginGoogleStep" class="login-step"><p>नोंदणीकृत Gmail खात्याने लॉगिन करा. नवीन मोबाईलवर दुसरे Google खाते असले तरी तुमचे मूळ Gmail निवडा.</p><button type="button" class="full goldbtn" onclick="dailyCloudLogin()">Google / Gmail ने लॉगिन करा</button></div><div id="loginPinSetup" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>मोबाईल नंबर</label><input id="gatePhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10 अंकी मोबाईल नंबर"><label>नवीन 6 अंकी PIN तयार करा</label><input id="gatePin1" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="gatePin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="gateSavePin()">नोंदणी पूर्ण करा</button></div><div id="loginPinUnlock" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay2" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>नोंदणीकृत मोबाईल नंबर</label><input id="gateUnlockPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="मोबाईल नंबर"><label>6 अंकी PIN</label><input id="gatePinUnlockValue" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><button class="full goldbtn" onclick="gateUnlock()">अॅप उघडा</button><button type="button" class="full login-secondary" onclick="accountRestartLogin()">दुसरे Gmail खाते वापरा / Sign out</button></div><p id="gateStatus" class="login-status">खाते तपासत आहे…</p></div></div>
 <header class="hero"><div class="brand-head"><div class="brand-mark" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.svg?v=goldh4" alt="हिशोब सारथी – सोनेरी ह लोगो"></div><div class="brand-copy"><small>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</small><h1>हिशोब सारथी</h1><p>तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.</p></div></div></header>
@@ -368,10 +392,10 @@ function downloadReportImage(){
  const height=Math.max(500,220+wrapped.length*lineH+pad);canvas.width=width;canvas.height=height;
  ctx.fillStyle='#f5f7fb';ctx.fillRect(0,0,width,height);ctx.fillStyle='#102b52';ctx.fillRect(0,0,width,170);
  const logo=new Image();
- logo.onload=()=>{ctx.drawImage(logo,18,9,112,112);
-  ctx.fillStyle='#f0d58e';ctx.font='bold 38px sans-serif';ctx.textAlign='left';ctx.fillText('हिशोब सारथी',pad+82,48);
-  ctx.fillStyle='#fff0c2';ctx.font='bold 20px sans-serif';ctx.fillText('तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.',pad+82,80);
-  ctx.fillStyle='#ffffff';ctx.font='19px sans-serif';ctx.fillText('घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी',pad+82,111);
+ logo.onload=()=>{ctx.drawImage(logo,12,8,128,128);
+  ctx.fillStyle='#f0d58e';ctx.font='bold 38px sans-serif';ctx.textAlign='left';ctx.fillText('हिशोब सारथी',pad+112,48);
+  ctx.fillStyle='#fff0c2';ctx.font='bold 20px sans-serif';ctx.fillText('तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.',pad+112,80);
+  ctx.fillStyle='#ffffff';ctx.font='19px sans-serif';ctx.fillText('घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी',pad+112,111);
   ctx.fillStyle='#ffffff';ctx.font='bold 17px sans-serif';ctx.fillText('रिक्षा साथी',630,54);ctx.fillText('गृहिणी सारथी',752,54);
   drawReportSectionIcon(ctx,'rickshaw',620,64);drawReportSectionIcon(ctx,'home',750,64);
   let y=218;ctx.font='27px sans-serif';wrapped.forEach(line=>{ctx.fillStyle=(/एकूण उत्पन्न|निव्वळ शिल्लक/.test(line))?'#176b45':(/एकूण खर्च/.test(line)?'#b42318':'#172033');ctx.fillText(line,pad,y);y+=lineH});
