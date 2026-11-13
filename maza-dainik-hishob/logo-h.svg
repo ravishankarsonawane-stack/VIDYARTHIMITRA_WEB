@@ -1,9 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
-<title id="t">हिशोब सारथी – सोनेरी ह लोगो</title><desc id="d">गडद निळ्या पार्श्वभूमीवर सोनेरी मराठी ह अक्षर आणि कॅल्क्युलेटर</desc>
-<defs><linearGradient id="n" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#123d78"/><stop offset="1" stop-color="#061a38"/></linearGradient><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff0b8"/><stop offset=".48" stop-color="#f4c64f"/><stop offset="1" stop-color="#b77b1e"/></linearGradient></defs>
-<rect x="12" y="12" width="488" height="488" rx="108" fill="url(#n)"/><rect x="24" y="24" width="464" height="464" rx="96" fill="none" stroke="url(#g)" stroke-width="12"/>
-<path d="M86 132Q190 67 311 111Q353 126 379 160L344 205Q311 169 269 165Q205 155 141 199L170 232Q220 204 266 221Q308 238 299 281Q291 326 229 327Q184 328 143 300L112 350Q176 402 251 390Q360 374 385 291Q410 208 334 164Q278 132 206 145Q147 155 104 194Z" fill="url(#g)" stroke="#fff0bb" stroke-width="5" stroke-linejoin="round"/>
-<path d="M89 371Q200 422 323 381Q370 365 421 329" fill="none" stroke="#4da5ed" stroke-width="13" stroke-linecap="round"/><path d="M401 320l25 9-6 25" fill="none" stroke="#4da5ed" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="335" y="178" width="111" height="151" rx="18" fill="#f8fbff" stroke="url(#g)" stroke-width="9"/><rect x="352" y="195" width="77" height="30" rx="7" fill="#164b91"/><g fill="#164b91"><rect x="352" y="241" width="18" height="18" rx="4"/><rect x="382" y="241" width="18" height="18" rx="4"/><rect x="412" y="241" width="17" height="18" rx="4"/><rect x="352" y="272" width="18" height="18" rx="4"/><rect x="382" y="272" width="18" height="18" rx="4"/><rect x="412" y="272" width="17" height="18" rx="4"/><rect x="352" y="303" width="18" height="13" rx="4"/><rect x="382" y="303" width="18" height="13" rx="4"/></g>
-<text x="256" y="461" text-anchor="middle" font-family="Noto Sans Devanagari,sans-serif" font-size="29" font-weight="800" fill="#fff">हिशोब सारथी</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">हिशोब सारथी</title><desc id="desc">गडद निळ्या पार्श्वभूमीवर सोनेरी ह अक्षर, कॅल्क्युलेटर आणि हिशोब सारथी नाव</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0753a6"/><stop offset=".48" stop-color="#082c65"/><stop offset="1" stop-color="#03152f"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff2a6"/><stop offset=".38" stop-color="#ffd83e"/><stop offset=".72" stop-color="#f5ad16"/><stop offset="1" stop-color="#b97808"/></linearGradient>
+ <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#36c5ff"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#1487ff"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur in="SourceAlpha" stdDeviation="5"/><feOffset dy="5"/><feComponentTransfer><feFuncA type="linear" slope=".45"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect x="7" y="7" width="498" height="498" rx="92" fill="url(#bg)" stroke="url(#gold)" stroke-width="12"/>
+<rect x="19" y="19" width="474" height="474" rx="81" fill="none" stroke="#6ebcff" stroke-opacity=".55" stroke-width="2"/>
+<path d="M34 54Q150 5 264 30Q382 55 478 25" fill="none" stroke="url(#shine)" stroke-width="7" opacity=".85"/>
+<g filter="url(#shadow)">
+ <text x="190" y="288" text-anchor="middle" font-family="'Noto Sans Devanagari','Nirmala UI',sans-serif" font-size="235" font-weight="900" fill="url(#gold)" stroke="#b77a12" stroke-width="2" paint-order="stroke">ह</text>
+ <path d="M55 294Q155 345 275 304Q354 278 451 252" fill="none" stroke="url(#gold)" stroke-width="15" stroke-linecap="round"/>
+ <path d="M39 305Q110 340 174 334" fill="none" stroke="url(#shine)" stroke-width="8" stroke-linecap="round"/>
+</g>
+<g transform="rotate(8 375 185)" filter="url(#shadow)">
+ <rect x="315" y="92" width="116" height="154" rx="15" fill="#f8fbff" stroke="url(#gold)" stroke-width="7"/>
+ <rect x="330" y="107" width="86" height="31" rx="5" fill="#0b4a91"/>
+ <rect x="337" y="114" width="72" height="17" rx="3" fill="#38baff"/>
+ <g fill="#164b91">
+  <rect x="331" y="151" width="20" height="18" rx="4"/><rect x="363" y="151" width="20" height="18" rx="4"/><rect x="395" y="151" width="20" height="18" rx="4"/>
+  <rect x="331" y="181" width="20" height="18" rx="4"/><rect x="363" y="181" width="20" height="18" rx="4"/><rect x="395" y="181" width="20" height="18" rx="4"/>
+  <rect x="331" y="211" width="20" height="18" rx="4"/><rect x="363" y="211" width="20" height="18" rx="4"/><rect x="395" y="211" width="20" height="18" rx="4"/>
+ </g>
+</g>
+<path d="M40 355H472" stroke="url(#gold)" stroke-width="3"/>
+<text x="256" y="408" text-anchor="middle" font-family="'Noto Sans Devanagari','Nirmala UI',sans-serif" font-size="49" font-weight="900" fill="#fff">हिशोब <tspan fill="#ffd23f">सारथी</tspan></text>
+<path d="M62 426H202M310 426H450" stroke="url(#gold)" stroke-width="3"/><path d="M256 416l5 9 10 1-8 7 2 10-9-5-9 5 2-10-8-7 10-1z" fill="url(#gold)"/>
+<text x="256" y="462" text-anchor="middle" font-family="'Noto Sans Devanagari','Nirmala UI',sans-serif" font-size="22" font-weight="700" fill="#fff">तुमच्या प्रत्येक हिशोबाचा</text>
+<text x="256" y="488" text-anchor="middle" font-family="'Noto Sans Devanagari','Nirmala UI',sans-serif" font-size="22" font-weight="700" fill="#fff">विश्वासू सोबती.</text>
 </svg>
