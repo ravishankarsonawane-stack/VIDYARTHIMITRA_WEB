@@ -645,18 +645,6 @@ window.dailyArchiveSaveCloud=async function(profile,archiveId,entries,settings){
   return true;
  };
 
-  if(!window.dailyCloudUser||!store)throw new Error('Cloud लॉगिन उपलब्ध नाही.');
-  const root=col(profile).doc('archives').collection(archiveId),chunks=[];
-  for(let i=0;i<entries.length;i+=100)chunks.push(entries.slice(i,i+100));
-  const ops=[];chunks.forEach((items,i)=>ops.push({ref:root.doc('entries_'+i),data:{items}}));
-  ops.push({ref:root.doc('settings'),data:settings||{}});
-  for(let i=0;i<ops.length;i+=400){const batch=store.batch();ops.slice(i,i+400).forEach(o=>batch.set(o.ref,o.data));await batch.commit()}
-  await root.doc('_meta').set({archiveId,profile,entryCount:entries.length,chunkCount:chunks.length,archivedAt:firebase.firestore.FieldValue.serverTimestamp(),schemaVersion:1});
-  const meta=await root.doc('_meta').get();if(!meta.exists||Number(meta.data().entryCount)!==entries.length)throw new Error('Cloud Archive ची मुख्य माहिती पडताळता आली नाही.');
-  for(let i=0;i<chunks.length;i++){const part=await root.doc('entries_'+i).get();if(!part.exists||!Array.isArray(part.data().items)||part.data().items.length!==chunks[i].length)throw new Error('Cloud Archive मधील नोंदींची पडताळणी अपूर्ण आहे.')}
-  const settingsCheck=await root.doc('settings').get();if(!settingsCheck.exists)throw new Error('Cloud Archive मधील सेटिंग्ज सापडल्या नाहीत.');
-  return true;
- };
 function mergeCats(a,b,deleted=[]){let out={...JSON.parse(JSON.stringify(defaults)),...(a||{})};Object.keys(b||{}).forEach(area=>{out[area]=out[area]||{income:[],expense:[]};['income','expense'].forEach(k=>out[area][k]=[...new Set([...(out[area][k]||[]),...((b[area]||{})[k]||[])])])});return cleanAllCats(out,deleted)}
 async function readCloudFrom(c){let snap=await c.get(),meta=snap.docs.find(d=>d.id==='meta');if(!meta)return null;let m=meta.data(),entries=[],prefix=m.prefix?'entries_'+m.prefix+'_':'entries_';for(let i=0;i<(m.chunks||0);i++){let d=snap.docs.find(x=>x.id===prefix+i);if(d&&Array.isArray(d.data().items))entries.push(...d.data().items)}let settings=snap.docs.find(d=>d.id===(m.settingsId||'settings'));return {entries,deletedEntries:settings?.data()?.deletedEntries||[],cats:settings?.data()?.cats||defaults,deletedCats:settings?.data()?.deletedCats||[],banks:ensureBankIds(settings?.data()?.banks||[]),deletedBanks:(settings?.data()?.deletedBanks||[]).filter(k=>String(k).startsWith('id:')),budgets:settings?.data()?.budgets||{}}}
 async function readCloud(profile=activeProfile){return readCloudFrom(col(profile))}
