@@ -388,16 +388,8 @@ async function archiveCurrentProfile(){
   const localCheck=localStorage.getItem(archiveKey);
   if(!localCheck||JSON.parse(localCheck).entries?.length!==(db.entries||[]).length)throw new Error('फोनमधील Archive पडताळणी पूर्ण झाली नाही.');
   const archiveId='archive_'+new Date(stamp).toISOString().replace(/[-:.TZ]/g,'')+'_'+Math.random().toString(36).slice(2,7);
-  const root=col(p).doc('archives').collection(archiveId),chunks=[];
-  for(let i=0;i<entries.length;i+=100)chunks.push(entries.slice(i,i+100));
-  const ops=[];
-  chunks.forEach((items,i)=>ops.push({ref:root.doc('entries_'+i),data:{items}}));
-  ops.push({ref:root.doc('settings'),data:{cats:profileData.cats||defaults,deletedCats:profileData.deletedCats||[],banks:profileData.banks||[],deletedBanks:profileData.deletedBanks||[],budgets:profileData.budgets||{},deletedEntries:profileData.deletedEntries||[]}});
-  for(let i=0;i<ops.length;i+=400){const batch=store.batch();ops.slice(i,i+400).forEach(o=>batch.set(o.ref,o.data));await batch.commit()}
-  await root.doc('_meta').set({archiveId,profile:p,entryCount:entries.length,chunkCount:chunks.length,archivedAt:firebase.firestore.FieldValue.serverTimestamp(),schemaVersion:1});
-  const meta=await root.doc('_meta').get();if(!meta.exists||Number(meta.data().entryCount)!==entries.length)throw new Error('Cloud Archive ची मुख्य माहिती पडताळता आली नाही.');
-  for(let i=0;i<chunks.length;i++){const part=await root.doc('entries_'+i).get();if(!part.exists||!Array.isArray(part.data().items)||part.data().items.length!==chunks[i].length)throw new Error('Cloud Archive मधील नोंदींची पडताळणी अपूर्ण आहे.')}
-  const settingsCheck=await root.doc('settings').get();if(!settingsCheck.exists)throw new Error('Cloud Archive मधील सेटिंग्ज सापडल्या नाहीत.');
+  if(typeof window.dailyArchiveSaveCloud!=='function')throw new Error('Cloud Archive ची मदतनीस सुविधा उपलब्ध नाही. पेज पुन्हा उघडा.');
+  await window.dailyArchiveSaveCloud(p,archiveId,entries,{cats:profileData.cats||defaults,deletedCats:profileData.deletedCats||[],banks:profileData.banks||[],deletedBanks:profileData.deletedBanks||[],budgets:profileData.budgets||{},deletedEntries:profileData.deletedEntries||[]});
   if(statusEl)statusEl.textContent='फोन + Cloud Archive पूर्ण. '+entries.length+' नोंदींची पडताळणी झाली. सध्याचा हिशोब बदललेला नाही.';
   renderArchives();alert('सुरक्षित Archive पूर्ण! फोन आणि Cloud दोन्हीकडे '+entries.length+' नोंदींची पडताळणी झाली. सध्याच्या नोंदी आणि बॅलन्स अजिबात बदललेले नाहीत.');
  }catch(e){if(statusEl)statusEl.textContent='Archive पूर्ण झाले नाही: '+(e.message||e)+' सध्याचा हिशोब सुरक्षित आहे.';alert('Archive पूर्ण झाले नाही. सध्याच्या नोंदी बदललेल्या नाहीत. कारण: '+(e.message||e))}
@@ -542,6 +534,19 @@ window.dailyPhoneVerifyOtp=async function(){const code=(document.getElementById(
 window.dailyCloudLogin=async function(){if(!ready())return;try{await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});let r=await auth.signInWithPopup(p);window.dailyCloudUser=r.user;status('Google खाते जोडले. या खात्याचा स्वतंत्र Cloud डेटा तपासत आहे…');await window.dailyCloudSync()}catch(e){status('Google जोडणी अयशस्वी: '+e.message)}};
 window.dailyCloudSchedule=function(){clearTimeout(timer);timer=setTimeout(()=>window.dailyCloudSync(),1800)};
 function col(profile=activeProfile){return store.collection('users').doc(window.dailyCloudUser.uid).collection('daily_hishob_backups_'+(profile==='homemaker'?'homemaker':'my'))}
+ window.dailyArchiveSaveCloud=async function(profile,archiveId,entries,settings){
+  if(!window.dailyCloudUser||!store)throw new Error('Cloud लॉगिन उपलब्ध नाही.');
+  const root=col(profile).doc('archives').collection(archiveId),chunks=[];
+  for(let i=0;i<entries.length;i+=100)chunks.push(entries.slice(i,i+100));
+  const ops=[];chunks.forEach((items,i)=>ops.push({ref:root.doc('entries_'+i),data:{items}}));
+  ops.push({ref:root.doc('settings'),data:settings||{}});
+  for(let i=0;i<ops.length;i+=400){const batch=store.batch();ops.slice(i,i+400).forEach(o=>batch.set(o.ref,o.data));await batch.commit()}
+  await root.doc('_meta').set({archiveId,profile,entryCount:entries.length,chunkCount:chunks.length,archivedAt:firebase.firestore.FieldValue.serverTimestamp(),schemaVersion:1});
+  const meta=await root.doc('_meta').get();if(!meta.exists||Number(meta.data().entryCount)!==entries.length)throw new Error('Cloud Archive ची मुख्य माहिती पडताळता आली नाही.');
+  for(let i=0;i<chunks.length;i++){const part=await root.doc('entries_'+i).get();if(!part.exists||!Array.isArray(part.data().items)||part.data().items.length!==chunks[i].length)throw new Error('Cloud Archive मधील नोंदींची पडताळणी अपूर्ण आहे.')}
+  const settingsCheck=await root.doc('settings').get();if(!settingsCheck.exists)throw new Error('Cloud Archive मधील सेटिंग्ज सापडल्या नाहीत.');
+  return true;
+ };
 function mergeCats(a,b,deleted=[]){let out={...JSON.parse(JSON.stringify(defaults)),...(a||{})};Object.keys(b||{}).forEach(area=>{out[area]=out[area]||{income:[],expense:[]};['income','expense'].forEach(k=>out[area][k]=[...new Set([...(out[area][k]||[]),...((b[area]||{})[k]||[])])])});return cleanAllCats(out,deleted)}
 async function readCloudFrom(c){let snap=await c.get(),meta=snap.docs.find(d=>d.id==='meta');if(!meta)return null;let m=meta.data(),entries=[],prefix=m.prefix?'entries_'+m.prefix+'_':'entries_';for(let i=0;i<(m.chunks||0);i++){let d=snap.docs.find(x=>x.id===prefix+i);if(d&&Array.isArray(d.data().items))entries.push(...d.data().items)}let settings=snap.docs.find(d=>d.id===(m.settingsId||'settings'));return {entries,deletedEntries:settings?.data()?.deletedEntries||[],cats:settings?.data()?.cats||defaults,deletedCats:settings?.data()?.deletedCats||[],banks:ensureBankIds(settings?.data()?.banks||[]),deletedBanks:(settings?.data()?.deletedBanks||[]).filter(k=>String(k).startsWith('id:')),budgets:settings?.data()?.budgets||{}}}
 async function readCloud(profile=activeProfile){return readCloudFrom(col(profile))}
