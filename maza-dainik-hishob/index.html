@@ -392,7 +392,7 @@ async function archiveCurrentProfile(){
   for(let i=0;i<entries.length;i+=100)chunks.push(entries.slice(i,i+100));
   const ops=[];
   chunks.forEach((items,i)=>ops.push({ref:root.doc('entries_'+i),data:{items}}));
-  ops.push({ref:root.doc('settings'),data:{cats:profileData.cats||defaults,deletedCats:profileData.deletedCats||[],banks:profileData.banks||[],deletedBanks:profileData.deletedBanks||[],budgets:profileData.budgets||{},deletedEntries:profileData.deletedEntries||[]}}});
+  ops.push({ref:root.doc('settings'),data:{cats:profileData.cats||defaults,deletedCats:profileData.deletedCats||[],banks:profileData.banks||[],deletedBanks:profileData.deletedBanks||[],budgets:profileData.budgets||{},deletedEntries:profileData.deletedEntries||[]}});
   for(let i=0;i<ops.length;i+=400){const batch=store.batch();ops.slice(i,i+400).forEach(o=>batch.set(o.ref,o.data));await batch.commit()}
   await root.doc('_meta').set({archiveId,profile:p,entryCount:entries.length,chunkCount:chunks.length,archivedAt:firebase.firestore.FieldValue.serverTimestamp(),schemaVersion:1});
   const meta=await root.doc('_meta').get();if(!meta.exists||Number(meta.data().entryCount)!==entries.length)throw new Error('Cloud Archive ची मुख्य माहिती पडताळता आली नाही.');
