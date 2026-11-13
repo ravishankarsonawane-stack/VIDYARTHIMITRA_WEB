@@ -1,31 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
-<title id="t">हिशोब सारथी</title><desc id="d">घर, वही, नाणी आणि आर्थिक प्रगती दर्शवणारे निळे-सोनेरी चिन्ह</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">हिशोब सारथी</title><desc id="desc">निळ्या पांढऱ्या उघड्या हिशोबवहीवर सोनेरी लेखणी आणि वाढता आलेख</desc>
 <defs>
- <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#123d78"/><stop offset=".55" stop-color="#09264f"/><stop offset="1" stop-color="#061a38"/></linearGradient>
- <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff0b8"/><stop offset=".45" stop-color="#f1c65e"/><stop offset="1" stop-color="#bd8524"/></linearGradient>
- <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#dce9f8"/></linearGradient>
- <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f9fcff"/><stop offset="1" stop-color="#dcecff"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff0ad"/><stop offset=".5" stop-color="#f4c64f"/><stop offset="1" stop-color="#bd8525"/></linearGradient>
+ <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#287fe0"/><stop offset="1" stop-color="#092d67"/></linearGradient>
 </defs>
-<rect x="8" y="8" width="496" height="496" rx="112" fill="url(#bg)"/>
-<rect x="19" y="19" width="474" height="474" rx="102" fill="none" stroke="url(#gold)" stroke-width="8"/>
-<circle cx="256" cy="220" r="175" fill="#fff" opacity=".045"/>
-<path d="M92 184 256 67l164 117" fill="none" stroke="url(#gold)" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M126 174v162h260V174" fill="#f8fbff" stroke="#e7c66f" stroke-width="8" stroke-linejoin="round"/>
-<rect x="216" y="105" width="80" height="54" rx="8" fill="#174b91"/>
-<path d="M256 106v53M217 132h78" stroke="#eaf2ff" stroke-width="6"/>
-<!-- friendly family silhouettes -->
-<circle cx="202" cy="205" r="35" fill="#163d72"/><path d="M151 294q5-61 51-61t51 61" fill="#174b91"/>
-<circle cx="300" cy="209" r="33" fill="#174b91"/><path d="M253 294q5-57 47-57t48 57" fill="#1d5da7"/>
-<path d="M181 210q20 18 42 0M284 213q17 15 34 0" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
-<!-- open ledger -->
-<path d="M91 292q74-28 147 7v83q-73-33-147-5z" fill="url(#paper)" stroke="#d4ae55" stroke-width="6"/>
-<path d="M238 299q74-35 148-7v85q-74-28-148 5z" fill="url(#paper)" stroke="#d4ae55" stroke-width="6"/>
-<path d="M112 318q52-15 105 5M112 341q52-15 105 5M263 323q52-20 102-5M263 346q52-20 102-5" stroke="#4c79ad" stroke-width="5" stroke-linecap="round" fill="none"/>
-<!-- coins and growth -->
-<ellipse cx="393" cy="300" rx="31" ry="10" fill="#9e6d1d"/><rect x="362" y="265" width="62" height="35" rx="7" fill="url(#gold)"/><ellipse cx="393" cy="265" rx="31" ry="10" fill="#ffe8a0" stroke="#bd8524" stroke-width="4"/>
-<path d="M353 244 382 220l22 12 43-49" fill="none" stroke="#39a86b" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><path d="m431 183 18-8-2 20" fill="none" stroke="#39a86b" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-<!-- gold title plate -->
-<rect x="44" y="393" width="424" height="78" rx="24" fill="#061a38" stroke="url(#gold)" stroke-width="6"/>
-<text x="256" y="438" text-anchor="middle" font-family="Noto Sans Devanagari, sans-serif" font-size="43" font-weight="800" fill="#fff">हिशोब <tspan fill="#f4ce70">सारथी</tspan></text>
-<text x="256" y="460" text-anchor="middle" font-family="Noto Sans Devanagari, sans-serif" font-size="12" font-weight="600" fill="#f6e6bd">तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती</text>
+<circle cx="256" cy="256" r="244" fill="#092c64"/><circle cx="256" cy="256" r="229" fill="url(#bg)" stroke="url(#gold)" stroke-width="12"/><circle cx="256" cy="256" r="211" fill="none" stroke="#2d79c9" stroke-width="4"/>
+<g fill="url(#blue)"><rect x="125" y="130" width="34" height="70" rx="6"/><rect x="171" y="105" width="34" height="95" rx="6"/><rect x="217" y="78" width="34" height="122" rx="6"/><rect x="263" y="49" width="34" height="151" rx="6"/></g>
+<path d="M115 208 169 174 208 184 255 137 296 151 352 93" fill="none" stroke="url(#gold)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="m333 94 22-5-4 23" fill="none" stroke="#bd8525" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M64 213Q158 168 248 216V355Q158 309 64 350Z" fill="#fff" stroke="#164b91" stroke-width="11" stroke-linejoin="round"/><path d="M264 216Q354 168 448 213V350Q354 309 264 355Z" fill="#f8fbff" stroke="#164b91" stroke-width="11" stroke-linejoin="round"/><path d="M256 216V357" stroke="#d9b45b" stroke-width="9"/>
+<g fill="none" stroke="#4384c6" stroke-width="8" stroke-linecap="round"><path d="M91 240q69-29 126 0M91 272q69-29 126 0M91 304q69-29 126 0M295 240q68-29 126 0M295 272q68-29 126 0M295 304q68-29 126 0"/></g>
+<g transform="rotate(38 340 160)"><rect x="326" y="65" width="28" height="135" rx="13" fill="url(#blue)" stroke="#082b62" stroke-width="6"/><path d="M326 76h28M326 94h28" stroke="url(#gold)" stroke-width="7"/><path d="M326 199h28l-14 35z" fill="url(#gold)" stroke="#082b62" stroke-width="4"/></g>
+<path d="M56 380Q256 430 456 380L440 454Q256 492 72 454Z" fill="url(#blue)" stroke="url(#gold)" stroke-width="8"/><text x="256" y="427" text-anchor="middle" font-family="Noto Sans Devanagari, sans-serif" font-size="43" font-weight="800" fill="#fff">हिशोब सारथी</text><text x="256" y="450" text-anchor="middle" font-family="Noto Sans Devanagari, sans-serif" font-size="13" font-weight="700" fill="#fff0c2">तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती</text>
 </svg>
