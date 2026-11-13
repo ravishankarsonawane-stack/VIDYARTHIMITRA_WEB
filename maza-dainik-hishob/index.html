@@ -114,8 +114,8 @@ label{color:#334b6c}
 .report-chart{display:grid;gap:10px;margin:12px 0 4px}.chart-row{min-width:0}.chart-label{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-bottom:4px}.chart-label span{overflow-wrap:anywhere}.chart-track{height:10px;border-radius:20px;background:#edf1f7;overflow:hidden}.chart-bar{height:100%;border-radius:20px;min-width:3px}.bar-in{background:linear-gradient(90deg,#168052,#48b987)}.bar-out{background:linear-gradient(90deg,#c04442,#ed8a78)}
 
 @media print{
- @page{size:A4;margin:12mm}
- body{background:#fff!important;color:#111!important;font-size:11px}
+ @page{size:A4 portrait;margin:10mm}
+ body{background:#fff!important;color:#111!important;font-size:11px}.report-print-mode #reports{display:block!important}.report-print-mode #reports>.panel:first-child{display:block!important}
  body *{visibility:hidden!important}
  #reports,#reports *{visibility:visible!important}
  #reports{display:block!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;margin:0!important;padding:0!important}
@@ -209,7 +209,7 @@ label{color:#334b6c}
 <div class="panel"><div class="pdf-brand"><div class="pdf-logo" aria-label="हिशोब सारथी लोगो"><img src="./icon.svg" alt="हिशोब सारथी"></div><div><h1>हिशोब सारथी</h1><p>तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती...</p><p>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</p></div></div><h2>महिन्याचा अहवाल</h2>
 <label>महिना निवडा</label><input type="month" id="reportMonth">
 <div class="row"><div><label>विभागानुसार</label><select id="reportArea"><option value="all">सर्व विभाग</option><option value="rickshaw">रिक्षा</option><option value="home">घरखर्च</option><option value="personal">वैयक्तिक</option></select></div><div><label>नोंदीचा प्रकार</label><select id="reportKind"><option value="all">उत्पन्न + खर्च</option><option value="income">फक्त उत्पन्न</option><option value="expense">फक्त खर्च</option></select></div></div>
-<button class="full" onclick="downloadReportPDF()">📄 PDF तयार करा / प्रिंट</button><p class="muted">प्रिंटमध्ये “Save as PDF / PDF म्हणून सेव्ह” निवडा.</p><div id="reportBox"></div></div>
+<div class="row"><button class="full" onclick="downloadReportPDF()">📄 PDF तयार करा</button><button class="full secondary" onclick="downloadReportImage()">🖼️ Image तयार करा</button></div><p class="muted">PDF साठी पुढील स्क्रीनवर “Save as PDF” निवडा. Image थेट PNG म्हणून डाउनलोड होईल. दोन्ही मोबाईलच्या उभ्या (Portrait) स्वरूपात.</p><div id="reportBox"></div></div>
 <div class="panel"><h2>बँक व पेमेंट तपशील</h2><label>बँक / खाते नाव</label><input id="bankName" placeholder="उदा. Axis Bank / Saraswat Bank"><label>सुरुवातीची शिल्लक (₹)</label><input id="bankOpening" type="number" inputmode="decimal" placeholder="आजच्या आधीची शिल्लक"><div class="row"><div><label>खाते ओळख (शेवटचे 4 अंक)</label><input id="bankLast4" maxlength="4" inputmode="numeric" placeholder="1234"></div><div><label>UPI ID (ऐच्छिक)</label><input id="bankUpi" placeholder="name@bank"></div></div><button class="full" onclick="addBank()">＋ बँक खाते जोडा</button><div id="bankList"></div><p class="muted">पूर्ण खाते क्रमांक किंवा PIN येथे साठवू नका.</p></div>
 <div class="panel"><h2>श्रेणी व्यवस्थापन</h2><label>विभाग</label><select id="catArea"><option value="rickshaw">रिक्षा</option><option value="home">घरखर्च</option><option value="personal">वैयक<section id="backup" class="hidden">
 <div class="panel cloud-card"><div class="cloud-head"><div><h2>Cloud Backup</h2><p class="muted">नोंदी आपोआप Cloud मध्ये Sync होतील.</p></div><span class="cloud-symbol">☁</span></div><p id="dailyCloudStatus" class="cloud-status">Cloud स्थिती तपासत आहे…</p><button class="full goldbtn" onclick="dailyCloudSync()">आता Sync करा</button></div>
@@ -365,7 +365,37 @@ function renderArchives(){let el=document.getElementById('archiveList');if(!el)r
 function startFresh(){if(!confirm('सध्याच्या सर्व नोंदींची सुरक्षित प्रत तयार करून नवीन रिकामा हिशोब सुरू करायचा आहे का?'))return;let raw=JSON.stringify(db,null,2),stamp=Date.now(),archiveKey=KEY+'_archive_'+stamp;try{localStorage.setItem(archiveKey,raw);let blob=new Blob([raw],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Maza_Dainik_Hishob_Archive_'+isoToday()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);let fresh={entries:[],cats:JSON.parse(JSON.stringify(defaults)),deletedCats:[],banks:[],budgets:{}};db=fresh;let wasBusy=window.dailyCloudBusy;window.dailyCloudBusy=true;localStorage.setItem(KEY,JSON.stringify(db));localStorage.setItem(KEY+'_autoBackup',JSON.stringify(db));window.dailyCloudBusy=wasBusy||false;render();renderArchives();alert('नवीन रिकामा हिशोब सुरू झाला. जुना हिशोब फोनमध्ये संग्रहित केला आहे आणि JSON फाइल डाउनलोड केली आहे.');}catch(e){alert('नवीन सुरुवात करता आली नाही: '+e.message+' जुना डेटा बदललेला नाही.');}}
 function restoreArchive(key){let raw=localStorage.getItem(key);if(!raw){alert('सुरक्षित जुनी प्रत सापडली नाही.');return}try{let x=normalizeBackupData(JSON.parse(raw));if(!confirm('जुन्या संग्रहित हिशोबातील '+x.entries.length+' नोंदी परत आणायच्या का? सध्याचा हिशोब बदलला जाईल; आधी त्याचा JSON बॅकअप घ्या.'))return;db=x;ensureEntryProfiles();persist();renderArchives();alert('जुना हिशोब परत आणला. एकूण '+db.entries.length+' नोंदी उपलब्ध आहेत.')}catch(e){alert('जुना हिशोब उघडता आला नाही: '+e.message)}}
 function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Maza_Dainik_Hishob_Backup_'+isoToday()+'.json';a.click();URL.revokeObjectURL(url)}
-function downloadReportPDF(){renderReport();if(!document.getElementById('reportBox')?.innerHTML.trim()){alert('PDF साठी अहवाल उपलब्ध नाही.');return}setTimeout(()=>{try{window.focus();window.print()}catch(e){alert('PDF उघडता आला नाही. Chrome मधील ⋮ मेनूमधून Print / PDF निवडा.')}} ,250)}
+function downloadReportPDF(){
+ renderReport();
+ const box=document.getElementById('reportBox');
+ if(!box||!box.innerText.trim()){alert('PDF साठी अहवाल उपलब्ध नाही.');return}
+ const folds=[...box.querySelectorAll('details')],wasOpen=folds.map(x=>x.open);
+ folds.forEach(x=>x.open=true);
+ document.body.classList.add('report-print-mode');
+ const restore=()=>{document.body.classList.remove('report-print-mode');folds.forEach((x,i)=>x.open=wasOpen[i]);window.removeEventListener('afterprint',restore)};
+ window.addEventListener('afterprint',restore);
+ setTimeout(()=>{try{window.focus();window.print();setTimeout(restore,1500)}catch(e){restore();alert('PDF तयार करता आला नाही. Chrome च्या ⋮ मेनूमधून Print → Save as PDF निवडा.')}},350);
+}
+function downloadReportImage(){
+ renderReport();
+ const box=document.getElementById('reportBox');
+ if(!box||!box.innerText.trim()){alert('Image साठी अहवाल उपलब्ध नाही.');return}
+ const lines=box.innerText.replace(/\\u00a0/g,' ').split('\\n').map(x=>x.trim()).filter(Boolean);
+ const width=900,pad=44,lineH=38,ctxCanvas=document.createElement('canvas'),ctx=ctxCanvas.getContext('2d');
+ ctx.font='28px "Noto Sans Devanagari", sans-serif';
+ const wrapped=[];
+ lines.forEach(line=>{let current='';for(const word of line.split(/\\s+/)){const test=current?current+' '+word:word;if(ctx.measureText(test).width>width-pad*2&&current){wrapped.push(current);current=word}else current=test}if(current)wrapped.push(current)});
+ const height=Math.max(500,180+wrapped.length*lineH+pad);
+ ctxCanvas.width=width;ctxCanvas.height=height;
+ ctx.fillStyle='#f5f7fb';ctx.fillRect(0,0,width,height);
+ ctx.fillStyle='#111827';ctx.fillRect(0,0,width,132);
+ ctx.fillStyle='#e6c36d';ctx.font='bold 38px "Noto Sans Devanagari", sans-serif';ctx.fillText('हिशोब सारथी',pad,58);
+ ctx.fillStyle='#ffffff';ctx.font='22px "Noto Sans Devanagari", sans-serif';ctx.fillText('मासिक हिशोब अहवाल',pad,101);
+ let y=180;ctx.font='27px "Noto Sans Devanagari", sans-serif';
+ wrapped.forEach((line,i)=>{if(y>height-40)return;ctx.fillStyle=(/एकूण उत्पन्न|निव्वळ शिल्लक/.test(line))?'#176b45':(/एकूण खर्च/.test(line)?'#b42318':'#172033');ctx.fillText(line,pad,y);y+=lineH});
+ ctx.fillStyle='#667085';ctx.font='18px sans-serif';ctx.fillText('हिशोब सारथी',pad,height-22);
+ ctxCanvas.toBlob(blob=>{if(!blob){alert('Image तयार झाली नाही. पुन्हा प्रयत्न करा.');return}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Hishob_Sarthi_Report_'+(document.getElementById('reportMonth').value||'report')+'.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)},'image/png');
+}
 function mergeImportedBackup(current,incoming){const map=new Map();(current.entries||[]).forEach(e=>map.set(String(e.id),e));(incoming.entries||[]).forEach(e=>map.set(String(e.id),e));const deletedCats=[...new Set([...(current.deletedCats||[]),...(incoming.deletedCats||[])])];const cats=JSON.parse(JSON.stringify(current.cats||defaults));Object.keys(incoming.cats||{}).forEach(a=>{cats[a]=cats[a]||{income:[],expense:[]};['income','expense'].forEach(k=>cats[a][k]=[...new Set([...(cats[a][k]||[]),...((incoming.cats[a]||{})[k]||[])])])});const banks=[...(current.banks||[])];(incoming.banks||[]).forEach(b=>{if(!banks.some(x=>x.name===b.name&&x.last4===b.last4))banks.push(b)});return {entries:[...map.values()].sort((a,b)=>(a.date||'').localeCompare(b.date||'')),cats:cleanAllCats(cats,deletedCats),deletedCats,banks,budgets:{...(current.budgets||{}),...(incoming.budgets||{})}}}
 function applyImportedJson(raw){let x=normalizeBackupData(raw),merged=mergeImportedBackup(db,x);if(confirm('बॅकअपमधील '+x.entries.length+' नोंदी सध्याच्या नोंदींसोबत जोडायच्या का? समान ID असलेली नोंद बॅकअपमधील माहितीनुसार अपडेट होईल. इतर नोंदी सुरक्षित राहतील.')){db=merged;ensureEntryProfiles();persist();renderCategories();alert('बॅकअप सुरक्षितपणे जोडला. एकूण '+db.entries.length+' नोंदी उपलब्ध आहेत.')}}
 function restore(){let f=document.getElementById('restoreFile').files[0];if(!f){alert('आधी JSON बॅकअप फाइल निवडा');return}let r=new FileReader();r.onload=()=>{try{applyImportedJson(JSON.parse(r.result))}catch(e){alert('Restore झाले नाही: '+e.message)}};r.readAsText(f)}
