@@ -122,7 +122,7 @@ label{color:#334b6c}
  #reports>.panel{display:none!important}
  #reports>.panel:first-child{display:block!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}
  #reports>.panel:first-child>label,#reports>.panel:first-child>input,#reports>.panel:first-child>.row,#reports>.panel:first-child>button{display:none!important}
- .pdf-brand{display:flex!important;align-items:center;gap:12px;border-bottom:2px solid #c69b35;padding:0 0 12px;margin:0 0 14px}
+ .pdf-brand{display:flex!important;align-items:center;gap:12px;border-bottom:2px solid #c69b35;padding:0 0 12px;margin:0 0 14px}.pdf-brand-copy{min-width:0;flex:1}.pdf-tagline{font-weight:700!important;color:#9a7627!important}.pdf-section-icons{display:flex;align-items:center;gap:8px;margin-left:auto}.pdf-section-icon{width:62px;display:flex;flex-direction:column;align-items:center;gap:2px;color:#174c91}.pdf-section-icon svg{width:48px;height:42px;padding:3px;border:1px solid #c9dcf7;border-radius:9px;background:#f2f8ff}.pdf-section-icon.home{color:#237653}.pdf-section-icon.home svg{border-color:#c8e5d6;background:#f0faf5}.pdf-section-icon small{font-size:8px;font-weight:800;white-space:nowrap}
  .pdf-logo{display:flex!important;align-items:center;justify-content:center;width:64px;height:58px;border-radius:12px;background:#fff!important;border:2px solid #d9b45b;overflow:hidden;print-color-adjust:exact;-webkit-print-color-adjust:exact}.pdf-logo svg{width:58px;height:48px;display:block}.pdf-logo img{width:100%;height:100%;object-fit:contain;border-radius:9px}
  .pdf-brand h1{font-size:20px;margin:0;color:#172b4d}
  .pdf-brand p{font-size:10px;margin:3px 0 0;color:#555}
@@ -191,7 +191,7 @@ body.landing .bottom{display:none!important}
 </div></section>
 <section id="days" class="hidden"><div class="panel"><h2>तारीखनिहाय नोंदी</h2><div id="dayList"></div></div></section>
 <section id="reports" class="hidden">
-<div class="panel"><div class="pdf-brand"><div class="pdf-logo" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.svg?v=goldh4" alt="हिशोब सारथी सोनेरी ह लोगो"></div><div><h1>हिशोब सारथी</h1><p>तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.</p><p>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</p></div></div><h2>महिन्याचा अहवाल</h2>
+<div class="panel"><div class="pdf-brand"><div class="pdf-logo" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.svg?v=goldh4" alt="हिशोब सारथी सोनेरी ह लोगो"></div><div class="pdf-brand-copy"><h1>हिशोब सारथी</h1><p class="pdf-tagline">तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.</p><p>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</p></div><div class="pdf-section-icons"><div class="pdf-section-icon"><svg viewBox="0 0 64 56" fill="none" stroke="#174c91" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 33l5-15q2-6 9-6h18q7 0 10 7l5 14v8H5z" fill="#fff"/><path d="M13 19h30M22 13l-2 16m16-16l3 16M5 33h47"/><circle cx="15" cy="42" r="4" fill="#d9b45b"/><circle cx="42" cy="42" r="4" fill="#d9b45b"/><path d="M22 24h13v10H22z" fill="#eaf3ff"/><path d="M25 27h7m-7 4h7" stroke-width="1.5"/><path d="M49 5h12v19H49z" fill="#fff" stroke="#d9b45b"/><path d="M52 10h6m-6 5h6m-6 5h6" stroke-width="1.5"/></svg><small>रिक्षा साथी</small></div><div class="pdf-section-icon home"><svg viewBox="0 0 64 56" fill="none" stroke="#237653" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 25L26 7l22 18"/><path d="M11 22v28h30V22" fill="#fff"/><path d="M21 50V33h11v17" fill="#eaf3ff"/><path d="M18 27h17v10H18z" fill="#f2cf73" stroke="#237653"/><path d="M22 30h9m-9 4h9" stroke-width="1.5"/><path d="M48 18q8-8 13 0v25H48z" fill="#fff" stroke="#d9b45b"/><path d="M51 24h7m-7 5h7m-7 5h7" stroke-width="1.5"/></svg><small>गृहिणी सारथी</small></div></div></div><h2>महिन्याचा अहवाल</h2>
 <label>महिना निवडा</label><input type="month" id="reportMonth">
 <div class="row"><div><label>विभागानुसार</label><select id="reportArea"><option value="all">सर्व विभाग</option><option value="rickshaw">रिक्षा</option><option value="home">घरखर्च</option><option value="personal">वैयक्तिक</option></select></div><div><label>नोंदीचा प्रकार</label><select id="reportKind"><option value="all">उत्पन्न + खर्च</option><option value="income">फक्त उत्पन्न</option><option value="expense">फक्त खर्च</option></select></div></div>
 <div class="row"><button class="full" onclick="downloadReportPDF()">📄 PDF तयार करा</button><button class="full secondary" onclick="downloadReportImage()">🖼️ Image तयार करा</button></div><p class="muted">PDF साठी पुढील स्क्रीनवर “Save as PDF” निवडा. Image थेट PNG म्हणून डाउनलोड होईल. दोन्ही मोबाईलच्या उभ्या (Portrait) स्वरूपात.</p><div id="reportBox"></div></div>
@@ -365,13 +365,16 @@ function downloadReportImage(){
  if(!ctx){alert('या फोनमध्ये Image तयार करण्याची सुविधा उपलब्ध नाही.');return}
  ctx.font='28px sans-serif';const wrapped=[];
  lines.forEach(line=>{let current='';for(const word of line.split(/\s+/)){const test=current?current+' '+word:word;if(ctx.measureText(test).width>width-pad*2&&current){wrapped.push(current);current=word}else current=test}if(current)wrapped.push(current)});
- const height=Math.max(500,190+wrapped.length*lineH+pad);canvas.width=width;canvas.height=height;
- ctx.fillStyle='#f5f7fb';ctx.fillRect(0,0,width,height);ctx.fillStyle='#102b52';ctx.fillRect(0,0,width,138);
+ const height=Math.max(500,220+wrapped.length*lineH+pad);canvas.width=width;canvas.height=height;
+ ctx.fillStyle='#f5f7fb';ctx.fillRect(0,0,width,height);ctx.fillStyle='#102b52';ctx.fillRect(0,0,width,170);
  const logo=new Image();
- logo.onload=()=>{ctx.drawImage(logo,22,8,122,122);
-  ctx.fillStyle='#f0d58e';ctx.font='bold 38px sans-serif';ctx.textAlign='left';ctx.fillText('हिशोब सारथी',pad+112,58);
-  ctx.fillStyle='#ffffff';ctx.font='24px sans-serif';ctx.fillText('मासिक हिशोब अहवाल',pad+112,104);
-  let y=188;ctx.font='27px sans-serif';wrapped.forEach(line=>{ctx.fillStyle=(/एकूण उत्पन्न|निव्वळ शिल्लक/.test(line))?'#176b45':(/एकूण खर्च/.test(line)?'#b42318':'#172033');ctx.fillText(line,pad,y);y+=lineH});
+ logo.onload=()=>{ctx.drawImage(logo,18,9,112,112);
+  ctx.fillStyle='#f0d58e';ctx.font='bold 38px sans-serif';ctx.textAlign='left';ctx.fillText('हिशोब सारथी',pad+82,48);
+  ctx.fillStyle='#fff0c2';ctx.font='bold 20px sans-serif';ctx.fillText('तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.',pad+82,80);
+  ctx.fillStyle='#ffffff';ctx.font='19px sans-serif';ctx.fillText('घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी',pad+82,111);
+  ctx.fillStyle='#ffffff';ctx.font='bold 17px sans-serif';ctx.fillText('रिक्षा साथी',630,54);ctx.fillText('गृहिणी सारथी',752,54);
+  drawReportSectionIcon(ctx,'rickshaw',620,64);drawReportSectionIcon(ctx,'home',750,64);
+  let y=218;ctx.font='27px sans-serif';wrapped.forEach(line=>{ctx.fillStyle=(/एकूण उत्पन्न|निव्वळ शिल्लक/.test(line))?'#176b45':(/एकूण खर्च/.test(line)?'#b42318':'#172033');ctx.fillText(line,pad,y);y+=lineH});
   canvas.toBlob(blob=>{if(!blob){alert('PNG फाइल तयार झाली नाही. Chrome अपडेट करून पुन्हा प्रयत्न करा.');return}
    try{const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='Hishob_Sarthi_Report_'+(document.getElementById('reportMonth').value||'report')+'.png';link.style.display='none';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);showAppToast('Image डाउनलोड सुरू झाले.')}
    catch(e){alert('Image सेव्ह करता आली नाही: '+e.message)}
@@ -379,6 +382,12 @@ function downloadReportImage(){
  };
  logo.onerror=()=>alert('हिशोब सारथी लोगो लोड झाला नाही. इंटरनेट/पेज रिफ्रेश करून पुन्हा प्रयत्न करा.');
  logo.src='./logo-h.svg?v=goldh4';
+}
+function drawReportSectionIcon(ctx,type,x,y){
+ ctx.save();ctx.translate(x,y);ctx.fillStyle=type==='home'?'#f0faf5':'#f2f8ff';ctx.strokeStyle=type==='home'?'#237653':'#174c91';ctx.lineWidth=3;ctx.lineCap='round';ctx.lineJoin='round';ctx.fillRect(0,0,104,76);ctx.strokeRect(0,0,104,76);
+ if(type==='home'){ctx.beginPath();ctx.moveTo(16,35);ctx.lineTo(48,8);ctx.lineTo(80,35);ctx.moveTo(25,30);ctx.lineTo(25,65);ctx.lineTo(71,65);ctx.lineTo(71,30);ctx.stroke();ctx.fillStyle='#f2cf73';ctx.fillRect(42,43,17,22);ctx.strokeRect(42,43,17,22);ctx.strokeRect(78,33,17,31)}
+ else{ctx.beginPath();ctx.moveTo(9,48);ctx.lineTo(17,24);ctx.quadraticCurveTo(20,17,29,17);ctx.lineTo(62,17);ctx.quadraticCurveTo(70,17,75,28);ctx.lineTo(84,48);ctx.lineTo(84,59);ctx.lineTo(9,59);ctx.closePath();ctx.stroke();ctx.beginPath();ctx.arc(27,60,7,0,Math.PI*2);ctx.arc(68,60,7,0,Math.PI*2);ctx.stroke();ctx.strokeRect(34,29,23,18);ctx.strokeRect(87,7,13,25)}
+ ctx.restore();
 }
 function mergeImportedBackup(current,incoming){const map=new Map();(current.entries||[]).forEach(e=>map.set(String(e.id),e));(incoming.entries||[]).forEach(e=>map.set(String(e.id),e));const deletedCats=[...new Set([...(current.deletedCats||[]),...(incoming.deletedCats||[])])];const cats=JSON.parse(JSON.stringify(current.cats||defaults));Object.keys(incoming.cats||{}).forEach(a=>{cats[a]=cats[a]||{income:[],expense:[]};['income','expense'].forEach(k=>cats[a][k]=[...new Set([...(cats[a][k]||[]),...((incoming.cats[a]||{})[k]||[])])])});const banks=[...(current.banks||[])];(incoming.banks||[]).forEach(b=>{if(!banks.some(x=>x.name===b.name&&x.last4===b.last4))banks.push(b)});return {entries:[...map.values()].sort((a,b)=>(a.date||'').localeCompare(b.date||'')),cats:cleanAllCats(cats,deletedCats),deletedCats,banks,budgets:{...(current.budgets||{}),...(incoming.budgets||{})}}}
 function applyImportedJson(raw){let x=normalizeBackupData(raw),merged=mergeImportedBackup(db,x);if(confirm('बॅकअपमधील '+x.entries.length+' नोंदी सध्याच्या नोंदींसोबत जोडायच्या का? समान ID असलेली नोंद बॅकअपमधील माहितीनुसार अपडेट होईल. इतर नोंदी सुरक्षित राहतील.')){db=merged;ensureEntryProfiles();persist();renderCategories();alert('बॅकअप सुरक्षितपणे जोडला. एकूण '+db.entries.length+' नोंदी उपलब्ध आहेत.')}}
