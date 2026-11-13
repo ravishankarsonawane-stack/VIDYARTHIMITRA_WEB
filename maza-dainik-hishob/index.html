@@ -615,7 +615,26 @@ window.dailyPhoneVerifyOtp=async function(){const code=(document.getElementById(
 window.dailyCloudLogin=async function(){if(!ready())return;try{await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});let r=await auth.signInWithPopup(p);window.dailyCloudUser=r.user;status('Google खाते जोडले. या खात्याचा स्वतंत्र Cloud डेटा तपासत आहे…');await window.dailyCloudSync()}catch(e){status('Google जोडणी अयशस्वी: '+e.message)}};
 window.dailyCloudSchedule=function(){clearTimeout(timer);timer=setTimeout(()=>window.dailyCloudSync(),1800)};
 function col(profile=activeProfile){return store.collection('users').doc(window.dailyCloudUser.uid).collection('daily_hishob_backups_'+(profile==='homemaker'?'homemaker':'my'))}
- window.dailyArchiveSaveCloud=async function(profile,archiveId,entries,settings){
+ function stableArchiveJson(value){if(Array.isArray(value))return '['+value.map(stableArchiveJson).join(',')+']';if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+stableArchiveJson(value[k])).join(',')+'}';return JSON.stringify(value)}
+window.dailyArchiveSaveCloud=async function(profile,archiveId,entries,settings){
+  if(!window.dailyCloudUser||!store)throw new Error('Cloud लॉगिन उपलब्ध नाही.');
+  const root=col(profile).doc('archives').collection(archiveId),chunks=[];
+  for(let i=0;i<entries.length;i+=100)chunks.push(entries.slice(i,i+100));
+  const ops=[];chunks.forEach((items,i)=>ops.push({ref:root.doc('entries_'+i),data:{items}}));
+  ops.push({ref:root.doc('settings'),data:settings||{}});
+  for(let i=0;i<ops.length;i+=400){const batch=store.batch();ops.slice(i,i+400).forEach(o=>batch.set(o.ref,o.data));await batch.commit()}
+  await root.doc('_meta').set({archiveId,profile,entryCount:entries.length,chunkCount:chunks.length,archivedAt:firebase.firestore.FieldValue.serverTimestamp(),schemaVersion:1});
+  const meta=await root.doc('_meta').get();
+  if(!meta.exists||meta.data().archiveId!==archiveId||meta.data().profile!==profile||Number(meta.data().entryCount)!==entries.length||Number(meta.data().chunkCount)!==chunks.length)throw new Error('Cloud Archive ची मुख्य माहिती पडताळता आली नाही.');
+  for(let i=0;i<chunks.length;i++){
+    const part=await root.doc('entries_'+i).get();
+    if(!part.exists||!Array.isArray(part.data().items)||stableArchiveJson(part.data().items)!==stableArchiveJson(chunks[i]))throw new Error('Cloud Archive मधील नोंद क्रमांक '+(i+1)+' ची पूर्ण पडताळणी झाली नाही.');
+  }
+  const settingsCheck=await root.doc('settings').get();
+  if(!settingsCheck.exists||stableArchiveJson(settingsCheck.data())!==stableArchiveJson(settings||{}))throw new Error('Cloud Archive मधील सेटिंग्जची पूर्ण पडताळणी झाली नाही.');
+  return true;
+ };
+
   if(!window.dailyCloudUser||!store)throw new Error('Cloud लॉगिन उपलब्ध नाही.');
   const root=col(profile).doc('archives').collection(archiveId),chunks=[];
   for(let i=0;i<entries.length;i+=100)chunks.push(entries.slice(i,i+100));
