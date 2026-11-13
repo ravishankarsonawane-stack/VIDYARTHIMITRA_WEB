@@ -418,6 +418,8 @@ async function startFresh(){
  const today=isoToday(),year=today.slice(0,4),p=activeProfile,label=p==='homemaker'?'गृहिणी सारथी':p==='personal'?'वैयक्तिक हिशोब':'हिशोब सारथी';
  if(today<'2026-12-01'){alert('नवीन हिशोब 1 डिसेंबर 2026 पासून सुरू करता येईल. आत्ताचा हिशोब आणि 109 जुन्या नोंदी सुरक्षित आहेत.');return}
  const marker=KEY+'_freshStartYear_'+p+'_'+year;
+ const pendingKey=KEY+'_freshStartPending_'+p+'_'+year;
+ if(localStorage.getItem(pendingKey)){alert('नवीन हिशोबाची आधीची प्रक्रिया अपूर्ण आहे. सुरक्षिततेसाठी Cloud Sync थांबवला आहे. कृपया मदत मागा; पुन्हा बटण दाबू नका.');return}
  if(localStorage.getItem(marker)){alert('या वर्षासाठी नवीन हिशोब आधीच सुरू केला आहे. जुन्या नोंदी Archive मध्ये सुरक्षित आहेत.');return}
  if(typeof window.dailyArchiveSaveCloud!=='function'||typeof window.profileCloudData!=='function'||typeof window.dailyCloudUser==='undefined'){alert('फोन + Cloud Archive सुविधा तयार नाही. कृपया पेज पुन्हा उघडून लॉगिन तपासा.');return}
  const profileData=window.profileCloudData(db,p),entries=profileData.entries||[],stamp=Date.now(),archiveKey=KEY+'_archive_'+stamp;
@@ -425,6 +427,7 @@ async function startFresh(){
  const ok=confirm(label+' चा नवीन स्वतंत्र हिशोब सुरू करायचा आहे का?\n\nआधी '+entries.length+' जुन्या नोंदींची फोन + Cloud मध्ये Archive प्रत तयार व पडताळली जाईल. त्यानंतर या विभागाचा चालू हिशोब रिकामा होईल.\n\nजुने Archive हटणार नाहीत. जुनी नोंद किंवा शिल्लक नवीन हिशोबात येणार नाही. बँक खात्यांची यादी व श्रेणी मात्र राहतील.');
  if(!ok)return;
  window.dailyArchiveBusy=true;const statusEl=document.getElementById('dailyCloudStatus');
+ let cloudWasEmptied=false,pendingSaved=false;
  try{
   if(statusEl)statusEl.textContent='जुन्या हिशोबाची फोन प्रत तयार करत आहे…';
   localStorage.setItem(archiveKey,fullSnapshot);
@@ -432,23 +435,47 @@ async function startFresh(){
   if(!localCheck||JSON.parse(localCheck).entries?.length!==(db.entries||[]).length)throw new Error('फोनमधील जुनी प्रत पडताळता आली नाही.');
   const archiveId='archive_'+new Date(stamp).toISOString().replace(/[-:.TZ]/g,'')+'_'+Math.random().toString(36).slice(2,7);
   await window.dailyArchiveSaveCloud(p,archiveId,entries,{cats:profileData.cats||defaults,deletedCats:profileData.deletedCats||[],banks:profileData.banks||[],deletedBanks:profileData.deletedBanks||[],budgets:profileData.budgets||{},deletedEntries:profileData.deletedEntries||[]});
-  if(statusEl)statusEl.textContent='Cloud Archive पडताळले. आता नवीन रिकामा हिशोब तयार करत आहे…';
+  if(statusEl)statusEl.textContent='Cloud Archive पडताळले. आता सुरक्षित बदल प्रक्रिया सुरू करत आहे…';
+  localStorage.setItem(pendingKey,JSON.stringify({profile:p,year,archiveKey,startedAt:stamp,entryCount:entries.length}));
+  pendingSaved=true;
   const freshData={...profileData,entries:[]};
   window.dailyCloudBusy=true;
   await writeCloud(freshData,p);
   const cloudCheck=await readCloud(p);
-  if(!cloudCheck||!Array.isArray(cloudCheck.entries)||cloudCheck.entries.length!==0)throw new Error('नवीन रिकाम्या Cloud हिशोबाची पडताळणी झाली नाही. जुनी Archive प्रत सुरक्षित आहे; कृपया पुन्हा Sync करू नका आणि मदत मागा.');
+  if(!cloudCheck||!Array.isArray(cloudCheck.entries)||cloudCheck.entries.length!==0)throw new Error('नवीन रिकाम्या Cloud हिशोबाची पडताळणी झाली नाही.');
+  cloudWasEmptied=true;
   db.entries=(db.entries||[]).filter(e=>(e.profile||'my')!==p);
-  localStorage.setItem(marker,'1');
   persist();
+  localStorage.setItem(marker,'1');
+  localStorage.removeItem(pendingKey);
+  pendingSaved=false;
   window.dailyCloudBusy=false;
   if(statusEl)statusEl.textContent='नवीन हिशोब सुरू झाला. जुना हिशोब फोन + Cloud Archive मध्ये सुरक्षित आहे.';
   renderArchives();renderHome();renderReport();
   alert('नवीन हिशोब यशस्वीपणे सुरू झाला!\n\nजुन्या नोंदी: '+entries.length+' — फोन + Cloud Archive मध्ये सुरक्षित.\nनवीन नोंदी: 0\nजुनी शिल्लक: पुढे आणलेली नाही.\n\nया वर्षाचा हिशोब स्वतंत्र राहील.');
  }catch(e){
+  window.dailyCloudBusy=true;
+  let rollbackMessage='';
+  if(cloudWasEmptied){
+   try{
+    await writeCloud(profileData,p);
+    const restored=await readCloud(p);
+    const expectedIds=entries.map(x=>String(x.id)).sort().join('|');
+    const restoredIds=(restored?.entries||[]).map(x=>String(x.id)).sort().join('|');
+    if(!restored||restored.entries.length!==entries.length||restoredIds!==expectedIds)throw new Error('जुन्या Cloud नोंदींची पूर्ण पडताळणी झाली नाही.');
+    if(pendingSaved)localStorage.removeItem(pendingKey);
+    pendingSaved=false;
+    rollbackMessage=' जुना Cloud हिशोब परत ठेवून पडताळला आहे.';
+   }catch(rollbackError){
+    rollbackMessage=' सुरक्षितता लॉक कायम आहे. Cloud Sync/Restore करू नका; मदत घ्या.';
+   }
+  }else if(pendingSaved){
+   localStorage.removeItem(pendingKey);
+   pendingSaved=false;
+  }
   window.dailyCloudBusy=false;
-  if(statusEl)statusEl.textContent='नवीन सुरुवात पूर्ण झाली नाही: '+(e.message||e)+' जुनी Archive प्रत सुरक्षित ठेवली आहे.';
-  alert('नवीन हिशोब सुरू करता आला नाही.\nजुना हिशोब हटवलेला नाही.\nकारण: '+(e.message||e));
+  if(statusEl)statusEl.textContent='नवीन सुरुवात पूर्ण झाली नाही: '+(e.message||e)+rollbackMessage;
+  alert('नवीन हिशोब सुरू करता आला नाही.\nजुना Archive सुरक्षित ठेवला आहे.'+rollbackMessage+'\nकारण: '+(e.message||e));
  }finally{window.dailyArchiveBusy=false;window.dailyCloudBusy=false}
 }
 function restoreArchive(key){let raw=localStorage.getItem(key);if(!raw){alert('सुरक्षित जुनी प्रत सापडली नाही.');return}try{let x=JSON.parse(raw);if(!x||!Array.isArray(x.entries))throw new Error('Archive फाइलची रचना योग्य नाही.');if(!confirm('जुन्या संग्रहित हिशोबातील '+x.entries.length+' नोंदी परत आणायच्या का? सध्याचा हिशोब बदलला जाईल; आधी त्याचा JSON बॅकअप घ्या.'))return;x.entries=x.entries||[];x.deletedEntries=x.deletedEntries||[];x.deletedCats=x.deletedCats||[];x.deletedBanks=x.deletedBanks||[];x.cats={...defaults,...(x.cats||{})};x.banks=ensureBankIds(x.banks||[]);x.budgets=x.budgets||{};db=x;ensureEntryProfiles();persist();renderArchives();alert('जुना संग्रहित हिशोब परत आणला. एकूण '+db.entries.length+' नोंदी उपलब्ध आहेत.')}catch(e){alert('जुना हिशोब उघडता आला नाही: '+e.message)}}
@@ -610,7 +637,7 @@ function profileCloudData(source,p){return {...source,entries:(source.entries||[
 window.profileCloudData=profileCloudData;
 function mergeProfileIntoLocal(merged,p){db.deletedBanks=[...new Set([...(db.deletedBanks||[]),...(merged.deletedBanks||[])])];db.entries=[...db.entries.filter(e=>(e.profile||'my')!==p),...merged.entries.map(e=>({...e,profile:p}))];db.deletedEntries=[...new Set([...(db.deletedEntries||[]),...(merged.deletedEntries||[])])];const allBanks=[...db.banks];(merged.banks||[]).forEach(b=>{if(!allBanks.some(x=>bankIdentity(x)===bankIdentity(b)))allBanks.push(b)});db.banks=allBanks.filter(b=>!(db.deletedBanks||[]).includes(bankIdentity(b)));db.cats=mergeCats(db.cats,merged.cats,merged.deletedCats||[]);db.deletedCats=[...new Set([...(db.deletedCats||[]),...(merged.deletedCats||[])])];db.budgets={...(db.budgets||{}),...(merged.budgets||{})}}
 async function migrateLegacyCloud(){const legacy=store.collection('users').doc(window.dailyCloudUser.uid).collection('daily_hishob_backups');const data=await readCloudFrom(legacy);if(!data)return false;for(const p of ['my','homemaker']){const scoped=profileCloudData(data,p);await writeCloud(scoped,p)}return true}
-window.dailyCloudSync=async function(){if(!window.dailyCloudUser||window.dailyCloudBusy)return;const p=activeProfile;try{status('या विभागाचा स्वतंत्र Cloud Sync सुरू आहे…');let remote=await readCloud(p);if(!remote){const migrated=await migrateLegacyCloud();if(migrated)remote=await readCloud(p)}const local=profileCloudData(db,p);if(!remote){await writeCloud(local,p);status('या विभागाचा स्वतंत्र Cloud Backup तयार झाला. '+local.entries.length+' नोंदी सेव्ह.');return}const merged=mergeData(local,remote);window.dailyCloudBusy=true;mergeProfileIntoLocal(merged,p);persist();window.dailyCloudBusy=false;await writeCloud(profileCloudData(db,p),p);status((p==='homemaker'?'गृहिणी':'माझा')+' विभागाचा स्वतंत्र Cloud Sync पूर्ण. '+merged.entries.length+' नोंदी सुरक्षित.')}catch(e){window.dailyCloudBusy=false;status('Cloud Sync अयशस्वी: '+e.message+' (Firestore Rules तपासा.)')}};
-window.dailyCloudRestore=async function(){if(!window.dailyCloudUser){await window.dailyCloudLogin();return}const p=activeProfile;try{let remote=await readCloud(p);if(!remote){const migrated=await migrateLegacyCloud();if(migrated)remote=await readCloud(p)}if(!remote){status('या विभागाचा Cloud Backup अजून नाही.');return}const merged=mergeData(profileCloudData(db,p),remote);if(!confirm('फक्त '+(p==='homemaker'?'गृहिणी':'माझा')+' विभागातील Cloud आणि फोनच्या नोंदी एकत्र करायच्या का? दुसऱ्या विभागाच्या नोंदी बदलणार नाहीत. एकूण '+merged.entries.length+' नोंदी होतील.'))return;window.dailyCloudBusy=true;mergeProfileIntoLocal(merged,p);persist();window.dailyCloudBusy=false;await writeCloud(profileCloudData(db,p),p);status('फक्त निवडलेल्या विभागाचा Restore पूर्ण. '+merged.entries.length+' नोंदी.')}catch(e){window.dailyCloudBusy=false;status('Restore अयशस्वी: '+e.message)}};
+window.dailyCloudSync=async function(){if(!window.dailyCloudUser||window.dailyCloudBusy)return;const p=activeProfile;if(localStorage.getItem(KEY+'_freshStartPending_'+p+'_'+new Date().getFullYear())){status('सुरक्षित नवीन सुरुवात तपासणी अपूर्ण आहे. Cloud Sync थांबवला आहे; मदत घ्या.');return}try{status('या विभागाचा स्वतंत्र Cloud Sync सुरू आहे…');let remote=await readCloud(p);if(!remote){const migrated=await migrateLegacyCloud();if(migrated)remote=await readCloud(p)}const local=profileCloudData(db,p);if(!remote){await writeCloud(local,p);status('या विभागाचा स्वतंत्र Cloud Backup तयार झाला. '+local.entries.length+' नोंदी सेव्ह.');return}const merged=mergeData(local,remote);window.dailyCloudBusy=true;mergeProfileIntoLocal(merged,p);persist();window.dailyCloudBusy=false;await writeCloud(profileCloudData(db,p),p);status((p==='homemaker'?'गृहिणी':'माझा')+' विभागाचा स्वतंत्र Cloud Sync पूर्ण. '+merged.entries.length+' नोंदी सुरक्षित.')}catch(e){window.dailyCloudBusy=false;status('Cloud Sync अयशस्वी: '+e.message+' (Firestore Rules तपासा.)')}};
+window.dailyCloudRestore=async function(){if(!window.dailyCloudUser){await window.dailyCloudLogin();return}const p=activeProfile;if(localStorage.getItem(KEY+'_freshStartPending_'+p+'_'+new Date().getFullYear())){status('सुरक्षित नवीन सुरुवात तपासणी अपूर्ण आहे. Cloud Restore थांबवला आहे; मदत घ्या.');return}try{let remote=await readCloud(p);if(!remote){const migrated=await migrateLegacyCloud();if(migrated)remote=await readCloud(p)}if(!remote){status('या विभागाचा Cloud Backup अजून नाही.');return}const merged=mergeData(profileCloudData(db,p),remote);if(!confirm('फक्त '+(p==='homemaker'?'गृहिणी':'माझा')+' विभागातील Cloud आणि फोनच्या नोंदी एकत्र करायच्या का? दुसऱ्या विभागाच्या नोंदी बदलणार नाहीत. एकूण '+merged.entries.length+' नोंदी होतील.'))return;window.dailyCloudBusy=true;mergeProfileIntoLocal(merged,p);persist();window.dailyCloudBusy=false;await writeCloud(profileCloudData(db,p),p);status('फक्त निवडलेल्या विभागाचा Restore पूर्ण. '+merged.entries.length+' नोंदी.')}catch(e){window.dailyCloudBusy=false;status('Restore अयशस्वी: '+e.message)}};
 if(ready()){auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(()=>auth.onAuthStateChanged(async u=>{if(u&&(!!u.email||!!u.phoneNumber)){window.dailyCloudUser=u;const email=u.email||u.phoneNumber||'Google खाते';const a=document.getElementById('accountStatus');if(a)a.textContent='लॉगिन खाते: '+email;const h=document.getElementById('homeAccountEmail');if(h)h.textContent=email;gateAuthReady(u);status(u.phoneNumber?'मोबाइल खाते जोडले आहे. Cloud मधील नोंदी तपासत आहे…':'Google खाते जोडले आहे. Cloud मधील नोंदी तपासत आहे…');try{await window.dailyCloudSync()}catch(e){status('Cloud मधील नोंदी आणता आल्या नाहीत: '+e.message)}}else if(u){await auth.signOut();gateAuthReady(null)}else{window.dailyCloudUser=null;const h=document.getElementById('homeAccountEmail');if(h)h.textContent='लॉगिन केलेले नाही';gateAuthReady(null);document.getElementById('loginGate').style.display='flex';status('Google खात्याने लॉगिन करा. प्रत्येक खात्याचा हिशोब स्वतंत्र राहील.')}})).catch(e=>{gateStep('loginGoogleStep');document.getElementById('loginGate').style.display='flex';status('लॉगिन सेव्ह करता आले नाही: '+e.message)})}else{gateStep('loginGoogleStep');document.getElementById('loginGate').style.display='flex';status('Cloud सेवा सध्या उपलब्ध नाही. इंटरनेट तपासून पुन्हा प्रयत्न करा.')}
 })();</script><div id="appToast" role="status" aria-live="polite"></div></body></html>
