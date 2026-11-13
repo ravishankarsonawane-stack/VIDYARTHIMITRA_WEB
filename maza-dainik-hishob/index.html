@@ -325,7 +325,7 @@ function renderCategories(){updateProfileUI();let a=document.getElementById('cat
 function removeCategory(a,k,i){if(!confirm('ही श्रेणी हटवायची का? ती पुन्हा येऊ नये म्हणून सेव्ह केली जाईल.'))return;const c=db.cats[a][k][i];if(!c)return;db.deletedCats=db.deletedCats||[];const key=catKey(a,k,c);if(!db.deletedCats.includes(key))db.deletedCats.push(key);db.cats[a][k].splice(i,1);persist();renderCategories()}
 document.getElementById('catArea').onchange=renderCategories;document.getElementById('catKind').onchange=renderCategories;
 
-let driveToken=null,driveTokenClient=null,driveFileId=localStorage.getItem(KEY+'_driveFileId')||'';
+var driveToken=null;let driveTokenClient=null,driveFileId=localStorage.getItem(KEY+'_driveFileId')||'';
 const DRIVE_FILE_NAME='Maza_Dainik_Hishob_Backup.json';
 function driveStatus(t){let e=document.getElementById('driveStatus');if(e)e.textContent=t}
 function driveClientId(){let e=document.getElementById('driveClientId');return (e?.value||localStorage.getItem(KEY+'_driveClientId')||'').trim()}
