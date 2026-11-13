@@ -171,7 +171,7 @@ label{color:#334b6c}
 
 #appToast{position:fixed;left:50%;bottom:calc(78px + env(safe-area-inset-bottom));transform:translate(-50%,14px);opacity:0;pointer-events:none;z-index:99;background:#102b52;color:#fff;border:1px solid #d6ad52;border-radius:13px;padding:12px 18px;box-shadow:0 8px 24px #102b5240;font-size:13px;font-weight:750;max-width:calc(100% - 28px);text-align:center;transition:opacity .18s ease,transform .18s ease}#appToast.show{opacity:1;transform:translate(-50%,0)}
 </style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
-<body><div id="loginGate"><div class="login-card"><div class="login-logo">🛺</div><h2>हिशोब सारथी लॉगिन</h2><p class="login-muted">तुमच्या Google खात्याने सुरक्षित लॉगिन करा. पहिल्यांदा 6 अंकी PIN तयार करा; पुढील वेळी या फोनवर PIN वापरा. प्रत्येक Google खात्याचा हिशोब स्वतंत्र राहील.</p><div id="loginLoadingStep" class="login-step active"><p style="text-align:center;padding:12px 0">खाते तपासत आहे…</p></div><div id="loginGoogleStep" class="login-step"><p>हिशोब सारथी सुरू करण्यासाठी तुमचे जुने Google खाते वापरा. मोबाइल OTP ऐच्छिक आहे.</p><button type="button" class="full goldbtn" onclick="dailyCloudLogin()">Google खात्याने लॉगिन करा</button><button type="button" class="full login-secondary" onclick="gateStep('loginOtpStep');gateMessage('मोबाइल OTP हा ऐच्छिक पर्याय आहे.')">मोबाइल OTP वापरा (ऐच्छिक)</button></div><div id="loginOtpStep" class="login-step"><label>तुमचे नाव (पहिल्यांदा)</label><input id="gateName" autocomplete="name" placeholder="पूर्ण नाव"><label>मोबाइल नंबर</label><input id="gatePhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210"><div id="gateRecaptcha"></div><button class="full" onclick="gateSendOtp()">OTP पाठवा</button><label>SMS मधील OTP</label><input id="gateCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="6 अंकी OTP"><button class="full goldbtn" onclick="gateVerifyOtp()">OTP पडताळा</button><button class="full login-secondary" onclick="dailyCloudLogin()">जुने Google खाते वापरा</button></div><div id="loginPinSetup" class="login-step"><label>नवीन 6 अंकी PIN तयार करा</label><input id="gatePin1" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="gatePin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा"><button type="button" class="full goldbtn" onclick="document.getElementById('gateStatus').textContent='PIN बटण दाबले. तपासत आहे…';if(window.gateSavePin){window.gateSavePin()}else{document.getElementById('gateStatus').textContent='लॉगिन स्क्रिप्ट सुरू झाली नाही. पेज पुन्हा उघडा.'}">PIN सेव्ह करा</button><button type="button" class="full login-secondary" onclick="gateSkipPin()">आत्ता PIN नको — अॅप उघडा</button><button type="button" class="full login-secondary" onclick="if(window.gateLinkPhone){window.gateLinkPhone()}else{document.getElementById('gateStatus').textContent='OTP सुविधा सुरू झाली नाही.'}">या Google खात्याला मोबाइल OTP लिंक करा</button></div><div id="loginPinUnlock" class="login-step"><label>तुमचा 6 अंकी PIN टाका</label><input id="gatePinUnlockValue" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><button class="full goldbtn" onclick="gateUnlock()">अॅप उघडा</button><button type="button" class="full login-secondary" onclick="gateSkipPin()">PIN न वापरता अॅप उघडा</button><button class="full login-secondary" onclick="gateLinkPhone()">या खात्याला मोबाइल नंबर लिंक करा</button><button class="full login-secondary" onclick="gateUseOtp()">OTP ने पुन्हा लॉगिन</button><button type="button" class="full login-secondary" onclick="accountRestartLogin()">जुने Google खाते Sign out करून नव्याने सुरू करा</button></div><p id="gateStatus" class="login-status">खाते तपासत आहे…</p></div></div>
+<body><div id="loginGate"><div class="login-card"><div class="login-logo">🛺</div><h2>हिशोब सारथी लॉगिन</h2><p class="login-muted">तुमच्या Google खात्याने सुरक्षित लॉगिन करा. पहिल्यांदा 6 अंकी PIN तयार करा; पुढील वेळी या फोनवर PIN वापरा. प्रत्येक Google खात्याचा हिशोब स्वतंत्र राहील.</p><div id="loginLoadingStep" class="login-step active"><p style="text-align:center;padding:12px 0">खाते तपासत आहे…</p></div><div id="loginGoogleStep" class="login-step"><p>नोंदणीकृत Gmail खात्याने लॉगिन करा. नवीन मोबाईलवर दुसरे Google खाते असले तरी तुमचे मूळ Gmail निवडा.</p><button type="button" class="full goldbtn" onclick="dailyCloudLogin()">Google / Gmail ने लॉगिन करा</button></div><div id="loginPinSetup" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>मोबाईल नंबर</label><input id="gatePhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10 अंकी मोबाईल नंबर"><label>नवीन 6 अंकी PIN तयार करा</label><input id="gatePin1" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="gatePin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="gateSavePin()">नोंदणी पूर्ण करा</button></div><div id="loginPinUnlock" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay2" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>नोंदणीकृत मोबाईल नंबर</label><input id="gateUnlockPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="मोबाईल नंबर"><label>6 अंकी PIN</label><input id="gatePinUnlockValue" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><button class="full goldbtn" onclick="gateUnlock()">अॅप उघडा</button><button type="button" class="full login-secondary" onclick="accountRestartLogin()">दुसरे Gmail खाते वापरा / Sign out</button></div><p id="gateStatus" class="login-status">खाते तपासत आहे…</p></div></div>
 <header class="hero"><div class="brand-head"><div class="brand-mark" aria-label="हिशोब सारथी लोगो"><img src="./icon.svg" alt="हिशोब सारथी चिन्ह"></div><div class="brand-copy"><small>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</small><h1>हिशोब सारथी</h1><p>तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती...</p></div></div><div class="brand-subline">तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती...</div></header>
 <main class="wrap">
 <section id="home">
@@ -439,83 +439,52 @@ window.gateVerifyOtp=async function(){
  try{gateMessage('OTP पडताळत आहे…');await gateConfirmation.confirm(code);gateConfirmation=null;gateMessage('मोबाइल पडताळला.');if(auth.currentUser)gateAuthReady(auth.currentUser)}
  catch(e){gateMessage('OTP पडताळणी अयशस्वी: '+(e.message||e))}
 };
-window.gateSavePin=async function(){
- try{
-  const a=(document.getElementById('gatePin1')?.value||'').trim();
-  const b=(document.getElementById('gatePin2')?.value||'').trim();
-  const u=auth&&auth.currentUser;
-  if(!u){gateMessage('आधी Google खाते किंवा मोबाइल OTP ने लॉगिन करा.');return}
-  if(!/^\d{6}$/.test(a)||a!==b){gateMessage('दोन्ही ठिकाणी समान 6 अंकी PIN टाका.');return}
-  if(!window.crypto||!crypto.subtle){gateMessage('या ब्राउझरमध्ये सुरक्षित PIN सेव्ह सुविधा उपलब्ध नाही. Chrome मध्ये HTTPS लिंक उघडा.');return}
-  gateMessage('PIN सेव्ह करत आहे…');
-  const salt=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(x=>x.toString(16).padStart(2,'0')).join('');
-  const hash=await gateHash(a,salt);
-  localStorage.setItem(gatePinKey(u.uid),JSON.stringify({salt,hash}));
-  gateMarkUnlocked(u.uid);
-  gateMessage('PIN यशस्वीपणे सेव्ह झाला. अॅप उघडत आहे…');
-  document.getElementById('loginGate').style.display='none';
- }catch(e){gateMessage('PIN सेव्ह करता आला नाही: '+(e.message||e))}
-};
-window.gateUnlock=async function(){
- try{
-  const u=auth&&auth.currentUser;
-  if(!u){gateMessage('लॉगिन सत्र संपले आहे. पुन्हा लॉगिन करा.');gateStep('loginOtpStep');return}
-  const pin=(document.getElementById('gatePinUnlockValue')?.value||'').trim();
-  const v=JSON.parse(localStorage.getItem(gatePinKey(u.uid))||'null');
-  if(!v){gateStep('loginPinSetup');gateMessage('नवीन 6 अंकी PIN तयार करा.');return}
-  if(!/^\d{6}$/.test(pin)||await gateHash(pin,v.salt)!==v.hash){gateMessage('PIN चुकीचा आहे. पुन्हा प्रयत्न करा.');return}
-  gateMarkUnlocked(u.uid);gateMessage('PIN बरोबर आहे. अॅप उघडत आहे…');document.getElementById('loginGate').style.display='none';
- }catch(e){gateMessage('PIN तपासता आला नाही: '+(e.message||e))}
-};
-window.changeAccountPin=async function(){
- try{
-  const u=auth&&auth.currentUser;
-  const oldPin=(document.getElementById('changePinOld')?.value||'').trim();
-  const newPin=(document.getElementById('changePinNew')?.value||'').trim();
-  const confirmPin=(document.getElementById('changePinConfirm')?.value||'').trim();
-  const msg=document.getElementById('accountManageStatus');
-  if(!u){if(msg)msg.textContent='आधी Google खात्याने लॉगिन करा.';return}
-  const stored=JSON.parse(localStorage.getItem(gatePinKey(u.uid))||'null');
-  if(!stored){if(msg)msg.textContent='या खात्यासाठी PIN सेव्ह नाही. लॉगिन स्क्रीनवर PIN तयार करा.';return}
-  if(!/^\d{6}$/.test(oldPin)||await gateHash(oldPin,stored.salt)!==stored.hash){if(msg)msg.textContent='सध्याचा PIN चुकीचा आहे.';return}
-  if(!/^\d{6}$/.test(newPin)||newPin!==confirmPin){if(msg)msg.textContent='नवीन PIN दोन्ही ठिकाणी समान 6 अंकी टाका.';return}
-  const salt=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(x=>x.toString(16).padStart(2,'0')).join('');
-  const hash=await gateHash(newPin,salt);
-  localStorage.setItem(gatePinKey(u.uid),JSON.stringify({salt,hash}));
-  ['changePinOld','changePinNew','changePinConfirm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
-  if(msg)msg.textContent='नवीन PIN यशस्वीपणे सेव्ह झाला. नोंदी आणि Cloud Backup सुरक्षित आहेत.';
- }catch(e){const msg=document.getElementById('accountManageStatus');if(msg)msg.textContent='PIN बदलता आला नाही: '+(e.message||e)}
-};
-window.accountRestartLogin=async function(){
- try{
-  const u=auth&&auth.currentUser;
-  const msg=document.getElementById('accountManageStatus');
-  if(!u){if(msg)msg.textContent='आधी तुमच्या जुन्या Google खात्याने लॉगिन करा.';return}
-  if(!(u.email||u.phoneNumber)){if(msg)msg.textContent='वैध लॉगिन खाते उपलब्ध नाही.';return}
-  if(!confirm('लॉगिन नव्याने सुरू करायचे? या फोनवरील फक्त 6 अंकी PIN रीसेट होईल आणि Google Sign out होईल. हिशोब, नोंदी आणि Cloud Backup डिलीट होणार नाहीत.'))return;
-  localStorage.removeItem(gatePinKey(u.uid));
-  ['changePinOld','changePinNew','changePinConfirm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
-  if(msg)msg.textContent='फक्त PIN रीसेट झाला. आता त्याच Google खात्याने पुन्हा लॉगिन करा.';
-  await auth.signOut();
- }catch(e){const msg=document.getElementById('accountManageStatus');if(msg)msg.textContent='नवीन सुरुवात करता आली नाही: '+(e.message||e)}
-};
-window.accountSignOut=async function(){
- try{
-  if(!auth||!auth.currentUser){gateMessage('सध्या कोणतेही खाते लॉगिन नाही.');return}
-  if(!confirm('Sign out करायचे आहे का? तुमच्या नोंदी आणि Cloud Backup डिलीट होणार नाहीत.'))return;
-  gateClearSession(auth.currentUser.uid);
-  await auth.signOut();
- }catch(e){const msg=document.getElementById('accountManageStatus');if(msg)msg.textContent='Sign out करता आले नाही: '+(e.message||e)}
-};
-window.gateSkipPin=function(){const u=auth&&auth.currentUser;if(!u){gateMessage('आधी Google खात्याने लॉगिन करा.');gateStep('loginGoogleStep');return}gateMarkUnlocked(u.uid);gateMessage('PIN वगळला. अॅप उघडत आहे…');document.getElementById('loginGate').style.display='none'};
-window.gateLinkPhone=function(){gateStep('loginOtpStep');gateMessage(auth.currentUser&&(auth.currentUser.email||'')?'जुने Google खाते सुरक्षित ठेवून याच खात्याला मोबाइल नंबर लिंक करा.':'मोबाइल OTP मागवा.')};
-window.gateUseOtp=async function(){try{if(auth.currentUser){gateClearSession(auth.currentUser.uid);await auth.signOut()}gateStep('loginOtpStep');gateMessage('मोबाइल नंबर टाकून OTP मागवा.')}catch(e){gateMessage('लॉगआउट करता आले नाही: '+(e.message||e))}};
-function gateAuthReady(u){if(!u){gateStep('loginGoogleStep');gateMessage('Google खात्याने लॉगिन करा. मोबाइल OTP ऐच्छिक आहे.');return}switchAccountData(u.uid);if(sessionStorage.getItem(gateSessionKey(u.uid))==='1'){document.getElementById('loginGate').style.display='none';return}if(localStorage.getItem(gatePinKey(u.uid))){gateStep('loginPinUnlock');gateMessage('स्वागत आहे. PIN टाकून अॅप उघडा.')}else{gateStep('loginPinSetup');gateMessage('पहिल्यांदा वापरत आहात. तुमचा PIN तयार करा.')}}
+async function gatePinHash(pin,salt){
+ const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveBits']);
+ const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode(salt),iterations:150000,hash:'SHA-256'},key,256);
+ return Array.from(new Uint8Array(bits)).map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+function normalizeGatePhone(v){let p=String(v||'').trim().replace(/[ ()-]/g,'');if(/^[0-9]{10}$/.test(p))p='+91'+p;return /^+[1-9][0-9]{7,14}$/.test(p)?p:''}
+function gateProfileRef(uid){return store.collection('users').doc(uid).collection('backups').doc('login_profile')}
+let gateCloudProfile=null;
+window.gateSavePin=async function(){try{
+ const a=(document.getElementById('gatePin1')?.value||'').trim(),b=(document.getElementById('gatePin2')?.value||'').trim(),phone=normalizeGatePhone(document.getElementById('gatePhone')?.value),u=auth&&auth.currentUser;
+ if(!u||!u.email){gateMessage('आधी तुमच्या मूळ Gmail खात्याने लॉगिन करा.');return}
+ if(!phone){gateMessage('योग्य 10 अंकी मोबाइल नंबर टाका.');return}
+ if(!/^[0-9]{6}$/.test(a)||a!==b){gateMessage('दोन्ही ठिकाणी समान 6 अंकी PIN टाका.');return}
+ if(!window.crypto||!crypto.subtle){gateMessage('या ब्राउझरमध्ये सुरक्षित PIN सुविधा उपलब्ध नाही. Chrome मध्ये HTTPS लिंक उघडा.');return}
+ gateMessage('तुमची सुरक्षित नोंदणी Cloud मध्ये सेव्ह करत आहे…');
+ const salt=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(x=>x.toString(16).padStart(2,'0')).join(''),hash=await gatePinHash(a,salt);
+ await gateProfileRef(u.uid).set({email:u.email,phone,salt,hash,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+ gateCloudProfile={email:u.email,phone,salt,hash};gateMarkUnlocked(u.uid);gateMessage('नोंदणी पूर्ण झाली. अॅप उघडत आहे…');document.getElementById('loginGate').style.display='none';
+}catch(e){gateMessage('नोंदणी सेव्ह झाली नाही: '+(e.message||e))}};
+window.gateUnlock=async function(){try{
+ const u=auth&&auth.currentUser,phone=normalizeGatePhone(document.getElementById('gateUnlockPhone')?.value),pin=(document.getElementById('gatePinUnlockValue')?.value||'').trim(),v=gateCloudProfile;
+ if(!u||!u.email){gateMessage('मूळ Gmail खात्याने पुन्हा लॉगिन करा.');gateStep('loginGoogleStep');return}
+ if(!v){gateMessage('खाते तपशील मिळाले नाहीत. पुन्हा Google लॉगिन करा.');return}
+ if(!phone||phone!==v.phone){gateMessage('मोबाईल नंबर जुळत नाही.');return}
+ if(!/^[0-9]{6}$/.test(pin)||await gatePinHash(pin,v.salt)!==v.hash){gateMessage('PIN चुकीचा आहे. पुन्हा प्रयत्न करा.');return}
+ gateMarkUnlocked(u.uid);gateMessage('मोबाईल नंबर आणि PIN बरोबर आहेत. अॅप उघडत आहे…');document.getElementById('loginGate').style.display='none';
+}catch(e){gateMessage('PIN तपासता आला नाही: '+(e.message||e))}};
+window.changeAccountPin=async function(){try{
+ const u=auth&&auth.currentUser,oldPin=(document.getElementById('changePinOld')?.value||'').trim(),newPin=(document.getElementById('changePinNew')?.value||'').trim(),confirmPin=(document.getElementById('changePinConfirm')?.value||'').trim(),msg=document.getElementById('accountManageStatus');
+ if(!u){if(msg)msg.textContent='आधी Google खात्याने लॉगिन करा.';return}
+ const snap=await gateProfileRef(u.uid).get(),stored=snap.exists?snap.data():null;
+ if(!stored){if(msg)msg.textContent='नोंदणी तपशील उपलब्ध नाहीत. लॉगिन स्क्रीनवर पुन्हा नोंदणी करा.';return}
+ if(!/^[0-9]{6}$/.test(oldPin)||await gatePinHash(oldPin,stored.salt)!==stored.hash){if(msg)msg.textContent='सध्याचा PIN चुकीचा आहे.';return}
+ if(!/^[0-9]{6}$/.test(newPin)||newPin!==confirmPin){if(msg)msg.textContent='नवीन PIN दोन्ही ठिकाणी समान 6 अंकी टाका.';return}
+ const salt=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(x=>x.toString(16).padStart(2,'0')).join(''),hash=await gatePinHash(newPin,salt);
+ await gateProfileRef(u.uid).set({email:u.email,phone:stored.phone,salt,hash,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});gateCloudProfile={email:u.email,phone:stored.phone,salt,hash};
+ ['changePinOld','changePinNew','changePinConfirm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});if(msg)msg.textContent='नवीन PIN सर्व मोबाईलसाठी Cloud मध्ये सेव्ह झाला. नोंदी सुरक्षित आहेत.';
+}catch(e){const msg=document.getElementById('accountManageStatus');if(msg)msg.textContent='PIN बदलता आला नाही: '+(e.message||e))}};
+window.accountRestartLogin=async function(){try{const u=auth&&auth.currentUser,msg=document.getElementById('accountManageStatus');if(!u){if(msg)msg.textContent='आधी तुमच्या जुन्या Google खात्याने लॉगिन करा.';return}if(!confirm('Google Sign out करायचे? तुमचा Cloud PIN, हिशोब, नोंदी आणि Backup डिलीट होणार नाहीत.'))return;['changePinOld','changePinNew','changePinConfirm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});if(msg)msg.textContent='Cloud PIN आणि नोंदी सुरक्षित आहेत. Google खात्यातून बाहेर पडत आहे.';gateClearSession(u.uid);await auth.signOut()}catch(e){const msg=document.getElementById('accountManageStatus');if(msg)msg.textContent='Sign out करता आले नाही: '+(e.message||e)}};
+window.accountSignOut=async function(){try{if(!auth||!auth.currentUser){gateMessage('सध्या कोणतेही खाते लॉगिन नाही.');return}if(!confirm('Sign out करायचे आहे का? तुमचा Cloud PIN, नोंदी आणि Backup सुरक्षित राहतील.'))return;gateClearSession(auth.currentUser.uid);await auth.signOut()}catch(e){const msg=document.getElementById('accountManageStatus');if(msg)msg.textContent='लॉगआउट करता आले नाही: '+(e.message||e)}};
+async function gateAuthReady(u){if(!u){gateCloudProfile=null;gateStep('loginGoogleStep');gateMessage('तुमचे मूळ Gmail खाते निवडून लॉगिन करा.');return}switchAccountData(u.uid);if(sessionStorage.getItem(gateSessionKey(u.uid))==='1'){document.getElementById('loginGate').style.display='none';return}try{gateMessage('तुमचे सुरक्षित खाते तपासत आहे…');const snap=await gateProfileRef(u.uid).get();if(snap.exists){gateCloudProfile=snap.data();const e=document.getElementById('gateEmailDisplay2');if(e)e.value=u.email||'';gateStep('loginPinUnlock');gateMessage('नोंदणीकृत Gmail: '+u.email+'. मोबाईल नंबर आणि PIN टाका.')}else{gateCloudProfile=null;const e=document.getElementById('gateEmailDisplay');if(e)e.value=u.email||'';gateStep('loginPinSetup');gateMessage('पहिली नोंदणी: मोबाईल नंबर आणि 6 अंकी PIN तयार करा.')}}catch(e){gateMessage('खाते तपशील मिळाले नाहीत: '+(e.message||e)+' कृपया Firestore Rules तपासा.')}}
 function phoneStatus(t){const e=document.getElementById('dailyPhoneStatus');if(e)e.textContent=t}
 function makePhoneRecaptcha(){const box=document.getElementById('dailyPhoneRecaptcha');if(phoneRecaptcha){try{phoneRecaptcha.clear()}catch(e){}phoneRecaptcha=null}if(box)box.innerHTML='';phoneRecaptcha=new firebase.auth.RecaptchaVerifier('dailyPhoneRecaptcha',{size:'invisible',callback:()=>{}});return phoneRecaptcha.render()}
 window.dailyPhoneSendOtp=async function(){if(!ready())return;let phone=(document.getElementById('dailyPhoneNumber')?.value||'').trim().replace(/\s/g,'').replace(/-/g,'').replace(/\(/g,'').replace(/\)/g,'');if(/^\d{10}$/.test(phone))phone='+91'+phone;if(!/^\+[1-9]\d{7,14}$/.test(phone)){phoneStatus('योग्य मोबाइल नंबर टाका. उदाहरण: +919876543210');return}try{phoneStatus('OTP पाठवत आहे…');await makePhoneRecaptcha();phoneLinkMode=!!(auth.currentUser&&!!auth.currentUser.email);phoneConfirmation=phoneLinkMode?await auth.currentUser.linkWithPhoneNumber(phone,phoneRecaptcha):await auth.signInWithPhoneNumber(phone,phoneRecaptcha);phoneStatus('OTP पाठवला आहे. SMS मधील 6 अंकी OTP टाका.')}catch(e){phoneStatus('OTP पाठवता आला नाही: '+e.message+' (Firebase Authorized domains आणि SMS सेटिंग तपासा.)')}};
 window.dailyPhoneVerifyOtp=async function(){const code=(document.getElementById('dailyPhoneOtp')?.value||'').trim(),name=(document.getElementById('dailyPhoneName')?.value||'').trim();if(!phoneConfirmation){phoneStatus('आधी OTP पाठवा.');return}if(!/^\d{6}$/.test(code)){phoneStatus('6 अंकी OTP टाका.');return}try{phoneStatus('OTP पडताळत आहे…');const result=await phoneConfirmation.confirm(code),u=result.user;if(name)localStorage.setItem('dailyHishob_name_'+u.uid,name);window.dailyCloudUser=u;phoneConfirmation=null;phoneStatus('मोबाइल नंबर पडताळला. खाते जोडले गेले.');status('मोबाइल खाते जोडले: '+(u.phoneNumber||''));await window.dailyCloudSync()}catch(e){phoneStatus('OTP पडताळणी अयशस्वी: '+e.message)}};
-window.dailyCloudLogin=async function(){if(!ready())return;try{await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);const p=new firebase.auth.GoogleAuthProvider();let r=await auth.signInWithPopup(p);window.dailyCloudUser=r.user;status('Google खाते जोडले. या खात्याचा स्वतंत्र Cloud डेटा तपासत आहे…');await window.dailyCloudSync()}catch(e){status('Google जोडणी अयशस्वी: '+e.message)}};
+window.dailyCloudLogin=async function(){if(!ready())return;try{await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});let r=await auth.signInWithPopup(p);window.dailyCloudUser=r.user;status('Google खाते जोडले. या खात्याचा स्वतंत्र Cloud डेटा तपासत आहे…');await window.dailyCloudSync()}catch(e){status('Google जोडणी अयशस्वी: '+e.message)}};
 window.dailyCloudSchedule=function(){clearTimeout(timer);timer=setTimeout(()=>window.dailyCloudSync(),1800)};
 function col(){return store.collection('users').doc(window.dailyCloudUser.uid).collection('daily_hishob_backups')}
 function mergeCats(a,b,deleted=[]){let out={...JSON.parse(JSON.stringify(defaults)),...(a||{})};Object.keys(b||{}).forEach(area=>{out[area]=out[area]||{income:[],expense:[]};['income','expense'].forEach(k=>out[area][k]=[...new Set([...(out[area][k]||[]),...((b[area]||{})[k]||[])])])});return cleanAllCats(out,deleted)}
