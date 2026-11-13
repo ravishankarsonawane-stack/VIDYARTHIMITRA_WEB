@@ -337,35 +337,32 @@ function startFresh(){if(!confirm('सध्याच्या सर्व न�
 function restoreArchive(key){let raw=localStorage.getItem(key);if(!raw){alert('सुरक्षित जुनी प्रत सापडली नाही.');return}try{let x=normalizeBackupData(JSON.parse(raw));if(!confirm('जुन्या संग्रहित हिशोबातील '+x.entries.length+' नोंदी परत आणायच्या का? सध्याचा हिशोब बदलला जाईल; आधी त्याचा JSON बॅकअप घ्या.'))return;db=x;ensureEntryProfiles();persist();renderArchives();alert('जुना हिशोब परत आणला. एकूण '+db.entries.length+' नोंदी उपलब्ध आहेत.')}catch(e){alert('जुना हिशोब उघडता आला नाही: '+e.message)}}
 function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Maza_Dainik_Hishob_Backup_'+isoToday()+'.json';a.click();URL.revokeObjectURL(url)}
 function downloadReportPDF(){
- renderReport();
- const box=document.getElementById('reportBox');
- if(!box||!box.innerText.trim()){alert('PDF साठी अहवाल उपलब्ध नाही.');return}
- const folds=[...box.querySelectorAll('details')],wasOpen=folds.map(x=>x.open);
- folds.forEach(x=>x.open=true);
- document.body.classList.add('report-print-mode');
- const restore=()=>{document.body.classList.remove('report-print-mode');folds.forEach((x,i)=>x.open=wasOpen[i]);window.removeEventListener('afterprint',restore)};
+ renderReport();const box=document.getElementById('reportBox');
+ if(!box||!box.innerText.trim()){alert('या महिन्यासाठी अहवाल उपलब्ध नाही. आधी नोंदी जोडा.');return}
+ const folds=[...box.querySelectorAll('details')],wasOpen=folds.map(x=>x.open);folds.forEach(x=>x.open=true);
+ document.body.classList.add('report-print-mode');let restored=false;
+ const restore=()=>{if(restored)return;restored=true;document.body.classList.remove('report-print-mode');folds.forEach((x,i)=>x.open=wasOpen[i]);window.removeEventListener('afterprint',restore)};
  window.addEventListener('afterprint',restore);
- setTimeout(()=>{try{window.focus();window.print();setTimeout(restore,1500)}catch(e){restore();alert('PDF तयार करता आला नाही. Chrome च्या ⋮ मेनूमधून Print → Save as PDF निवडा.')}},350);
+ try{window.focus();setTimeout(()=>window.print(),300)}
+ catch(e){restore();alert('PDF प्रिंट सुरू झाले नाही. Chrome मध्ये ⋮ → Print → Save as PDF निवडा.')}
 }
 function downloadReportImage(){
- renderReport();
- const box=document.getElementById('reportBox');
- if(!box||!box.innerText.trim()){alert('Image साठी अहवाल उपलब्ध नाही.');return}
- const lines=box.innerText.replace(/\\u00a0/g,' ').split('\\n').map(x=>x.trim()).filter(Boolean);
- const width=900,pad=44,lineH=38,ctxCanvas=document.createElement('canvas'),ctx=ctxCanvas.getContext('2d');
- ctx.font='28px "Noto Sans Devanagari", sans-serif';
- const wrapped=[];
- lines.forEach(line=>{let current='';for(const word of line.split(/\\s+/)){const test=current?current+' '+word:word;if(ctx.measureText(test).width>width-pad*2&&current){wrapped.push(current);current=word}else current=test}if(current)wrapped.push(current)});
- const height=Math.max(500,180+wrapped.length*lineH+pad);
- ctxCanvas.width=width;ctxCanvas.height=height;
- ctx.fillStyle='#f5f7fb';ctx.fillRect(0,0,width,height);
- ctx.fillStyle='#111827';ctx.fillRect(0,0,width,132);
- ctx.fillStyle='#e6c36d';ctx.font='bold 38px "Noto Sans Devanagari", sans-serif';ctx.fillText('हिशोब सारथी',pad,58);
- ctx.fillStyle='#ffffff';ctx.font='22px "Noto Sans Devanagari", sans-serif';ctx.fillText('मासिक हिशोब अहवाल',pad,101);
- let y=180;ctx.font='27px "Noto Sans Devanagari", sans-serif';
- wrapped.forEach((line,i)=>{if(y>height-40)return;ctx.fillStyle=(/एकूण उत्पन्न|निव्वळ शिल्लक/.test(line))?'#176b45':(/एकूण खर्च/.test(line)?'#b42318':'#172033');ctx.fillText(line,pad,y);y+=lineH});
- ctx.fillStyle='#667085';ctx.font='18px sans-serif';ctx.fillText('हिशोब सारथी',pad,height-22);
- ctxCanvas.toBlob(blob=>{if(!blob){alert('Image तयार झाली नाही. पुन्हा प्रयत्न करा.');return}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Hishob_Sarthi_Report_'+(document.getElementById('reportMonth').value||'report')+'.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)},'image/png');
+ renderReport();const box=document.getElementById('reportBox');
+ if(!box||!box.innerText.trim()){alert('या महिन्यासाठी अहवाल उपलब्ध नाही. आधी नोंदी जोडा.');return}
+ const lines=box.innerText.replace(/\u00a0/g,' ').split('\n').map(x=>x.trim()).filter(Boolean);
+ const width=900,pad=44,lineH=42,canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+ if(!ctx){alert('या फोनमध्ये Image तयार करण्याची सुविधा उपलब्ध नाही.');return}
+ ctx.font='28px sans-serif';const wrapped=[];
+ lines.forEach(line=>{let current='';for(const word of line.split(/\s+/)){const test=current?current+' '+word:word;if(ctx.measureText(test).width>width-pad*2&&current){wrapped.push(current);current=word}else current=test}if(current)wrapped.push(current)});
+ const height=Math.max(500,190+wrapped.length*lineH+pad);canvas.width=width;canvas.height=height;
+ ctx.fillStyle='#f5f7fb';ctx.fillRect(0,0,width,height);ctx.fillStyle='#102b52';ctx.fillRect(0,0,width,138);
+ ctx.fillStyle='#f0d58e';ctx.font='bold 38px sans-serif';ctx.fillText('हिशोब सारथी',pad,58);
+ ctx.fillStyle='#ffffff';ctx.font='24px sans-serif';ctx.fillText('मासिक हिशोब अहवाल',pad,104);
+ let y=188;ctx.font='27px sans-serif';wrapped.forEach(line=>{ctx.fillStyle=(/एकूण उत्पन्न|निव्वळ शिल्लक/.test(line))?'#176b45':(/एकूण खर्च/.test(line)?'#b42318':'#172033');ctx.fillText(line,pad,y);y+=lineH});
+ canvas.toBlob(blob=>{if(!blob){alert('PNG फाइल तयार झाली नाही. Chrome अपडेट करून पुन्हा प्रयत्न करा.');return}
+  try{const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='Hishob_Sarthi_Report_'+(document.getElementById('reportMonth').value||'report')+'.png';link.style.display='none';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);showAppToast('Image डाउनलोड सुरू झाले.')}
+  catch(e){alert('Image सेव्ह करता आली नाही: '+e.message)}
+ },'image/png');
 }
 function mergeImportedBackup(current,incoming){const map=new Map();(current.entries||[]).forEach(e=>map.set(String(e.id),e));(incoming.entries||[]).forEach(e=>map.set(String(e.id),e));const deletedCats=[...new Set([...(current.deletedCats||[]),...(incoming.deletedCats||[])])];const cats=JSON.parse(JSON.stringify(current.cats||defaults));Object.keys(incoming.cats||{}).forEach(a=>{cats[a]=cats[a]||{income:[],expense:[]};['income','expense'].forEach(k=>cats[a][k]=[...new Set([...(cats[a][k]||[]),...((incoming.cats[a]||{})[k]||[])])])});const banks=[...(current.banks||[])];(incoming.banks||[]).forEach(b=>{if(!banks.some(x=>x.name===b.name&&x.last4===b.last4))banks.push(b)});return {entries:[...map.values()].sort((a,b)=>(a.date||'').localeCompare(b.date||'')),cats:cleanAllCats(cats,deletedCats),deletedCats,banks,budgets:{...(current.budgets||{}),...(incoming.budgets||{})}}}
 function applyImportedJson(raw){let x=normalizeBackupData(raw),merged=mergeImportedBackup(db,x);if(confirm('बॅकअपमधील '+x.entries.length+' नोंदी सध्याच्या नोंदींसोबत जोडायच्या का? समान ID असलेली नोंद बॅकअपमधील माहितीनुसार अपडेट होईल. इतर नोंदी सुरक्षित राहतील.')){db=merged;ensureEntryProfiles();persist();renderCategories();alert('बॅकअप सुरक्षितपणे जोडला. एकूण '+db.entries.length+' नोंदी उपलब्ध आहेत.')}}
