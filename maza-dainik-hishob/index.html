@@ -220,7 +220,7 @@ function ensureEntryProfiles(){
 }
 ensureEntryProfiles();
 function profileAreas(){return PROFILE_AREAS[activeProfile]||PROFILE_AREAS.my}
-function setProfile(p){if(!PROFILE_AREAS[p])return;activeProfile=p;localStorage.setItem(KEY+'_profile',p);updateProfileUI();const title=document.getElementById('workspaceTitle');if(title)title.textContent=p==='homemaker'?'गृहिणी हिशोब':'माझा हिशोब';showPage('workspace');renderHome();if(window.dailyCloudUser)window.dailyCloudSync()}
+function setProfile(p){if(!PROFILE_AREAS[p])return;activeProfile=p;localStorage.setItem(KEY+'_profile',p);updateProfileUI();const title=document.getElementById('workspaceTitle');if(title)title.textContent=p==='homemaker'?'घरखर्च साथी':'रिक्षा साथी';showPage('workspace');renderHome();if(window.dailyCloudUser)window.dailyCloudSync()}
 function updateProfileUI(){
  document.querySelectorAll('.profile-choice').forEach(b=>b.classList.toggle('active',b.dataset.profile===activeProfile));
  
