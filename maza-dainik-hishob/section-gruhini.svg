@@ -1,10 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360">
-<defs><linearGradient id="g" x2="0" y2="1"><stop stop-color="#eaf5ff"/><stop offset="1" stop-color="#b9dcff"/></linearGradient><linearGradient id="gold" x2="0" y2="1"><stop stop-color="#ffe88a"/><stop offset="1" stop-color="#dba52a"/></linearGradient></defs>
-<rect width="480" height="360" rx="42" fill="url(#g)"/><circle cx="80" cy="65" r="34" fill="#fff" opacity=".75"/><path d="M0 292Q100 260 210 288T480 276V360H0Z" fill="#fff"/>
-<g transform="translate(35 25)"><path d="M20 130L185 12 350 130" fill="#fff" stroke="#0752a4" stroke-width="18" stroke-linejoin="round"/><path d="M65 119V280H310V119" fill="#fff" stroke="#0752a4" stroke-width="13"/><rect x="104" y="153" width="65" height="60" rx="7" fill="#b8dcff" stroke="#0752a4" stroke-width="7"/><path d="M136 153v60m-32-30h65" stroke="#0752a4" stroke-width="5"/><rect x="215" y="176" width="57" height="104" rx="7" fill="#f6d98b" stroke="#0752a4" stroke-width="7"/></g>
-<g transform="translate(255 60)">
-<path d="M75 55Q60 8 100 0Q145 0 140 55L132 77H81Z" fill="#172c48"/><circle cx="105" cy="58" r="36" fill="#d9a47c"/><path d="M69 49Q75 4 116 12Q146 18 143 52Q125 33 104 32Q86 31 69 49" fill="#172c48"/><path d="M63 95Q104 70 150 97L178 230H36Z" fill="#1762b1" stroke="#e2b94a" stroke-width="7"/><path d="M80 98L105 140L132 98" fill="none" stroke="#f6e7c8" stroke-width="7"/><path d="M52 150Q24 170 12 215M157 150Q180 175 190 211" fill="none" stroke="#d9a47c" stroke-width="17" stroke-linecap="round"/>
-<path d="M77 230v50m60-50v50" stroke="#253d58" stroke-width="19" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-labelledby="t d">
+<title id="t">गृहिणी सारथी</title><desc id="d">घर, गृहिणी आणि हिशोबाची वही</desc>
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#effaf5"/><stop offset="1" stop-color="#c5e8d8"/></linearGradient>
+ <linearGradient id="green" x2="0" y2="1"><stop stop-color="#36a77a"/><stop offset="1" stop-color="#145b45"/></linearGradient>
+ <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#ffe99a"/><stop offset="1" stop-color="#d8a12b"/></linearGradient>
+</defs>
+<rect x="5" y="5" width="470" height="350" rx="34" fill="url(#sky)"/>
+<circle cx="75" cy="58" r="25" fill="#fff" opacity=".8"/>
+<path d="M0 286Q120 255 245 282T480 270V360H0Z" fill="#fff"/>
+<!-- house -->
+<g transform="translate(22 53)">
+ <path d="M5 107L95 31l90 76" fill="#fff" stroke="#237657" stroke-width="10" stroke-linejoin="round"/>
+ <path d="M27 103v127h136V103" fill="#fbfffd" stroke="#237657" stroke-width="8"/>
+ <rect x="47" y="128" width="39" height="43" rx="4" fill="#b9e3d0" stroke="#237657" stroke-width="5"/>
+ <path d="M66 128v43m-19-21h39" stroke="#237657" stroke-width="3"/>
+ <rect x="108" y="151" width="34" height="79" rx="4" fill="#e6bd6b" stroke="#237657" stroke-width="5"/>
+ <circle cx="133" cy="191" r="3" fill="#237657"/>
 </g>
-<g transform="translate(350 220)"><rect width="85" height="105" rx="12" fill="#fff" stroke="#d8a72e" stroke-width="7"/><path d="M17 25h50M17 45h50M17 65h36" stroke="#0752a4" stroke-width="7" stroke-linecap="round"/><path d="M18 84l10 9 18-20" fill="none" stroke="#d6a52d" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>
+<!-- woman -->
+<g transform="translate(177 42)">
+ <path d="M35 69Q29 10 79 8Q130 11 122 72L112 92H43Z" fill="#25364a"/>
+ <ellipse cx="80" cy="72" rx="36" ry="41" fill="#d5a07c"/>
+ <path d="M44 60Q48 17 83 20Q114 20 120 63Q98 42 77 44Q57 46 44 60" fill="#25364a"/>
+ <path d="M43 110Q79 88 116 110L139 225H20Z" fill="url(#green)" stroke="#d9ad45" stroke-width="5"/>
+ <path d="M63 113l17 26 18-26" fill="none" stroke="#fff4d9" stroke-width="5"/>
+ <path d="M35 137L12 190M122 137l23 54" stroke="#d5a07c" stroke-width="14" stroke-linecap="round"/>
+ <path d="M54 224l-5 40m58-40 7 40" stroke="#34485a" stroke-width="17" stroke-linecap="round"/>
+ <path d="M36 265h24m46 0h24" stroke="#25364a" stroke-width="8" stroke-linecap="round"/>
+</g>
+<!-- ledger -->
+<g transform="translate(323 163)">
+ <rect x="0" y="0" width="132" height="159" rx="15" fill="#fff" stroke="#d5a12c" stroke-width="6"/>
+ <path d="M22 0v159" stroke="#e7c46e" stroke-width="5"/>
+ <path d="M39 30h75M39 53h75M39 76h75M39 99h42" stroke="#8bb5d7" stroke-width="5" stroke-linecap="round"/>
+ <circle cx="54" cy="130" r="17" fill="#e6f6ed" stroke="#29956c" stroke-width="4"/>
+ <path d="M46 130l7 7 12-15" fill="none" stroke="#21885f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M8 24h10m-10 22h10m-10 22h10m-10 22h10m-10 22h10" stroke="#d5a12c" stroke-width="4" stroke-linecap="round"/>
+</g>
 </svg>
