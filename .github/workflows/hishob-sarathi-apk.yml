@@ -12,7 +12,7 @@ on:
       - ".github/workflows/hishob-sarathi-apk.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -64,8 +64,10 @@ jobs:
           npx esbuild native-auth-entry.js --bundle --format=iife --target=es2020 --outfile=www/native-auth.js
           python3 - <<'PY'
           from pathlib import Path
+          import os
           p = Path("www/index.html")
           s = p.read_text(encoding="utf-8")
+          s = s.replace("const APP_BUILD_VERSION = 'web';", f"const APP_BUILD_VERSION = '1.0.{os.environ['GITHUB_RUN_NUMBER']}';", 1)
           s = s.replace("</head>", '<script src="./native-auth.js"></script></head>', 1)
           p.write_text(s, encoding="utf-8")
           PY
@@ -73,6 +75,23 @@ jobs:
       - name: Generate Android project
         working-directory: hishob-sarathi-apk
         run: npx cap add android
+
+      - name: Set increasing Android app version
+        working-directory: hishob-sarathi-apk
+        env:
+          APP_BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, re
+          p = Path("android/app/build.gradle")
+          s = p.read_text(encoding="utf-8")
+          code, n1 = re.subn(r"\\bversionCode\\s+\\d+", "versionCode " + os.environ["APP_BUILD_NUMBER"], s, count=1)
+          name, n2 = re.subn(r'\\bversionName\\s+"[^"]+"', 'versionName "1.0.' + os.environ["APP_BUILD_NUMBER"] + '"', code, count=1)
+          if n1 != 1 or n2 != 1:
+              raise SystemExit("Could not safely set Android versionCode/versionName")
+          p.write_text(name, encoding="utf-8")
+          PY
 
       - name: Configure Firebase Android and release signing
         working-directory: hishob-sarathi-apk
@@ -159,3 +178,17 @@ jobs:
           path: hishob-sarathi-apk/android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish APK release for app updates
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: hishob-sarathi-v1.0.${{ github.run_number }}
+          name: हिशोब सारथी v1.0.${{ github.run_number }}
+          body: |
+            हिशोब सारथी Android APK अपडेट.
+            
+            - जुने ॲप uninstall करू नका.
+            - नवीन APK डाउनलोड करून install करा.
+            - त्याच Google खात्याने login केल्यास तुमचा Cloud हिशोब उपलब्ध राहील.
+          files: hishob-sarathi-apk/android/app/build/outputs/apk/release/app-release.apk
+          make_latest: true
