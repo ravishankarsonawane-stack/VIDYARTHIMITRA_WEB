@@ -1,0 +1,8 @@
+{
+  "appId": "com.hishobsarathi.empty",
+  "appName": "Hishob Sarathi",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
