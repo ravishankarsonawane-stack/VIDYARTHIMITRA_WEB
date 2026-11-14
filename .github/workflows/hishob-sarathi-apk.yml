@@ -39,7 +39,7 @@ jobs:
 
       - name: Install Capacitor and native Firebase Authentication
         working-directory: hishob-sarathi-apk
-        run: npm install --no-save @capacitor/core@8 @capacitor/cli@8 @capacitor/android@8 @capacitor-firebase/authentication@8.6.0 firebase@12.6.0 esbuild@0.25.0
+        run: npm install
 
       - name: Prepare app files and native Google sign-in bridge
         working-directory: hishob-sarathi-apk
