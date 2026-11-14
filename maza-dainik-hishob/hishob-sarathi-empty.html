@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111318"><meta name="application-name" content="हिशोब सारथी"><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/svg+xml" href="./logo-h.svg?v=goldh7"><link rel="apple-touch-icon" href="./logo-h.svg?v=goldh7"><title>हिशोब सारथी – दैनिक हिशोब</title>
+<style>
+:root{--ink:#172033;--blue:#2458a6;--gold:#d9b45b;--bg:#f3f6fb;--line:#dfe5ef;--muted:#667085;--navy:#111827;--surface:#fff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+body{padding-bottom:84px}.hero{background:linear-gradient(145deg,#101216,#222733);color:#fff;padding:22px 16px 20px;border-bottom:3px solid var(--gold)}
+.hero small{color:#d9b45b;letter-spacing:.4px}.hero h1{font-size:23px;margin:5px 0 3px}.hero p{color:#c7ccd5;margin:0;font-size:13px}
+.wrap{max-width:760px;margin:auto;padding:14px}.totals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:-2px}
+.total{background:#fff;border:1px solid var(--line);border-radius:15px;padding:13px;box-shadow:0 3px 12px #18243a0a}.total span{display:block;color:var(--muted);font-size:12px}.total strong{display:block;font-size:21px;margin-top:4px}.gold{color:#a47716}.green{color:#17804a}.red{color:#b42318}
+.panel{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;margin:13px 0;box-shadow:0 5px 18px #18243a0b}.hero{background:radial-gradient(circle at 90% 5%,#4a3b1c 0,transparent 32%),linear-gradient(135deg,#0c1018,#252b38 70%,#151923)}.total{border-radius:16px}.panel h2{letter-spacing:.1px}
+h2{font-size:17px;margin:0 0 12px;color:#183d76}.quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+button,.btn{border:0;border-radius:11px;padding:12px 13px;font:inherit;font-weight:650;cursor:pointer;background:var(--blue);color:#fff}
+button.secondary{background:#eaf0fa;color:#1f4d8d;border:1px solid #d6e2f4}
+button.danger{background:#fff0ef;color:#a52820;border:1px solid #f5d1ce}
+button.goldbtn{background:var(--gold);color:#211b0b}.full{width:100%}
+label{display:block;font-size:13px;color:#475467;margin:9px 0 5px}
+input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:11px 12px;background:#fff;color:#172033;font:inherit;font-size:16px;min-width:0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 8px}.tabs button{white-space:nowrap;flex:0 0 auto}
+.entry{border:1px solid var(--line);border-radius:12px;padding:11px;margin:8px 0;display:flex;gap:10px;justify-content:space-between;align-items:flex-start}
+.entry .meta{font-size:12px;color:var(--muted);margin-top:3px}.entry .amt{font-weight:750;white-space:nowrap}.entry-actions{display:flex;gap:6px;margin-top:7px}.entry-actions button{padding:6px 9px;font-size:12px}
+.hidden{display:none!important}.muted{color:var(--muted);font-size:12px}.dategroup{border-left:3px solid var(--gold);padding-left:10px;margin:12px 0}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#101216;border-top:1px solid #3c414c;display:grid;grid-template-columns:repeat(4,1fr);padding:7px 5px calc(7px + env(safe-area-inset-bottom));z-index:10}
+.bottom button{background:transparent;color:#e7eaf0;padding:7px 2px;font-size:11px;border-radius:8px}.bottom button.active{color:var(--gold);background:#29251b}
+.note{background:#fff8e6;border:1px solid #f1dfad;border-radius:10px;padding:10px;font-size:12px;color:#6e541b;line-height:1.5}
+@media(min-width:600px){.totals{grid-template-columns:repeat(4,1fr)}}
+ .account-strip{padding:12px 14px;border-color:#e6d7ad;background:linear-gradient(135deg,#fffdf7,#fff)}.account-strip-top,.cloud-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.account-strip-top{font-size:12px;color:#6c541d}.account-live{font-size:10px;border-radius:20px;padding:4px 8px;background:#e8f5ed;color:#187345;font-weight:700}.account-email{font-size:14px;font-weight:750;color:#183d76;overflow-wrap:anywhere;margin-top:5px}.account-sync{font-size:11px;color:#667085;margin-top:4px}.cloud-card{border-color:#e6d7ad}.cloud-symbol{font-size:28px;color:#9a7624}.cloud-status{font-size:12px;padding:9px 10px;background:#f5f7fb;border-radius:9px;color:#475467}.settings-fold{padding:0;overflow:hidden}.settings-fold summary{cursor:pointer;list-style:none;padding:15px;font-weight:700;color:#183d76}.settings-fold summary::-webkit-details-marker{display:none}.settings-fold summary:after{content:"＋";float:right;color:#9a7624}.settings-fold[open] summary:after{content:"−"}.fold-content{padding:0 14px 14px}.subpanel{border-top:1px solid var(--line);padding:13px 0}.subpanel h3{font-size:14px;margin:0 0 8px;color:#183d76}.advanced-backup{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+
+/* refined mobile-first luxury dashboard */
+:root{--bg:#f1f4f8;--blue:#2457a4;--gold:#d8b45c;--line:#e4e9f1}
+body{background:linear-gradient(180deg,#f7f8fb 0,#eef2f7 100%);letter-spacing:.05px}
+.hero{position:relative;overflow:hidden;padding:25px 18px 26px;border-bottom:0}
+.hero:after{content:"";position:absolute;width:190px;height:190px;border:1px solid #d8b45c55;border-radius:50%;right:-65px;top:-85px;box-shadow:0 0 0 18px #d8b45c0c,0 0 0 38px #d8b45c08}
+.hero small{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:11px;text-transform:uppercase}
+.hero small:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.hero h1{font-size:25px;line-height:1.3;letter-spacing:.2px;margin:8px 0 5px}
+.hero p{font-size:12px;letter-spacing:.2px}
+.wrap{padding:15px 13px 22px}
+.totals{gap:9px}
+.total{position:relative;border:1px solid #e7ebf2;border-radius:17px;padding:14px 13px;box-shadow:0 5px 18px #18243a0a;min-height:88px}
+.total span{font-size:11px;font-weight:600;letter-spacing:.15px}
+.total strong{font-size:22px;letter-spacing:-.4px}
+.panel{border:1px solid #e5eaf2;border-radius:19px;padding:16px;margin:13px 0;box-shadow:0 7px 24px #17243b0b}
+.panel h2{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:750;margin-bottom:13px}
+.panel h2:before{content:"";width:4px;height:18px;background:var(--gold);border-radius:5px}
+.quick{gap:9px}
+button{border-radius:12px;min-height:44px;box-shadow:0 3px 8px #173b7012;transition:transform .12s ease}
+button:active{transform:scale(.98)}
+button.secondary,button.danger{box-shadow:none}
+input,select,textarea{border-color:#d6deea;border-radius:12px;background:#fbfcfe}
+input:focus,select:focus,textarea:focus{outline:2px solid #2458a626;border-color:#2458a6}
+label{font-weight:650;color:#344054;font-size:12px}
+.entry{border-color:#e8edf4;border-radius:14px;padding:12px;background:#fcfdff;gap:8px}
+.entry .meta{line-height:1.55}
+.entry .amt{font-size:15px}
+.bottom{padding-top:8px;background:rgba(15,18,25,.97);backdrop-filter:blur(12px);border-top:1px solid #d8b45c55;box-shadow:0 -5px 22px #11182718}
+.bottom button{min-height:48px;line-height:1.55;font-weight:650;box-shadow:none}
+.bottom button.active{color:#f1d48d;background:#3a3322}
+.note{border-radius:13px;line-height:1.65}
+@media(min-width:600px){.wrap{padding:20px}.hero{padding-left:max(20px,calc((100% - 720px)/2));}.panel{padding:19px}}
+
+/* Brand refresh: royal blue + warm gold, clean professional finish */
+:root{--ink:#172b4d;--blue:#174b91;--gold:#d6ad52;--bg:#f4f7fc;--line:#e2e9f3;--muted:#65758b;--navy:#102b52;--surface:#fff}
+html,body{background:#f4f7fc;color:#172b4d}
+.hero{background:linear-gradient(135deg,#0d2850 0%,#174b91 58%,#102b52 100%);color:#fff;border-bottom:4px solid #d6ad52;padding:22px 17px 22px}
+.hero:after{width:165px;height:165px;border:1px solid #f0d58b66;right:-48px;top:-72px;box-shadow:0 0 0 16px #f0d58b10,0 0 0 34px #f0d58b08}
+.hero small{color:#f3d991;font-size:11px;font-weight:750;letter-spacing:.55px}
+.hero small:before{content:"₹";display:inline-grid;place-items:center;width:25px;height:25px;border-radius:50%;background:linear-gradient(145deg,#f6df9b,#c99b38);color:#17345e;font-size:15px;font-weight:900;box-shadow:0 2px 7px #071a3555}
+.hero h1{color:#fff;font-size:25px;font-weight:800;letter-spacing:.1px;text-shadow:0 2px 8px #071a3540}
+.hero p{color:#dbe7f7;font-size:12px}
+.wrap{max-width:760px}
+.total{background:#fff;border:1px solid #e2e9f3;border-top:3px solid #d6ad52;border-radius:15px;box-shadow:0 4px 16px #18365c0b}
+.total span{color:#62738a}
+.total strong{color:#173e72}
+.total strong.green{color:#168052}.total strong.red{color:#c04442}
+.panel{background:#fff;border:1px solid #e1e8f2;border-radius:16px;box-shadow:0 5px 18px #18365c0a}
+.panel h2{color:#174b91}
+.panel h2:before{background:#d6ad52}
+button,.btn{background:#174b91;color:#fff;border-radius:10px;box-shadow:0 2px 6px #174b911c;font-weight:700}
+button.goldbtn{background:linear-gradient(135deg,#f0d58e,#d3a844);color:#19365e}
+button.secondary{background:#edf3fb;color:#174b91;border:1px solid #d8e3f2}
+button.danger{background:#fff1f0;color:#a8322b;border:1px solid #f2d3d0}
+input,select,textarea{background:#fff;border:1px solid #d5dfed;border-radius:10px}
+input:focus,select:focus,textarea:focus{outline:2px solid #174b9126;border-color:#174b91}
+label{color:#334b6c}
+.entry{background:#fbfcff;border:1px solid #e3eaf4;border-left:3px solid #d6ad52;border-radius:12px}
+.dategroup{border-left:3px solid #d6ad52}
+.tabs button.active{background:#d6ad52;color:#17345e}
+.bottom{background:#102b52;border-top:2px solid #d6ad52;box-shadow:0 -4px 18px #102b521c}
+.bottom button{color:#dbe7f7}
+.bottom button.active{background:#234777;color:#f4d98e}
+.note{background:#fff9e9;border:1px solid #eedba8;color:#6c5521}
+
+\n.bank-summary{border-top:3px solid #d6ad52}.bank-summary .entry{align-items:center;margin:7px 0}.bank-summary .entry strong{font-size:19px;white-space:nowrap}\n
+/* Month > date folders to keep the daily ledger compact */
+.month-folder,.date-folder{border:1px solid #e1e8f2;border-radius:13px;background:#fff;margin:9px 0;overflow:hidden}
+.month-folder>summary,.date-folder>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px;cursor:pointer}
+.month-folder>summary::-webkit-details-marker,.date-folder>summary::-webkit-details-marker{display:none}
+.month-folder>summary{background:#f0f4fa;border-left:4px solid #d6ad52}
+.date-folder>summary{background:#fbfcff;border-left:3px solid #174b91;padding:11px 12px}
+.month-folder summary span:first-child,.date-folder summary span:first-child{display:flex;flex-direction:column;gap:3px;min-width:0}
+.month-folder summary b{color:#173e72;font-size:15px}.date-folder summary b{color:#24466f;font-size:13px}
+.month-folder summary small,.date-folder summary small{font-size:11px;color:#65758b;line-height:1.5}
+.folder-arrow{color:#174b91;font-size:19px;transition:transform .15s}.month-folder[open]>summary .folder-arrow,.date-folder[open]>summary .folder-arrow{transform:rotate(180deg)}
+.month-content{padding:2px 9px 9px}.date-content{padding:0 8px 8px}.date-content .entry{margin:6px 0}
+
+/* Larger, clearer five-item mobile navigation */
+.bottom{grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;padding:6px 3px calc(7px + env(safe-area-inset-bottom))}
+.bottom button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;min-height:58px;padding:5px 1px;font-size:11px;line-height:1.2;white-space:nowrap}
+.bottom .navicon{font-size:20px;line-height:1.1;font-weight:800}
+.bottom button span:last-child{font-size:10.5px;font-weight:750}
+.report-chart{display:grid;gap:10px;margin:12px 0 4px}.chart-row{min-width:0}.chart-label{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-bottom:4px}.chart-label span{overflow-wrap:anywhere}.chart-track{height:10px;border-radius:20px;background:#edf1f7;overflow:hidden}.chart-bar{height:100%;border-radius:20px;min-width:3px}.bar-in{background:linear-gradient(90deg,#168052,#48b987)}.bar-out{background:linear-gradient(90deg,#c04442,#ed8a78)}
+
+@media print{
+ body.archive-print-mode *{visibility:hidden!important}
+ body.archive-print-mode #archiveViewer,body.archive-print-mode #archiveViewer *{visibility:visible!important}
+ body.archive-print-mode #archiveViewer{display:block!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;background:#fff!important;color:#111!important;border:0!important;box-shadow:none!important}
+ body.archive-print-mode #archiveViewer button{display:none!important}
+ body.archive-print-mode #archiveViewer .entry{break-inside:avoid}
+ @page{size:A4 portrait;margin:10mm}
+}
+@page reportPage{size:80mm 160mm;margin:4mm}
+@media print{
+ @page{size:A4 portrait;margin:10mm}
+ body.report-print-mode #reports{page:reportPage!important}
+ body{background:#fff!important;color:#111!important;font-size:11px}.report-print-mode #reports{display:block!important}.report-print-mode #reports>.panel:first-child{display:block!important}
+ body *{visibility:hidden!important}
+ #reports,#reports *{visibility:visible!important}
+ #reports{display:block!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;margin:0!important;padding:0!important}
+ #reports>.panel{display:none!important}
+ #reports>.panel:first-child{display:block!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}
+ #reports>.panel:first-child>label,#reports>.panel:first-child>input,#reports>.panel:first-child>.row,#reports>.panel:first-child>button{display:none!important}
+ .pdf-brand{display:flex!important;align-items:center;gap:12px;border-bottom:2px solid #c69b35;padding:0 0 12px;margin:0 0 14px}.pdf-brand-copy{min-width:0;flex:1}.pdf-tagline{font-weight:700!important;color:#9a7627!important}.pdf-section-icons{display:flex;align-items:center;gap:8px;margin-left:auto}.pdf-section-icon{width:62px;display:flex;flex-direction:column;align-items:center;gap:2px;color:#174c91}.pdf-section-icon svg{width:48px;height:42px;padding:3px;border:1px solid #c9dcf7;border-radius:9px;background:#f2f8ff}.pdf-section-icon.home{color:#237653}.pdf-section-icon.home svg{border-color:#c8e5d6;background:#f0faf5}.pdf-section-icon small{font-size:8px;font-weight:800;white-space:nowrap}
+ .pdf-logo{display:flex!important;align-items:center;justify-content:center;width:64px;height:58px;border-radius:12px;background:#fff!important;border:2px solid #d9b45b;overflow:hidden;print-color-adjust:exact;-webkit-print-color-adjust:exact}.pdf-logo svg{width:58px;height:48px;display:block}.pdf-logo img{width:100%;height:100%;object-fit:contain;border-radius:9px}
+ .pdf-brand h1{font-size:20px;margin:0;color:#172b4d}
+ .pdf-brand p{font-size:10px;margin:3px 0 0;color:#555}
+ #reportBox .totals{display:grid!important;grid-template-columns:repeat(2,1fr);gap:8px}
+ #reportBox .total{break-inside:avoid;border:1px solid #ddd!important;background:#fff!important}
+ #reportBox details{display:block!important;break-inside:auto;border:1px solid #ddd;margin:6px 0;padding:6px}
+ #reportBox details>summary{display:block!important}
+ #reportBox details>.date-content{display:block!important}
+ #reportBox .entry{break-inside:avoid;border-bottom:1px solid #eee;padding:5px 0}
+ #reportBox .entry-actions{display:none!important}
+ #reportBox .report-chart{break-inside:avoid}
+ #reportBox .chart-bar{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+ .hero,.bottom,button{display:none!important}
+}
+.pdf-brand{display:none}
+
+/* Jeevan Saathi brand */
+.brand-head{display:flex;align-items:center;gap:13px;position:relative;z-index:1}.brand-mark{width:70px;height:64px;flex:0 0 70px;display:grid;place-items:center;background:linear-gradient(145deg,#fff,#e8f2ff);border:2px solid #d9b45b;border-radius:20px;box-shadow:0 4px 14px #0005}.brand-mark svg{width:64px;height:58px;display:block}.brand-mark img{width:58px;height:58px;object-fit:contain;border-radius:11px}.brand-copy{min-width:0}.brand-copy small{color:#f3d991;font-size:11px;font-weight:750;letter-spacing:.4px}.brand-copy h1{margin:3px 0 2px;font-size:27px;line-height:1.2;color:#fff}.brand-copy p{margin:0;color:#f5e7c3;font-size:12px;line-height:1.5}.brand-subline{position:relative;z-index:1;margin:12px 0 0 79px;color:#dbe7f7;font-size:11px}.pdf-brand{gap:13px}.pdf-logo{width:72px!important;height:64px!important}.pdf-logo svg{width:66px!important;height:54px!important}.pdf-logo img{width:100%!important;height:100%!important;object-fit:contain}.pdf-brand h1{font-size:22px!important}.pdf-brand p{font-size:10px!important;line-height:1.5}
+@media(max-width:360px){.brand-mark{width:57px;height:54px;flex-basis:57px}.brand-mark svg{width:51px}.brand-copy h1{font-size:23px}.brand-copy p{font-size:11px}.brand-subline{margin-left:70px;font-size:10px}}
+
+.profile-panel{padding:14px}
+.profile-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.profile-choice{min-width:0;min-height:94px;padding:10px 6px;background:#f7f9fc;color:#183b68;border:1px solid #dce5f1;box-shadow:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center}
+.profile-choice .profile-icon{width:40px;height:38px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(145deg,#eaf3ff,#fff);border:1px solid #c9dcf7;color:#174c91}.profile-choice .profile-icon svg{width:30px;height:30px;display:block}
+.profile-choice b{font-size:12px;line-height:1.35}
+.profile-choice small{font-size:10px;font-weight:500;color:#66758b;line-height:1.3}
+.profile-choice.active{background:#142d50;color:#f5d98f;border:2px solid #d6ad52;box-shadow:0 4px 12px #142d5020}
+.profile-choice.active small{color:#f2e6c8}
+.profile-hint{font-size:11px;color:#66758b;margin:9px 2px 0;line-height:1.5}
+@media(max-width:360px){.profile-grid{gap:5px}.profile-choice{padding:8px 3px}.profile-choice b{font-size:11px}.profile-choice small{font-size:9px}}
+#loginGate{position:fixed;inset:0;z-index:1000;background:linear-gradient(145deg,#101216,#252b38);color:#fff;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}#loginGate .login-card{width:min(100%,440px);background:#fff;color:#172033;border-radius:20px;padding:20px;border-top:4px solid #d9b45b;box-shadow:0 16px 50px #0005}#loginGate h2{margin:0 0 8px;color:#183d76}#loginGate .login-muted{font-size:13px;color:#667085;line-height:1.5}#loginGate .login-status{font-size:12px;color:#2458a6;min-height:36px;margin-top:10px}#loginGate .login-step{display:none}#loginGate .login-step.active{display:block}#loginGate .login-logo{display:flex;justify-content:center;align-items:center;margin:0 auto 12px;width:112px;height:112px;padding:5px;background:linear-gradient(145deg,#fff,#eaf3ff);border:2px solid #d9b45b;border-radius:26px;box-shadow:0 5px 18px #102b5222}#loginGate .login-logo img{display:block;width:100%;height:100%;object-fit:contain;border-radius:18px}#loginGate button{margin-top:8px}#loginGate .login-secondary{background:#edf2fa;color:#1f4d8d}
+/* Two clear account areas: personal ledger and homemaker ledger */
+.profile-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}
+.profile-heading h2{margin:4px 0 0}
+.profile-heading .eyebrow{font-size:10px;color:#9a7627;font-weight:800;letter-spacing:.5px}
+.profile-lock{font-size:10px;color:#64748b;background:#f1f5fa;border:1px solid #e1e8f2;border-radius:20px;padding:6px 8px;white-space:nowrap}
+.profile-grid-two{grid-template-columns:1fr 1fr;gap:11px}
+.profile-choice-main{min-height:156px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;text-align:left;padding:14px;background:linear-gradient(155deg,#fff,#f5f8fd);border:1px solid #dce5f1;border-bottom:4px solid #d6ad52;color:#173e72;box-shadow:0 5px 16px #18365c0b;transition:background .18s,border-color .18s,transform .18s}
+.profile-choice-main .profile-icon{width:54px;height:52px;font-size:30px;margin-bottom:8px;border-radius:16px}.profile-choice-main .profile-icon svg{width:42px;height:42px}
+.profile-choice-main b{font-size:15px;line-height:1.35}
+.profile-choice-main small{font-size:10px;line-height:1.5;color:#65758b;margin-top:4px}
+.profile-choice-main .profile-open{font-size:11px;color:#174b91;font-weight:800;margin-top:12px}
+.profile-choice-main.active{background:linear-gradient(155deg,#fff9e9,#fff);border-color:#d6ad52;box-shadow:0 5px 18px #d6ad5222;transform:translateY(-2px)}
+.profile-choice-main[data-profile="my"]{background:linear-gradient(145deg,#f2f8ff,#fff);border-color:#c8dcf4;border-bottom-color:#d6ad52;color:#153f76}.profile-choice-main[data-profile="my"] .profile-icon{background:linear-gradient(145deg,#dcecff,#fff);border-color:#9fc2eb;color:#174c91}.profile-choice-main[data-profile="my"].active{background:linear-gradient(145deg,#153f76,#0c2b54);color:#fff0c2;border-color:#d6ad52}.profile-choice-main[data-profile="my"].active small,.profile-choice-main[data-profile="my"].active .profile-open{color:#e8f2ff}
+.profile-choice-main[data-profile="homemaker"]{background:linear-gradient(145deg,#f0faf5,#fff);border-color:#c8e5d6;border-bottom-color:#48a77b;color:#185b45}.profile-choice-main[data-profile="homemaker"] .profile-icon{background:linear-gradient(145deg,#ddf4e8,#fff);border-color:#a8d8bf;color:#237653}.profile-choice-main[data-profile="homemaker"].active{background:linear-gradient(145deg,#176247,#0d4935);color:#f5ffe9;border-color:#e3c36a}.profile-choice-main[data-profile="homemaker"].active small,.profile-choice-main[data-profile="homemaker"].active .profile-open{color:#e4f7ec}
+body.profile-rickshaw #workspace .account-strip{border-top:4px solid #d6ad52}body.profile-rickshaw #workspace .total{border-color:#d8e5f5}body.profile-rickshaw #workspace .account-strip-top b{color:#174c91}
+body.profile-homemaker #workspace .account-strip{border-top:4px solid #48a77b}body.profile-homemaker #workspace .total{border-color:#cfe8da}body.profile-homemaker #workspace .account-strip-top b{color:#176247}
+@media(max-width:360px){.profile-grid-two{grid-template-columns:1fr}.profile-choice-main{min-height:120px}}
+
+
+#appToast{position:fixed;left:50%;bottom:calc(78px + env(safe-area-inset-bottom));transform:translate(-50%,14px);opacity:0;pointer-events:none;z-index:99;background:#102b52;color:#fff;border:1px solid #d6ad52;border-radius:13px;padding:12px 18px;box-shadow:0 8px 24px #102b5240;font-size:13px;font-weight:750;max-width:calc(100% - 28px);text-align:center;transition:opacity .18s ease,transform .18s ease}#appToast.show{opacity:1;transform:translate(-50%,0)}
+body.landing .bottom{display:none!important}
+
+/* Final No.4 gold-H logo: larger, fully visible in every output */
+.brand-mark{width:88px;height:84px;flex:0 0 88px;padding:4px;overflow:visible}
+.brand-mark img{width:100%;height:100%;object-fit:contain;border-radius:12px}
+.brand-copy h1{font-size:26px}
+.brand-subline{margin-left:98px}
+.pdf-logo{width:86px!important;height:82px!important;min-width:86px;overflow:visible!important;padding:3px;box-sizing:border-box}
+.pdf-logo img{display:block;width:100%!important;height:100%!important;object-fit:contain!important;border-radius:10px}
+#loginGate .login-logo{width:132px;height:132px;padding:4px;overflow:visible}
+#loginGate .login-logo img{width:100%;height:100%;object-fit:contain}
+@media(max-width:420px){
+ .brand-head{gap:9px}
+ .brand-mark{width:76px;height:76px;flex-basis:76px}
+ .brand-copy h1{font-size:23px}
+ .brand-copy p{font-size:11px}
+ .brand-subline{margin-left:84px}
+ .pdf-brand{gap:7px!important}
+ .pdf-logo{width:72px!important;height:72px!important;min-width:72px}
+ .pdf-brand h1{font-size:18px!important}
+ .pdf-brand p{font-size:9px!important}
+ .pdf-section-icon{width:48px}
+ .pdf-section-icon svg{width:38px;height:34px}
+}
+
+
+/* Dedicated section illustrations: image only, section name stays below */
+.profile-choice-main{min-height:218px!important;padding:12px 10px!important;gap:7px!important}
+.profile-choice-main .profile-icon{width:100%!important;height:126px!important;display:block!important;padding:0!important;background:transparent!important;border:0!important;border-radius:16px!important;overflow:hidden!important}
+.profile-choice-main .profile-icon img{display:block;width:100%;height:100%;object-fit:contain;border-radius:15px}
+.profile-choice-main b{font-size:15px!important}
+@media(max-width:420px){.profile-choice-main{min-height:190px!important;padding:9px 7px!important}.profile-choice-main .profile-icon{height:102px!important}.profile-choice-main b{font-size:14px!important}}
+
+</style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
+<body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-h.svg?v=goldh7" alt="हिशोब सारथी सोनेरी ह आणि कॅल्क्युलेटर लोगो"></div><h2>हिशोब सारथी लॉगिन</h2><p class="login-muted">हीच अॅप लिंक इतरांनाही देता येईल. प्रत्येकाने स्वतःच्या Google खात्याने प्रथम नोंदणी करून 6 अंकी PIN तयार करावा. प्रत्येक Google खात्यासाठी स्वतंत्र रिकामा हिशोब तयार होतो; तुमच्या वैयक्तिक नोंदी, बँक तपशील आणि PIN इतरांना दिसत नाहीत.</p><div id="loginLoadingStep" class="login-step active"><p style="text-align:center;padding:12px 0">खाते तपासत आहे…</p></div><div id="loginGoogleStep" class="login-step"><p>नोंदणीकृत Gmail खात्याने लॉगिन करा. नवीन मोबाईलवर दुसरे Google खाते असले तरी तुमचे मूळ Gmail निवडा.</p><button type="button" class="full goldbtn" onclick="dailyCloudLogin()">Google / Gmail ने लॉगिन करा</button></div><div id="loginPinSetup" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>मोबाईल नंबर</label><input id="gatePhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10 अंकी मोबाईल नंबर"><label>नवीन 6 अंकी PIN तयार करा</label><input id="gatePin1" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="gatePin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="gateSavePin()">नोंदणी पूर्ण करा</button></div><div id="loginPinUnlock" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay2" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>नोंदणीकृत मोबाईल नंबर</label><input id="gateUnlockPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="मोबाईल नंबर"><label>6 अंकी PIN</label><input id="gatePinUnlockValue" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><button class="full goldbtn" onclick="gateUnlock()">अॅप उघडा</button><button type="button" class="full login-secondary" onclick="accountRestartLogin()">दुसरे Gmail खाते वापरा / Sign out</button></div><p id="gateStatus" class="login-status">खाते तपासत आहे…</p></div></div>
+<header class="hero"><div class="brand-head"><div class="brand-mark" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.svg?v=goldh7" alt="हिशोब सारथी – सोनेरी ह लोगो"></div><div class="brand-copy"><small>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</small><h1>हिशोब सारथी</h1><p>तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.</p></div></div></header>
+<main class="wrap">
+<section id="home"><div class="panel profile-panel" style="margin-top:18px"><div class="profile-heading"><div><span class="eyebrow">हिशोब सारथी</span><h2>आपला विभाग निवडा</h2></div><span class="profile-lock">🔒 सुरक्षित हिशोब</span></div><div class="profile-grid profile-grid-two"><button type="button" class="profile-choice profile-choice-main" data-profile="my" onclick="setProfile('my')"><span class="profile-icon" aria-label="रिक्षा हिशोब चित्र"><img src="./section-hishob.svg?v=tile1" alt="रिक्षा आणि हिशोब"></span><b>हिशोब सारथी</b><small>रिक्षा उत्पन्न • खर्च • वैयक्तिक हिशोब</small><span class="profile-open">उघडा →</span></button><button type="button" class="profile-choice profile-choice-main" data-profile="homemaker" onclick="setProfile('homemaker')"><span class="profile-icon" aria-label="गृहिणी हिशोब चित्र"><img src="./section-gruhini.svg?v=tile1" alt="घर आणि गृहिणी"></span><b>गृहिणी सारथी</b><small>घरखर्च • बिल • किराणा • बचत</small><span class="profile-open">उघडा →</span></button></div></div></section>
+<section id="workspace" class="hidden"><div class="panel account-strip"><div class="account-strip-top"><b id="workspaceTitle">हिशोब सारथी</b><button type="button" class="secondary" onclick="showPage('home')">विभाग बदला</button></div><div id="homeAccountEmail" class="account-email">खाते तपासत आहे…</div><div id="homeCloudStatus" class="account-sync">Cloud स्थिती तपासत आहे…</div></div><div class="totals"><div class="total"><span>आजचे उत्पन्न</span><strong class="green" id="todayIn">₹0</strong></div><div class="total"><span>आजचा खर्च</span><strong class="red" id="todayOut">₹0</strong></div><div class="total"><span>या महिन्याचे उत्पन्न</span><strong class="green" id="monthIn">₹0</strong></div><div class="total"><span>या महिन्याचा खर्च</span><strong class="red" id="monthOut">₹0</strong></div></div><div class="panel bank-summary"><h2>बँक खात्यांची शिल्लक</h2><div id="homeBankBalances"><p class="muted">बँक खाते जोडलेले नाही.</p></div></div><div class="panel"><h2>जलद नोंद</h2><div class="quick"><button onclick="openForm('income')">＋ उत्पन्न नोंद</button><button class="goldbtn" onclick="openForm('expense')">－ खर्च नोंद</button></div></div><div class="panel"><h2>आजच्या नोंदी</h2><div id="todayList"></div></div><div class="note">नोंदी आपोआप फोनमध्ये जतन होतात आणि नोंदणीकृत Google खात्याच्या Cloud मध्ये Sync होतात.</div></section><section id="add" class="hidden">
+<div class="panel"><h2 id="formTitle">नवीन नोंद</h2><input type="hidden" id="editId">
+<label>नोंदीचा प्रकार</label><select id="kind"><option value="income">उत्पन्न</option><option value="expense">खर्च</option></select>
+<label>विभाग</label><select id="area"><option value="rickshaw">रिक्षा</option><option value="home">घरखर्च</option><option value="personal">वैयक्तिक</option></select>
+<label>श्रेणी</label><select id="category"></select>
+<div class="row"><div><label>रक्कम (₹)</label><input id="amount" type="number" min="1" inputmode="decimal" placeholder="उदा. 300"></div><div><label>तारीख</label><input id="date" type="date"></div></div>
+<div class="row"><div><label>पेमेंट पद्धत</label><select id="mode"><option>Cash</option><option>UPI</option><option>Bank Transfer</option><option>Card</option><option>Other</option></select></div><div><label>UPI / बँक जमा खाते (UPI, Bank Transfer किंवा Card साठी आवश्यक)</label><select id="bankAccount"><option value="">खाते निवडा</option></select></div></div><label>वर्णन / तपशील (ऐच्छिक)</label><input id="memo" placeholder="शाळेची फी असल्यास विद्यार्थ्यांची नावे लिहा">
+<div class="quick" style="margin-top:14px"><button onclick="saveEntry()">जतन करा</button><button class="secondary" onclick="showPage('home')">रद्द करा</button></div>
+</div></section>
+<section id="days" class="hidden"><div class="panel"><h2>तारीखनिहाय नोंदी</h2><div id="dayList"></div></div></section>
+<section id="reports" class="hidden">
+<div class="panel"><div class="pdf-brand"><div class="pdf-logo" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.svg?v=goldh7" alt="हिशोब सारथी सोनेरी ह लोगो"></div><div class="pdf-brand-copy"><h1>हिशोब सारथी</h1><p class="pdf-tagline">तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.</p><p>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</p></div><div class="pdf-section-icons"><div class="pdf-section-icon"><svg viewBox="0 0 64 56" fill="none" stroke="#174c91" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 33l5-15q2-6 9-6h18q7 0 10 7l5 14v8H5z" fill="#fff"/><path d="M13 19h30M22 13l-2 16m16-16l3 16M5 33h47"/><circle cx="15" cy="42" r="4" fill="#d9b45b"/><circle cx="42" cy="42" r="4" fill="#d9b45b"/><path d="M22 24h13v10H22z" fill="#eaf3ff"/><path d="M25 27h7m-7 4h7" stroke-width="1.5"/><path d="M49 5h12v19H49z" fill="#fff" stroke="#d9b45b"/><path d="M52 10h6m-6 5h6m-6 5h6" stroke-width="1.5"/></svg><small>रिक्षा साथी</small></div><div class="pdf-section-icon home"><svg viewBox="0 0 64 56" fill="none" stroke="#237653" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 25L26 7l22 18"/><path d="M11 22v28h30V22" fill="#fff"/><path d="M21 50V33h11v17" fill="#eaf3ff"/><path d="M18 27h17v10H18z" fill="#f2cf73" stroke="#237653"/><path d="M22 30h9m-9 4h9" stroke-width="1.5"/><path d="M48 18q8-8 13 0v25H48z" fill="#fff" stroke="#d9b45b"/><path d="M51 24h7m-7 5h7m-7 5h7" stroke-width="1.5"/></svg><small>गृहिणी सारथी</small></div></div></div><h2>कालावधीनुसार अहवाल</h2>
+<div class="row"><div><label>विभाग निवडा</label><select id="reportArea"><option value="home">घरखर्च</option><option value="rickshaw">रिक्षा</option><option value="all">दोन्ही विभाग</option></select></div><div><label>कालावधी निवडा</label><select id="reportPeriod"><option value="month">मासिक</option><option value="quarter">तिमाही</option><option value="half">सहामाही</option><option value="year">वार्षिक</option></select></div></div>
+<label>कोणत्या महिन्यापासून कालावधी मोजायचा?</label><input type="month" id="reportMonth">
+<div><label>नोंदीचा प्रकार</label><select id="reportKind"><option value="all">उत्पन्न + खर्च</option><option value="income">फक्त उत्पन्न</option><option value="expense">फक्त खर्च</option></select></div>
+<div class="row"><button class="full" onclick="downloadReportPDF()">📄 PDF तयार करा</button><button class="full secondary" onclick="downloadReportImage()">🖼️ Image तयार करा</button></div><p class="muted">PDF साठी पुढील स्क्रीनवर “Save as PDF” निवडा. Image थेट PNG म्हणून डाउनलोड होईल. दोन्ही मोबाईलच्या उभ्या (Portrait) स्वरूपात.</p><div id="reportBox"></div></div>
+<div class="panel"><h2>बँक व पेमेंट तपशील</h2><label>बँक / खाते नाव</label><input id="bankName" placeholder="उदा. Axis Bank / Saraswat Bank"><label>सुरुवातीची शिल्लक (₹)</label><input id="bankOpening" type="number" inputmode="decimal" placeholder="आजच्या आधीची शिल्लक"><div class="row"><div><label>खाते ओळख (शेवटचे 4 अंक)</label><input id="bankLast4" maxlength="4" inputmode="numeric" placeholder="1234"></div><div><label>UPI ID (ऐच्छिक)</label><input id="bankUpi" placeholder="name@bank"></div></div><button class="full" onclick="addBank()">＋ बँक खाते जोडा</button><div id="bankList"></div><p class="muted">पूर्ण खाते क्रमांक किंवा PIN येथे साठवू नका.</p></div>
+<div class="panel"><h2>श्रेणी व्यवस्थापन</h2><label>विभाग</label><select id="catArea"><option value="rickshaw">रिक्षा</option><option value="home">घरखर्च</option><option value="personal">वैयक्तिक</option></select><label>उत्पन्न / खर्च</label><select id="catKind"><option value="income">उत्पन्न</option><option value="expense">खर्च</option></select><label>नवीन श्रेणी</label><input id="catNew" placeholder="श्रेणीचे नाव"><button class="full" onclick="addCategory()">श्रेणी जोडा</button><div id="categoryList"></div></div></section><section id="backup" class="hidden"><div class="panel cloud-card"><div class="cloud-head"><div><h2>☁ Cloud Backup</h2><p class="muted">नोंदी तुमच्या नोंदणीकृत Gmail खात्याशी आपोआप सुरक्षित होतात.</p></div><span class="cloud-symbol">☁</span></div><p id="dailyCloudStatus" class="cloud-status">Cloud स्थिती तपासत आहे…</p><button class="full goldbtn" onclick="dailyCloudSync()">आता Backup / Sync करा</button><button class="full secondary" style="margin-top:8px" onclick="dailyCloudRestore()">Cloud मधून Restore करा</button></div><div class="panel"><h3>फोनमधील बॅकअप फाइल</h3><p class="muted">JSON फाइल डाउनलोड करून वेगळ्या ठिकाणी जतन करा.</p><button class="full" onclick="backup()">JSON बॅकअप डाउनलोड</button><label>बॅकअप फाइल निवडा</label><input type="file" id="restoreFile" accept=".json,application/json"><button class="full secondary" onclick="restore()">फाइलमधून नोंदी परत आणा</button><label>किंवा JSON मजकूर पेस्ट करा</label><textarea id="restoreJsonText" rows="3" placeholder="पूर्ण JSON येथे पेस्ट करा"></textarea><button class="full secondary" onclick="restoreJsonText()">JSON मधून नोंदी जोडा</button></div><details class="panel settings-fold"><summary>खाते आणि PIN व्यवस्थापन</summary><div class="fold-content"><p class="muted" id="accountStatus">Google खाते जोडलेले असल्यास येथे दिसेल.</p><label>सध्याचा 6 अंकी PIN</label><input id="changePinOld" type="password" inputmode="numeric" maxlength="6" placeholder="सध्याचा PIN"><label>नवीन 6 अंकी PIN</label><input id="changePinNew" type="password" inputmode="numeric" maxlength="6" placeholder="नवीन PIN"><label>नवीन PIN पुन्हा टाका</label><input id="changePinConfirm" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा"><button class="full goldbtn" onclick="changeAccountPin()">PIN बदला</button><button class="full secondary" onclick="accountSignOut()">Google खात्यातून Sign out</button><p class="muted" id="accountManageStatus">तुमचा Cloud हिशोब सुरक्षित राहील.</p></div></details><details class="panel settings-fold"><summary>जुना हिशोब / अतिरिक्त पर्याय</summary><div class="fold-content"><button type="button" id="archiveCurrentProfileBtn" class="full goldbtn">☁ फोन + Cloud मध्ये जुना हिशोब सुरक्षित करा</button><p class="muted">नवीन सुरुवात 1 डिसेंबर 2026 पासूनच. आधी फोन + Cloud Archive पडताळले जाईल; जुनी नोंद किंवा शिल्लक नवीन वर्षात येणार नाही.</p><button class="danger full" style="margin-top:8px" onclick="startFresh()">जुना हिशोब सुरक्षित करून नवीन हिशोब सुरू करा</button><div id="archiveList" style="margin-top:10px"></div><section id="archiveViewer" class="panel" hidden style="margin-top:12px"><div class="row" style="justify-content:space-between;align-items:center"><h3 id="archiveViewerTitle">जुना हिशोब</h3><button type="button" class="secondary" onclick="closeArchiveViewer()">बंद करा</button></div><p id="archiveViewerSummary" class="note"></p><div id="archiveViewerRows"></div><button type="button" class="goldbtn full" onclick="printArchivePDF()">PDF / प्रिंट करा</button><p class="muted">ही फक्त वाचण्यासाठीची प्रत आहे. सध्याच्या हिशोबात कोणताही बदल होत नाही.</p></section></div></details></section>
+</main>
+<nav class="bottom"><button class="active" data-page="home" onclick="showPage('home')"><span class="navicon">⌂</span><span>मुख्य</span></button><button data-page="add" onclick="openForm('income')"><span class="navicon">＋</span><span>नोंद</span></button><button data-page="days" onclick="showPage('days')"><span class="navicon">▤</span><span>दिवस</span></button><button data-page="reports" onclick="showPage('reports')"><span class="navicon">▥</span><span>अहवाल</span></button><button data-page="backup" onclick="showPage('backup')"><span class="navicon">☁</span><span>बॅकअप</span></button></nav>
+<script id="appScript">
+const BASE_KEY='hishobSarathiShared_v1';let KEY=BASE_KEY;
+const defaults={rickshaw:{income:['Ola उत्पन्न','Rapido उत्पन्न','शाळा सेवा','शाळेची फी','इतर उत्पन्न'],expense:['CNG','मेकॅनिक / मजुरी','स्पेअर पार्ट्स','इंजिन ऑईल','पास / परमिट','इतर रिक्षा खर्च']},home:{income:['पगार','घरखर्चासाठी मिळालेली रक्कम','इतर घर उत्पन्न'],expense:['किराणा','भाजीपाला','दूध','वीज बिल','गॅस','मोबाईल रिचार्ज','इंटरनेट','LIC','SIP / EMI','औषधे','हॉटेल / जेवण','घर दुरुस्ती','इतर घरखर्च']},personal:{income:['पगार','इतर वैयक्तिक उत्पन्न'],expense:['इतर वैयक्तिक खर्च','प्रवास']},other:{income:['इतर उत्पन्न'],expense:['इतर खर्च']}};
+let db=load();
+if(!Array.isArray(db.deletedCats))db.deletedCats=[];
+/* Keep old transactions, but use one current household electricity category. */
+db.cats.home=db.cats.home||JSON.parse(JSON.stringify(defaults.home));
+db.cats.home.income=[...new Set([...(defaults.home.income||[]),...(db.cats.home.income||[])])];
+const oldHomeElectricity=['लाईट बिल - घर 1','लाईट बिल - घर 2'];
+oldHomeElectricity.forEach(c=>{const k=catKey('home','expense',c);if(!db.deletedCats.includes(k))db.deletedCats.push(k)});
+db.cats.home.expense=[...new Set([...(defaults.home.expense||[]),...(db.cats.home.expense||[])])].filter(c=>!oldHomeElectricity.includes(c));
+/* Existing dated entries remain untouched; only new category choices are simplified. */
+localStorage.setItem(KEY,JSON.stringify(db));localStorage.setItem(KEY+'_autoBackup',JSON.stringify(db));
+const PROFILE_AREAS={my:['rickshaw','home'],homemaker:['home'],personal:['personal']};
+let activeProfile=localStorage.getItem(KEY+'_profile')||'my';
+if(!PROFILE_AREAS[activeProfile])activeProfile='my';
+/* Separate the three ledgers. Legacy records stay in the original personal ledger. */
+function ensureEntryProfiles(){
+ const legacy=db.entries.some(e=>!e.profile);
+ if(!legacy)return;
+ try{if(!localStorage.getItem(KEY+'_beforeProfileSplit'))localStorage.setItem(KEY+'_beforeProfileSplit',JSON.stringify(db));}catch(_){}
+ db.entries.forEach(e=>{if(!e.profile)e.profile=e.area==='personal'?'personal':'my'});
+}
+ensureEntryProfiles();
+function profileAreas(){return PROFILE_AREAS[activeProfile]||PROFILE_AREAS.my}
+function setProfile(p){if(!PROFILE_AREAS[p])return;activeProfile=p;document.body.classList.toggle('profile-rickshaw',p==='my');document.body.classList.toggle('profile-homemaker',p==='homemaker');localStorage.setItem(KEY+'_profile',p);updateProfileUI();const title=document.getElementById('workspaceTitle');if(title)title.textContent=p==='homemaker'?'गृहिणी सारथी':'हिशोब सारथी';showPage('workspace');renderHome();if(window.dailyCloudUser)window.dailyCloudSync()}
+function updateProfileUI(){
+ document.querySelectorAll('.profile-choice').forEach(b=>b.classList.toggle('active',b.dataset.profile===activeProfile));
+ 
+ const names={rickshaw:'रिक्षा',home:'घरखर्च',personal:'वैयक्तिक'};
+ const fill=(id,all)=>{const el=document.getElementById(id);if(!el)return;const old=el.value;el.innerHTML=(all?'<option value="all">सर्व विभाग</option>':'')+profileAreas().map(a=>'<option value="'+a+'">'+names[a]+'</option>').join('');el.value=(all&&old==='all')?'all':(profileAreas().includes(old)?old:profileAreas()[0])};
+ fill('area',false);fill('catArea',false);fill('reportArea',true);
+}
+function catKey(a,k,c){return a+'|'+k+'|'+String(c).trim().toLocaleLowerCase()}
+function cleanCatList(list){const seen=new Set();return (list||[]).map(x=>String(x).trim()).filter(x=>{const key=x.toLocaleLowerCase();if(!x||seen.has(key))return false;seen.add(key);return true})}
+function cleanAllCats(cats,deleted=[]){const out=JSON.parse(JSON.stringify(cats||defaults));Object.keys(out).forEach(a=>['income','expense'].forEach(k=>{out[a][k]=cleanCatList(out[a][k]).filter(c=>!deleted.includes(catKey(a,k,c)))}));return out}
+function load(){try{let raw=localStorage.getItem(KEY);if(!raw)raw=localStorage.getItem(KEY+'_autoBackup');let x=JSON.parse(raw)||{entries:[],cats:defaults,banks:[]};x.entries=x.entries||[];x.deletedEntries=x.deletedEntries||[];x.cats={...defaults,...(x.cats||{})};x.banks=ensureBankIds(x.banks||[]);x.deletedBanks=(x.deletedBanks||[]).filter(k=>String(k).startsWith('id:'));return x}catch(e){try{let x=JSON.parse(localStorage.getItem(KEY+'_autoBackup'))||{entries:[],cats:defaults,banks:[]};x.entries=x.entries||[];x.deletedEntries=x.deletedEntries||[];x.cats={...defaults,...(x.cats||{})};x.banks=ensureBankIds(x.banks||[]);x.deletedBanks=(x.deletedBanks||[]).filter(k=>String(k).startsWith('id:'));return x}catch(_){return {entries:[],deletedEntries:[],deletedBanks:[],cats:defaults,banks:[]}}}}
+function persist(){let raw=JSON.stringify(db);localStorage.setItem(KEY,raw);localStorage.setItem(KEY+'_autoBackup',raw);render();renderBanks();fillBanks();if(driveToken){clearTimeout(window.__driveBackupTimer);window.__driveBackupTimer=setTimeout(()=>uploadDriveBackup(),1200)}if(window.dailyCloudUser&&!window.dailyCloudBusy)window.dailyCloudSchedule()}
+function switchAccountData(uid){if(!uid)return;const owner=localStorage.getItem(BASE_KEY+'_owner'),k=BASE_KEY+'_user_'+uid,existing=localStorage.getItem(k);if(!owner&&!existing){const legacyRaw=localStorage.getItem(BASE_KEY)||localStorage.getItem(BASE_KEY+'_autoBackup');let legacy=null;try{legacy=legacyRaw?JSON.parse(legacyRaw):null}catch(e){}const hasLegacy=!!(legacy&&((legacy.entries||[]).length||(legacy.banks||[]).length));if(hasLegacy){const take=confirm('या फोनमध्ये आधीचा हिशोब सापडला आहे ('+(legacy.entries||[]).length+' नोंदी). तो या Google खात्यात आणायचा आहे का? OK = जुना हिशोब या खात्यात आणा. Cancel = या खात्यासाठी पूर्ण रिकामा हिशोब सुरू करा. जुनी प्रत फोनमध्ये तशीच सुरक्षित राहील.');if(take){localStorage.setItem(BASE_KEY+'_owner',uid);localStorage.setItem(k,legacyRaw);localStorage.setItem(k+'_autoBackup',legacyRaw)}}}else if(owner===uid&&!existing){const raw=localStorage.getItem(BASE_KEY)||localStorage.getItem(BASE_KEY+'_autoBackup');if(raw){localStorage.setItem(k,raw);localStorage.setItem(k+'_autoBackup',raw)}}KEY=k;db=load();if(!Array.isArray(db.deletedCats))db.deletedCats=[];if(!Array.isArray(db.deletedEntries))db.deletedEntries=[];if(!Array.isArray(db.deletedBanks))db.deletedBanks=[];db.cats={...defaults,...(db.cats||{})};ensureEntryProfiles();updateProfileUI();fillCategories();renderBanks();render();}
+function money(n){return '₹'+Number(n||0).toLocaleString('en-IN')}
+function isoToday(){let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function monthNow(){return isoToday().slice(0,7)}
+function sum(arr,k){return arr.filter(x=>x.kind===k).reduce((a,x)=>a+Number(x.amount),0)}
+function showPage(id){document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));const page=document.getElementById(id);if(page)page.classList.remove('hidden');document.querySelectorAll('.bottom button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));document.body.classList.toggle('landing',id==='home');if(id==='days')renderDays();if(id==='reports'){renderReport();renderBanks();}if(id==='backup')renderArchives();if(id==='workspace')renderHome();window.scrollTo(0,0)}
+function fillCategories(){let a=document.getElementById('area').value,k=document.getElementById('kind').value,sel=document.getElementById('category');sel.innerHTML='';(db.cats[a][k]||[]).forEach(c=>{let o=document.createElement('option');o.textContent=c;sel.appendChild(o)});fillBanks()}
+function fillBanks(){let s=document.getElementById('bankAccount');if(!s)return;let old=s.value;s.innerHTML='<option value="">निवड नाही</option>';db.banks.forEach((b,i)=>{if((b.profile||'my')!==activeProfile)return;let o=document.createElement('option');o.value=String(i);o.textContent=b.name+(b.last4?' ••••'+b.last4:'')+(b.upi?' • '+b.upi:'');s.appendChild(o)});s.value=old}
+document.getElementById('kind').onchange=fillCategories;document.getElementById('area').onchange=fillCategories;['reportMonth','reportArea','reportKind'].forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('change',()=>renderReport());el.addEventListener('input',()=>renderReport())}});
+function openForm(kind){showPage('add');document.getElementById('formTitle').textContent='नवीन '+(kind==='income'?'उत्पन्न':'खर्च')+' नोंद';document.getElementById('editId').value='';document.getElementById('kind').value=kind;document.getElementById('area').value=profileAreas()[0];document.getElementById('amount').value='';document.getElementById('date').value=isoToday();document.getElementById('mode').value='Cash';document.getElementById('memo').value='';fillCategories();document.getElementById('bankAccount').value=''}
+let entrySaving=false;function showAppToast(message){let t=document.getElementById('appToast');if(!t)return;t.textContent=message;t.classList.add('show');clearTimeout(window.__appToastTimer);window.__appToastTimer=setTimeout(()=>t.classList.remove('show'),3200)}function saveEntry(){if(entrySaving)return;let amount=Number(document.getElementById('amount').value);if(!amount||amount<=0){alert('कृपया योग्य रक्कम भरा');return}let mode=document.getElementById('mode').value,bankAccount=document.getElementById('bankAccount').value;if(['UPI','Bank Transfer','Card'].includes(mode)&&bankAccount===''){alert('UPI / बँक व्यवहारासाठी जमा झालेले बँक खाते निवडा.');return}entrySaving=true;let saveBtn=document.querySelector('#add button[onclick="saveEntry()"]');if(saveBtn){saveBtn.disabled=true;saveBtn.textContent='जतन होत आहे…'}try{let editId=document.getElementById('editId').value;let oldEntry=editId?db.entries.find(x=>x.id===editId):null;let e={id:editId||(Date.now().toString()+'-'+Math.random().toString(36).slice(2,9)),profile:oldEntry?.profile||activeProfile,kind:document.getElementById('kind').value,area:document.getElementById('area').value,category:document.getElementById('category').value,amount,date:document.getElementById('date').value||isoToday(),mode,bank:(['UPI','Bank Transfer','Card'].includes(mode)?bankAccount:''),memo:document.getElementById('memo').value.trim()};let i=db.entries.findIndex(x=>x.id===e.id);if(i>=0)db.entries[i]=e;else db.entries.push(e);db.deletedEntries=(db.deletedEntries||[]).filter(x=>String(x)!==String(e.id));persist();document.getElementById('editId').value='';document.getElementById('amount').value='';document.getElementById('memo').value='';document.getElementById('date').value=isoToday();document.getElementById('mode').value='Cash';document.getElementById('bankAccount').value='';document.getElementById('formTitle').textContent='नवीन नोंद';showPage('add');showAppToast(editId?'नोंद बदलून जतन झाली ✓':'नोंद एकदाच यशस्वीपणे जतन झाली ✓');}catch(err){alert('नोंद जतन करताना अडचण: '+err.message)}finally{setTimeout(()=>{entrySaving=false;if(saveBtn){saveBtn.disabled=false;saveBtn.textContent='जतन करा'}},900)}}
+function entryHtml(e){return '<div class="entry"><div><b>'+esc(e.category)+'</b><div class="meta">'+e.date+' • '+(({rickshaw:'रिक्षा',home:'घरखर्च',personal:'वैयक्तिक',other:'इतर'})[e.area]||'इतर')+' • '+e.mode+(e.bank!==undefined&&db.banks[Number(e.bank)]?' • '+esc(db.banks[Number(e.bank)].name):'')+(e.memo?' • '+esc(e.memo):'')+'</div><div class="entry-actions"><button class="secondary" onclick="editEntry(\''+e.id+'\')">बदला</button><button class="danger" onclick="delEntry(\''+e.id+'\')">हटवा</button></div></div><div class="amt '+(e.kind==='income'?'green':'red')+'">'+(e.kind==='income'?'+':'−')+money(e.amount)+'</div></div>'}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function editEntry(id){let e=db.entries.find(x=>x.id===id);if(!e)return;if((e.profile||'my')!==activeProfile){alert('ही नोंद दुसऱ्या हिशोबातील आहे.');return}showPage('add');document.getElementById('formTitle').textContent='नोंद बदला';document.getElementById('editId').value=e.id;document.getElementById('kind').value=e.kind;document.getElementById('area').value=e.area;fillCategories();document.getElementById('category').value=e.category;document.getElementById('amount').value=e.amount;document.getElementById('date').value=e.date;document.getElementById('mode').value=e.mode;fillBanks();document.getElementById('bankAccount').value=e.bank||'';document.getElementById('memo').value=e.memo||''}
+function delEntry(id){const target=db.entries.find(x=>String(x.id)===String(id)&&(x.profile||'my')===activeProfile);if(!target){showAppToast('ही नोंद सापडली नाही.');return}if(!confirm('ही नोंद कायमची हटवायची का?'))return;const before=db.entries.length;db.entries=db.entries.filter(x=>!(String(x.id)===String(id)&&(x.profile||'my')===activeProfile));db.deletedEntries=db.deletedEntries||[];if(!db.deletedEntries.includes(String(id)))db.deletedEntries.push(String(id));if(db.entries.length===before){alert('नोंद हटवली गेली नाही.');return}persist();renderDays();renderReport();showAppToast('नोंद यशस्वीपणे हटवली ✓')}
+function renderHome(){let visible=db.entries.filter(x=>(x.profile||'my')===activeProfile&&profileAreas().includes(x.area)),t=isoToday(),m=monthNow(),today=visible.filter(x=>x.date===t),mon=visible.filter(x=>x.date.startsWith(m));document.getElementById('todayIn').textContent=money(sum(today,'income'));document.getElementById('todayOut').textContent=money(sum(today,'expense'));document.getElementById('monthIn').textContent=money(sum(mon,'income'));document.getElementById('monthOut').textContent=money(sum(mon,'expense'));let hb=document.getElementById('homeBankBalances');if(hb){let rows=db.banks.map((b,i)=>({b,i})).filter(x=>(x.b.profile||'my')===activeProfile).map(({b,i})=>{let tx=db.entries.filter(e=>(e.profile||'my')===activeProfile&&String(e.bank??'')===String(i)&&['UPI','Bank Transfer','Card'].includes(e.mode)),inc=tx.filter(e=>e.kind==='income').reduce((s,e)=>s+Number(e.amount||0),0),out=tx.filter(e=>e.kind==='expense').reduce((s,e)=>s+Number(e.amount||0),0),bal=Number(b.opening||0)+inc-out;return '<div class="entry"><div><b>'+esc(b.name)+'</b><div class="meta">सुरुवातीची शिल्लक '+money(b.opening||0)+' · जमा '+money(inc)+' · खर्च '+money(out)+'</div></div><strong class="'+(bal>=0?'green':'red')+'">'+money(bal)+'</strong></div>'}).join('');hb.innerHTML=rows||'<p class="muted">बँक खाते जोडलेले नाही. अहवाल विभागात बँक खाते जोडा.</p>'}document.getElementById('todayList').innerHTML=today.length?today.map(entryHtml).join(''):'<p class="muted">आजची नोंद नाही.</p>'}
+function renderDays(){
+  const months={};
+  db.entries.filter(e=>(e.profile||'my')===activeProfile&&profileAreas().includes(e.area)).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).forEach(e=>{
+    const month=(e.date||'').slice(0,7)||'तारीख नाही';
+    (months[month]??=[]).push(e);
+  });
+  const monthKeys=Object.keys(months).sort((a,b)=>b.localeCompare(a));
+  document.getElementById('dayList').innerHTML=monthKeys.length?monthKeys.map((m,mi)=>{
+    const rows=months[m],inc=sum(rows,'income'),out=sum(rows,'expense');
+    const label=/^\\d{4}-\\d{2}$/.test(m)?new Date(Number(m.slice(0,4)),Number(m.slice(5,7))-1,1).toLocaleDateString('mr-IN',{month:'long',year:'numeric'}):m;
+    const dates={};rows.forEach(e=>(dates[e.date]??=[]).push(e));
+    const dateKeys=Object.keys(dates).sort((a,b)=>b.localeCompare(a));
+    return '<details class="month-folder" '+(mi===0?'open':'')+'><summary><span><b>'+esc(label)+'</b><small>'+rows.length+' नोंदी • उत्पन्न '+money(inc)+' • खर्च '+money(out)+'</small></span><span class="folder-arrow">⌄</span></summary><div class="month-content">'+dateKeys.map((d,di)=>{
+      const dayRows=dates[d],dayIn=sum(dayRows,'income'),dayOut=sum(dayRows,'expense');
+      const dateLabel=/^\\d{4}-\\d{2}-\\d{2}$/.test(d)?new Date(Number(d.slice(0,4)),Number(d.slice(5,7))-1,Number(d.slice(8,10))).toLocaleDateString('mr-IN',{day:'numeric',month:'short',year:'numeric'}):d;
+      return '<details class="date-folder"><summary><span><b>'+esc(dateLabel)+'</b><small>'+dayRows.length+' नोंदी • जमा '+money(dayIn)+' • खर्च '+money(dayOut)+'</small></span><span class="folder-arrow">⌄</span></summary><div class="date-content">'+dayRows.map(entryHtml).join('')+'</div></details>';
+    }).join('')+'</div></details>';
+  }).join(''):'<p class="muted">अजून नोंदी नाहीत.</p>';
+}
+function reportDateRange(monthValue,period){
+  const parts=(monthValue||monthNow()).split('-').map(Number),y=parts[0],m=parts[1]||1;
+  let startMonth=m-1,endMonth=m;
+  if(period==='quarter'){startMonth=Math.floor((m-1)/3)*3;endMonth=startMonth+3}
+  else if(period==='half'){startMonth=m<=6?0:6;endMonth=startMonth+6}
+  else if(period==='year'){startMonth=0;endMonth=12}
+  const start=new Date(y,startMonth,1),end=new Date(y,endMonth,0);
+  const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  return {start:iso(start),end:iso(end),label:start.toLocaleDateString('mr-IN',{month:'long',year:'numeric'})+' ते '+end.toLocaleDateString('mr-IN',{month:'long',year:'numeric'})};
+}
+function renderReport(){
+  const m=document.getElementById('reportMonth');if(!m.value)m.value=monthNow();
+  const area=document.getElementById('reportArea')?.value||'home',kind=document.getElementById('reportKind')?.value||'all',period=document.getElementById('reportPeriod')?.value||'month';
+  const range=reportDateRange(m.value,period);
+  const all=db.entries.filter(e=>(e.profile||'my')===activeProfile&&profileAreas().includes(e.area)&&(e.date||'')>=range.start&&(e.date||'')<=range.end);
+  const arr=all.filter(e=>(area==='all'||e.area===area)&&(kind==='all'||e.kind===kind));
+  const r=sum(arr,'income'),c=sum(arr,'expense');
+  const areaNames={rickshaw:'रिक्षा',home:'घरखर्च',personal:'वैयक्तिक',other:'इतर'};
+  const areaLabel=area==='all'?'दोन्ही विभाग':areaNames[area]||'विभाग';
+  const periodNames={month:'मासिक',quarter:'तिमाही',half:'सहामाही',year:'वार्षिक'};
+  let html='<div class="note" style="margin:10px 0"><b>'+periodNames[period]+' अहवाल · '+areaLabel+'</b><br>'+range.label+'</div><div class="totals" style="margin:12px 0"><div class="total"><span>एकूण उत्पन्न</span><strong class="green">'+money(r)+'</strong></div><div class="total"><span>एकूण खर्च</span><strong class="red">'+money(c)+'</strong></div></div><div class="total"><span>निव्वळ शिल्लक</span><strong class="'+(r-c>=0?'green':'red')+'">'+money(r-c)+'</strong></div>';
+  const groups={};arr.forEach(e=>{const key=(area==='all'?areaNames[e.area]||'इतर विभाग':'')+'|'+e.category+'|'+e.kind;groups[key]=(groups[key]||0)+Number(e.amount||0)});
+  const cats=Object.entries(groups).sort((a,b)=>b[1]-a[1]);
+  if(cats.length){const max=Math.max(...cats.map(x=>x[1]),1);html+='<h2 style="margin-top:18px">श्रेणीनुसार विभागणी व ग्राफ</h2><div class="report-chart">'+cats.slice(0,12).map(([key,val])=>{const [areaName,cat,k]=key.split('|');return '<div class="chart-row"><div class="chart-label"><span>'+((area==='all'&&areaName?esc(areaName)+' · ':'')+esc(cat))+'</span><b class="'+(k==='income'?'green':'red')+'">'+money(val)+'</b></div><div class="chart-track"><div class="chart-bar '+(k==='income'?'bar-in':'bar-out')+'" style="width:'+Math.max(3,val/max*100)+'%"></div></div></div>'}).join('')+'</div>'}
+  const months={};arr.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).forEach(e=>(months[e.date||'तारीख नाही']??=[]).push(e));
+  const dates=Object.keys(months).sort((a,b)=>b.localeCompare(a));
+  html+='<h2 style="margin-top:18px">तारीखनिहाय नोंदी ('+arr.length+')</h2>';
+  html+=dates.length?dates.map((d,i)=>{const rows=months[d],di=sum(rows,'income'),do_=sum(rows,'expense');const label=/^\\d{4}-\\d{2}-\\d{2}$/.test(d)?new Date(Number(d.slice(0,4)),Number(d.slice(5,7))-1,Number(d.slice(8,10))).toLocaleDateString('mr-IN',{day:'numeric',month:'long',year:'numeric'}):d;return '<details class="date-folder"><summary><span><b>'+esc(label)+'</b><small>'+rows.length+' नोंदी · जमा '+money(di)+' · खर्च '+money(do_)+'</small></span><span class="folder-arrow">⌄</span></summary><div class="date-content">'+rows.map(entryHtml).join('')+'</div></details>'}).join(''):'<p class="muted">या निवडीत नोंदी नाहीत.</p>';
+  document.getElementById('reportBox').innerHTML=html;renderCategories();
+}
+document.getElementById('reportMonth').addEventListener('change',renderReport);
+document.getElementById('reportArea').addEventListener('change',renderReport);
+document.getElementById('reportPeriod').addEventListener('change',renderReport);
+document.getElementById('reportKind').addEventListener('change',renderReport);
+function addBank(){let name=document.getElementById('bankName').value.trim(),last4=document.getElementById('bankLast4').value.trim(),upi=document.getElementById('bankUpi').value.trim(),opening=Number(document.getElementById('bankOpening').value||0);if(!name){alert('बँकेचे नाव भरा');return}if(last4&&!/^\d{4}$/.test(last4)){alert('शेवटचे 4 अंक भरा');return}if(!Number.isFinite(opening)){alert('सुरुवातीची शिल्लक तपासा');return}const newBank={id:'bank_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,10),name,last4,upi,opening,profile:activeProfile};db.deletedBanks=(db.deletedBanks||[]).filter(k=>k!==bankIdentity(newBank));db.banks.push(newBank);document.getElementById('bankName').value='';document.getElementById('bankLast4').value='';document.getElementById('bankUpi').value='';document.getElementById('bankOpening').value='';persist();renderBanks();fillBanks()}
+function renderBanks(){let el=document.getElementById('bankList');if(!el)return;el.innerHTML=db.banks.map((b,i)=>({b,i})).filter(x=>(x.b.profile||'my')===activeProfile).map(({b,i})=>{let tx=db.entries.filter(e=>(e.profile||'my')===activeProfile&&String(e.bank??'')===String(i)&&['UPI','Bank Transfer','Card'].includes(e.mode)),inc=tx.filter(e=>e.kind==='income').reduce((s,e)=>s+Number(e.amount||0),0),out=tx.filter(e=>e.kind==='expense').reduce((s,e)=>s+Number(e.amount||0),0),bal=Number(b.opening||0)+inc-out;return '<div class="entry"><div><b>'+esc(b.name)+'</b><div class="meta">'+(b.last4?'••••'+esc(b.last4):'')+(b.upi?' • '+esc(b.upi):'')+'<br>सुरुवातीची शिल्लक: '+money(b.opening||0)+'<br>नोंदीनुसार सध्याची शिल्लक: <b class="'+(bal>=0?'green':'red')+'">'+money(bal)+'</b><br>बँकमार्गे नोंदवलेले जमा: '+money(inc)+' | खर्च: '+money(out)+'</div></div><div class="row-actions"><button class="secondary" onclick="showBankLinked('+i+')">जोडलेल्या नोंदी पहा</button><button class="danger" onclick="removeBank('+i+')">हटवा</button></div></div>'}).join('')||'<p class="muted">बँक खाते जोडलेले नाही.</p>'}
+function showBankLinked(i){const b=db.banks[i];if(!b)return;const rows=db.entries.filter(e=>e.bank!==''&&e.bank!=null&&String(e.bank)===String(i));const old=document.getElementById('bankLinkedPanel');if(old)old.remove();const panel=document.createElement('div');panel.id='bankLinkedPanel';panel.className='panel';panel.style.marginTop='12px';panel.innerHTML='<h3>'+esc(b.name)+' — जोडलेल्या नोंदी ('+rows.length+')</h3>'+(rows.length?rows.map(e=>'<div class="entry"><div><b>'+esc(e.category||'व्यवहार')+' · '+money(e.amount)+'</b><div class="meta">'+esc(e.date||'')+' · '+(e.kind==='income'?'जमा':'खर्च')+' · '+esc(e.mode||'')+(e.memo?' · '+esc(e.memo):'')+' · '+((e.profile||'my')==='homemaker'?'गृहिणी':'माझा हिशोब')+'</div></div><div class="row-actions"><button class="secondary" onclick="openBankLinkedEntry('+JSON.stringify(String(e.id))+','+JSON.stringify((e.profile||'my'))+')">नोंद एडिट करा</button><button class="secondary" onclick="detachBankFromEntry('+JSON.stringify(String(e.id))+')">बँक जोडणी काढा</button></div></div>').join(''):'<p class="muted">या खात्याशी जोडलेली नोंद सापडली नाही. नोंदी दुसऱ्या हिशोबात किंवा जुन्या बॅकअपमध्ये असू शकतात.</p>')+'<p class="muted">प्रत्येक नोंद आधी तपासून एडिट करा. बँक जोडणी काढल्यास व्यवहाराची तारीख, रक्कम व तपशील सुरक्षित राहतील.</p>';document.getElementById('bankList').appendChild(panel);panel.scrollIntoView({behavior:'smooth',block:'nearest'})}
+function openBankLinkedEntry(id,profile){if(profile!==activeProfile){setProfile(profile)}const e=db.entries.find(x=>String(x.id)===String(id));if(!e){showAppToast('ही जुनी नोंद सापडली नाही.');return}editEntry(e.id)}
+function detachBankFromEntry(id){const e=db.entries.find(x=>String(x.id)===String(id));if(!e)return;e.bank='';persist();renderBanks();showBankLinkedForMessage('या व्यवहारातून बँक जोडणी काढली. व्यवहार सुरक्षित आहे.')}
+function showBankLinkedForMessage(t){const el=document.getElementById('bankList');if(el){const p=document.createElement('p');p.className='muted';p.textContent=t;el.appendChild(p)}}
+function bankLegacyKey(b){return [b.name||'',b.last4||'',b.upi||'',b.profile||'my'].map(x=>String(x).trim().toLocaleLowerCase()).join('|')}
+function ensureBankIds(banks){(banks||[]).forEach((b,i)=>{if(!b.id)b.id='legacy_'+i+'_'+encodeURIComponent(bankLegacyKey(b))});return banks||[]}
+function bankIdentity(b){return b&&b.id?'id:'+String(b.id):'legacy:'+bankLegacyKey(b||{})}
+function removeBank(i){const bank=db.banks[i];if(!bank)return;const used=db.entries.filter(e=>e.bank!==''&&e.bank!=null&&String(e.bank)===String(i));const msg='“'+bank.name+'” खाते हटवायचे का?\n\nया खात्याशी '+used.length+' व्यवहार जोडलेले आहेत.\n\nखाते हटवल्यावर त्या व्यवहारांची बँक-जोडणी आपोआप काढली जाईल; पण तारीख, रक्कम, जमा/खर्च, UPI/तपशील आणि व्यवहाराची नोंद सुरक्षित राहील.';if(!confirm(msg))return;db.deletedBanks=[...new Set([...(db.deletedBanks||[]),bankIdentity(bank)])];db.entries.forEach(e=>{if(e.bank===''||e.bank==null)return;const n=Number(e.bank);if(!Number.isFinite(n))return;if(n===i)e.bank='';else if(n>i)e.bank=String(n-1)});db.banks.splice(i,1);persist();const panel=document.getElementById('bankLinkedPanel');if(panel)panel.remove();showAppToast('बँक खाते हटवले. '+used.length+' व्यवहार सुरक्षित ठेवले ✓')}
+function addCategory(){let a=document.getElementById('catArea').value,k=document.getElementById('catKind').value,v=document.getElementById('newCat').value.trim();if(!v)return;db.cats[a][k]=cleanCatList(db.cats[a][k]);if(db.cats[a][k].some(x=>x.toLocaleLowerCase()===v.toLocaleLowerCase())){alert('ही श्रेणी आधीपासून आहे');return}db.deletedCats=(db.deletedCats||[]).filter(x=>x!==catKey(a,k,v));db.cats[a][k].push(v);document.getElementById('newCat').value='';persist();renderCategories()}
+function renderCategories(){updateProfileUI();let a=document.getElementById('catArea').value,k=document.getElementById('catKind').value;db.cats[a][k]=cleanCatList(db.cats[a][k]);document.getElementById('categoryList').innerHTML=db.cats[a][k].map((c,i)=>`<div class="entry"><b>${esc(c)}</b><button class="danger" onclick="removeCategory('${a}','${k}',${i})">हटवा</button></div>`).join('')}
+function removeCategory(a,k,i){if(!confirm('ही श्रेणी हटवायची का? ती पुन्हा येऊ नये म्हणून सेव्ह केली जाईल.'))return;const c=db.cats[a][k][i];if(!c)return;db.deletedCats=db.deletedCats||[];const key=catKey(a,k,c);if(!db.deletedCats.includes(key))db.deletedCats.push(key);db.cats[a][k].splice(i,1);persist();renderCategories()}
+document.getElementById('catArea').onchange=renderCategories;document.getElementById('catKind').onchange=renderCategories;
+
+var driveToken=null;let driveTokenClient=null,driveFileId=localStorage.getItem(KEY+'_driveFileId')||'';
+const DRIVE_FILE_NAME='Hishob_Sarathi_Shared_Backup.json';
+function driveStatus(t){let e=document.getElementById('driveStatus');if(e)e.textContent=t}
+function driveClientId(){let e=document.getElementById('driveClientId');return (e?.value||localStorage.getItem(KEY+'_driveClientId')||'').trim()}
+function connectDrive(){let id=driveClientId();if(!id){alert('Google Cloud Console मधील OAuth Client ID आधी भरा');return}localStorage.setItem(KEY+'_driveClientId',id);let e=document.getElementById('driveClientId');if(e)e.value=id;driveStatus('Google खात्याची परवानगी उघडत आहे…');let start=()=>{if(!window.google?.accounts?.oauth2){driveStatus('Google Login सेवा लोड झाली नाही. इंटरनेट तपासा आणि पुन्हा प्रयत्न करा.');return}driveTokenClient=window.google.accounts.oauth2.initTokenClient({client_id:id,scope:'https://www.googleapis.com/auth/drive.file',callback:async(resp)=>{if(resp.error){driveStatus('Google Drive परवानगी मिळाली नाही: '+resp.error);return}driveToken=resp.access_token;try{let existing=driveFileId||await findDriveBackup();if(existing){driveFileId=existing;localStorage.setItem(KEY+'_driveFileId',existing);driveStatus('✓ Drive जोडले. आधीचा बॅकअप सापडला. डेटा आणण्यासाठी Restore दाबा; नवीन डेटाने बदलण्यासाठी आता बॅकअप दाबा.')}else{driveStatus('Drive मध्ये जुना बॅकअप नाही. पहिला बॅकअप तयार करत आहे…');await uploadDriveBackup()}}catch(e){driveStatus('Drive तपासता आला नाही: '+e.message)}}});driveTokenClient.requestAccessToken({prompt:''})};if(window.google?.accounts?.oauth2)start();else{let sc=document.getElementById('googleGsiScript');if(!sc){sc=document.createElement('script');sc.id='googleGsiScript';sc.src='https://accounts.google.com/gsi/client';sc.onload=start;sc.onerror=()=>driveStatus('Google Login सेवा लोड झाली नाही.');document.head.appendChild(sc)}else{sc.addEventListener('load',start,{once:true})}}}
+async function driveRequest(url,options={}){let res=await fetch(url,{...options,headers:{...(options.headers||{}),Authorization:'Bearer '+driveToken}});if(!res.ok){let t=await res.text();throw new Error('Drive API '+res.status+' '+t.slice(0,180))}return res}
+async function findDriveBackup(){let q="name='"+DRIVE_FILE_NAME+"' and trashed=false";let res=await driveRequest('https://www.googleapis.com/drive/v3/files?q='+encodeURIComponent(q)+'&orderBy=modifiedTime%20desc&fields=files(id,name,modifiedTime)&pageSize=20');let j=await res.json();return j.files?.[0]?.id||''}
+async function uploadDriveBackup(){if(!driveToken){driveStatus('आधी Google Drive जोडा.');return}try{let id=driveFileId||await findDriveBackup(),body=JSON.stringify(db);if(id){await driveRequest('https://www.googleapis.com/upload/drive/v3/files/'+encodeURIComponent(id)+'?uploadType=media',{method:'PATCH',headers:{'Content-Type':'application/json'},body});driveFileId=id}else{let boundary='-------MazaDainikHishobBoundary'+Date.now(),meta=JSON.stringify({name:DRIVE_FILE_NAME,mimeType:'application/json'}),multipart='--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+meta+'\r\n--'+boundary+'\r\nContent-Type: application/json\r\n\r\n'+body+'\r\n--'+boundary+'--';let res=await driveRequest('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id',{method:'POST',headers:{'Content-Type':'multipart/related; boundary='+boundary},body:multipart});let j=await res.json();driveFileId=j.id;localStorage.setItem(KEY+'_driveFileId',driveFileId)}localStorage.setItem(KEY+'_driveFileId',driveFileId);driveStatus('✓ Google Drive बॅकअप सेव्ह झाला. शेवटचा बॅकअप: '+new Date().toLocaleString('mr-IN'))}catch(e){driveStatus('बॅकअप अयशस्वी: '+e.message+' — पुन्हा Drive जोडा.');driveToken=null}}
+async function driveBackupNow(){if(!driveToken){connectDrive();return}await uploadDriveBackup()}
+async function restoreFromDrive(){if(!driveToken){connectDrive();driveStatus('Drive जोडल्यावर पुन्हा Restore दाबा.');return}try{let id=driveFileId||await findDriveBackup();if(!id){driveStatus('Drive मध्ये बॅकअप फाइल सापडली नाही.');return}let res=await driveRequest('https://www.googleapis.com/drive/v3/files/'+encodeURIComponent(id)+'?alt=media');let raw=await res.json();let x=normalizeBackupData(raw);if(!confirm('Drive मधील '+x.entries.length+' नोंदी सध्याच्या नोंदींसोबत सुरक्षितपणे जोडायच्या का? आधीच्या नोंदी हटवल्या जाणार नाहीत. समान ID असल्यास Drive मधील नोंद अपडेट होईल.'))return;db=mergeImportedBackup(db,x);ensureEntryProfiles();driveFileId=id;localStorage.setItem(KEY+'_driveFileId',id);persist();driveStatus('✓ Drive मधील बॅकअप सुरक्षितपणे जोडला. एकूण '+db.entries.length+' नोंदी उपलब्ध आहेत.')}catch(e){driveStatus('Restore अयशस्वी: '+e.message)}}
+window.dailyCloudRestore=restoreFromDrive;
+
+
+function normalizeBackupData(x){
+  if(!x||!Array.isArray(x.entries))throw new Error('JSON मध्ये entries यादी सापडली नाही');
+  const cats=JSON.parse(JSON.stringify(defaults));
+  const deletedCats=Array.isArray(x.deletedCats)?x.deletedCats:[];
+  if(x.cats&&typeof x.cats==='object'){
+    ['rickshaw','home','personal','other'].forEach(a=>['income','expense'].forEach(k=>{
+      if(Array.isArray(x.cats[a]?.[k]))cats[a][k]=[...new Set([...cats[a][k],...x.cats[a][k]])];
+    }));
+  }
+  const entries=x.entries.map((e,i)=>{
+    const kind=e.kind||e.type;
+    if(!['income','expense'].includes(kind))throw new Error('नोंद '+(i+1)+' चा प्रकार ओळखता आला नाही');
+    const originalArea=e.area||'';
+    const area=({'रिक्षा':'rickshaw','घर':'home','घरखर्च':'home','वैयक्तिक':'personal','इतर':'other','personal':'personal','other':'other'})[originalArea]||(['rickshaw','home','personal','other'].includes(originalArea)?originalArea:'other');
+    const category=String(e.category||'इतर खर्च');
+    if(!cats[area][kind].includes(category))cats[area][kind].push(category);
+    let mode=e.mode||'Cash';
+    if(mode==='रोख')mode='Cash';else if(mode==='UPI / ऑनलाइन')mode='UPI';else if(mode==='बँक')mode='Bank Transfer';
+    return {id:String(e.id||('restored-'+Date.now()+'-'+i)),date:String(e.date||isoToday()),kind,area,category,amount:Number(e.amount||0),mode,bank:e.bank??'',memo:String(e.memo??e.desc??''),legacyArea:originalArea};
+  });
+  return {entries,cats:cleanAllCats(cats,deletedCats),deletedCats,banks:Array.isArray(x.banks)?x.banks:[],budgets:x.budgets||{}};
+}
+
+function listLocalArchives(){let out=[];for(let i=0;i<localStorage.length;i++){let k=localStorage.key(i);if(k&&k.startsWith(KEY+'_archive_'))out.push({key:k,time:Number(k.slice((KEY+'_archive_').length))||0})}return out.sort((a,b)=>b.time-a.time)}
+function renderArchives(){let el=document.getElementById('archiveList');if(!el)return;let items=listLocalArchives();el.innerHTML=items.length?'<b>फोनमधील सुरक्षित जुन्या प्रती</b>'+items.map(x=>'<div class="entry"><div><b>'+new Date(x.time).toLocaleString('mr-IN')+'</b><div class="meta">सुरक्षित प्रत · बदल न करता पाहता येईल</div></div><button class="secondary" onclick="previewArchive(\''+x.key+'\')">हिशोब पाहा</button><button class="secondary" onclick="restoreArchive(\''+x.key+'\')">परत आणा</button></div>').join(''):'<p class="muted">अजून जुना हिशोब संग्रहित केलेला नाही.</p>'}
+function previewArchive(key){try{const raw=localStorage.getItem(key);if(!raw)throw new Error('फोनमधील सुरक्षित प्रत सापडली नाही.');const x=JSON.parse(raw);if(!x||!Array.isArray(x.entries))throw new Error('Archive फाइलची रचना योग्य नाही.');const stamp=Number(key.slice((KEY+'_archive_').length))||0;const rows=x.entries.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));const income=rows.filter(e=>e.kind==='income').reduce((n,e)=>n+Number(e.amount||0),0),expense=rows.filter(e=>e.kind==='expense').reduce((n,e)=>n+Number(e.amount||0),0);const areaNames={rickshaw:'रिक्षा',home:'घरखर्च',personal:'वैयक्तिक',other:'इतर'};const escText=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const box=document.getElementById('archiveViewer');if(!box)throw new Error('Archive पाहण्याची जागा उपलब्ध नाही.');document.getElementById('archiveViewerTitle').textContent='जुना हिशोब · '+(stamp?new Date(stamp).toLocaleString('mr-IN'):'तारीख उपलब्ध नाही');document.getElementById('archiveViewerSummary').innerHTML='<b>एकूण नोंदी: '+rows.length+'</b> · जमा ₹'+income.toLocaleString('en-IN')+' · खर्च ₹'+expense.toLocaleString('en-IN')+' · निव्वळ ₹'+(income-expense).toLocaleString('en-IN');document.getElementById('archiveViewerRows').innerHTML=rows.length?rows.map(e=>'<div class="entry"><div><b>'+escText(e.date||'तारीख नाही')+' · '+escText(areaNames[e.area]||'इतर')+' · '+escText(e.category||'')+'</b><div class="meta">'+escText(e.memo||e.desc||'')+' · '+escText(e.mode||'')+'</div></div><b class="'+(e.kind==='income'?'green':'red')+'">'+(e.kind==='income'?'+':'−')+'₹'+Number(e.amount||0).toLocaleString('en-IN')+'</b></div>').join(''):'<p class="muted">या Archive मध्ये नोंदी नाहीत.</p>';box.hidden=false;box.dataset.archiveKey=key;box.scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){alert('Archive उघडता आला नाही: '+e.message)}}
+function closeArchiveViewer(){const box=document.getElementById('archiveViewer');if(box)box.hidden=true}
+function printArchivePDF(){const box=document.getElementById('archiveViewer');if(!box||box.hidden){alert('आधी जुना हिशोब उघडा.');return}document.body.classList.add('archive-print-mode');const done=()=>{document.body.classList.remove('archive-print-mode');window.removeEventListener('afterprint',done)};window.addEventListener('afterprint',done);window.print();setTimeout(done,1500)}
+async function archiveCurrentProfile(){
+ if(!window.dailyCloudUser){alert('आधी तुमच्या नोंदणीकृत Gmail खात्याने लॉगिन करा.');return}
+ if(window.dailyArchiveBusy){alert('Archive प्रक्रिया सुरू आहे. कृपया थांबा.');return}
+ const p=activeProfile,label=p==='homemaker'?'गृहिणी सारथी':'माझा विभाग',stamp=Date.now(),archiveKey=KEY+'_archive_'+stamp;
+ const fullSnapshot=JSON.stringify(db);if(typeof window.profileCloudData!=='function'){alert('Cloud प्रोफाइलची मदतनीस सुविधा लोड झाली नाही. कृपया पेज पुन्हा उघडा.');return}const profileData=window.profileCloudData(db,p),entries=profileData.entries||[];
+ if(!confirm(label+' मधील '+entries.length+' नोंदींची फोन आणि Cloud मध्ये स्वतंत्र सुरक्षित प्रत तयार करायची का? सध्याच्या नोंदी किंवा बॅलन्स बदलणार नाहीत.'))return;
+ window.dailyArchiveBusy=true;const statusEl=document.getElementById('dailyCloudStatus');if(statusEl)statusEl.textContent='फोनमध्ये सुरक्षित प्रत तयार करत आहे…';
+ try{
+  localStorage.setItem(archiveKey,fullSnapshot);
+  const localCheck=localStorage.getItem(archiveKey);
+  if(!localCheck||JSON.parse(localCheck).entries?.length!==(db.entries||[]).length)throw new Error('फोनमधील Archive पडताळणी पूर्ण झाली नाही.');
+  const archiveId='archive_'+new Date(stamp).toISOString().replace(/[-:.TZ]/g,'')+'_'+Math.random().toString(36).slice(2,7);
+  if(typeof window.dailyArchiveSaveCloud!=='function')throw new Error('Cloud Archive ची मदतनीस सुविधा उपलब्ध नाही. पेज पुन्हा उघडा.');
+  await window.dailyArchiveSaveCloud(p,archiveId,entries,{cats:profileData.cats||defaults,deletedCats:profileData.deletedCats||[],banks:profileData.banks||[],deletedBanks:profileData.deletedBanks||[],budgets:profileData.budgets||{},deletedEntries:profileData.deletedEntries||[]});
+  if(statusEl)statusEl.textContent='फोन + Cloud Archive पूर्ण. '+entries.length+' नोंदींची पडताळणी झाली. सध्याचा हिशोब बदललेला नाही.';
+  renderArchives();alert('सुरक्षित Archive पूर्ण! फोन आणि Cloud दोन्हीकडे '+entries.length+' नोंदींची पडताळणी झाली. सध्याच्या नोंदी आणि बॅलन्स अजिबात बदललेले नाहीत.');
+ }catch(e){if(statusEl)statusEl.textContent='Archive पूर्ण झाले नाही: '+(e.message||e)+' सध्याचा हिशोब सुरक्षित आहे.';alert('Archive पूर्ण झाले नाही. सध्याच्या नोंदी बदललेल्या नाहीत. कारण: '+(e.message||e))}
+ finally{window.dailyArchiveBusy=false}
+}
+window.archiveCurrentProfile=archiveCurrentProfile;
+async function startFresh(){
+ if(!window.dailyCloudUser){alert('सुरक्षित नवीन सुरुवातीसाठी आधी तुमच्या Gmail खात्याने लॉगिन करा. जुना हिशोब बदललेला नाही.');return}
+ if(window.dailyArchiveBusy||window.dailyCloudBusy){alert('Cloud प्रक्रिया सुरू आहे. ती पूर्ण झाल्यावर पुन्हा प्रयत्न करा.');return}
+ const today=isoToday(),year=today.slice(0,4),p=activeProfile,label=p==='homemaker'?'गृहिणी सारथी':p==='personal'?'वैयक्तिक हिशोब':'हिशोब सारथी';
+ if(today<'2026-12-01'){alert('नवीन हिशोब 1 डिसेंबर 2026 पासून सुरू करता येईल. आत्ताचा हिशोब आणि 109 जुन्या नोंदी सुरक्षित आहेत.');return}
+ const marker=KEY+'_freshStartYear_'+p+'_'+year;
+ const pendingKey=KEY+'_freshStartPending_'+p+'_'+year;
+ if(localStorage.getItem(pendingKey)){alert('नवीन हिशोबाची आधीची प्रक्रिया अपूर्ण आहे. सुरक्षिततेसाठी Cloud Sync थांबवला आहे. कृपया मदत मागा; पुन्हा बटण दाबू नका.');return}
+ if(localStorage.getItem(marker)){alert('या वर्षासाठी नवीन हिशोब आधीच सुरू केला आहे. जुन्या नोंदी Archive मध्ये सुरक्षित आहेत.');return}
+ if(typeof window.dailyArchiveSaveCloud!=='function'||typeof window.profileCloudData!=='function'||typeof window.dailyCloudUser==='undefined'){alert('फोन + Cloud Archive सुविधा तयार नाही. कृपया पेज पुन्हा उघडून लॉगिन तपासा.');return}
+ const profileData=window.profileCloudData(db,p),entries=profileData.entries||[],stamp=Date.now(),archiveKey=KEY+'_archive_'+stamp;
+ const fullSnapshot=JSON.stringify(db);
+ const ok=confirm(label+' चा नवीन स्वतंत्र हिशोब सुरू करायचा आहे का?\n\nआधी '+entries.length+' जुन्या नोंदींची फोन + Cloud मध्ये Archive प्रत तयार व पडताळली जाईल. त्यानंतर या विभागाचा चालू हिशोब रिकामा होईल.\n\nजुने Archive हटणार नाहीत. जुनी नोंद किंवा शिल्लक नवीन हिशोबात येणार नाही. बँक खात्यांची यादी व श्रेणी मात्र राहतील.');
+ if(!ok)return;
+ window.dailyArchiveBusy=true;const statusEl=document.getElementById('dailyCloudStatus');
+ let cloudWasEmptied=false,pendingSaved=false;
+ try{
+  if(statusEl)statusEl.textContent='जुन्या हिशोबाची फोन प्रत तयार करत आहे…';
+  localStorage.setItem(archiveKey,fullSnapshot);
+  const localCheck=localStorage.getItem(archiveKey);
+  if(!localCheck||JSON.parse(localCheck).entries?.length!==(db.entries||[]).length)throw new Error('फोनमधील जुनी प्रत पडताळता आली नाही.');
+  const archiveId='archive_'+new Date(stamp).toISOString().replace(/[-:.TZ]/g,'')+'_'+Math.random().toString(36).slice(2,7);
+  await window.dailyArchiveSaveCloud(p,archiveId,entries,{cats:profileData.cats||defaults,deletedCats:profileData.deletedCats||[],banks:profileData.banks||[],deletedBanks:profileData.deletedBanks||[],budgets:profileData.budgets||{},deletedEntries:profileData.deletedEntries||[]});
+  if(statusEl)statusEl.textContent='Cloud Archive पडताळले. आता सुरक्षित बदल प्रक्रिया सुरू करत आहे…';
+  localStorage.setItem(pendingKey,JSON.stringify({profile:p,year,archiveKey,startedAt:stamp,entryCount:entries.length}));
+  pendingSaved=true;
+  const freshData={...profileData,entries:[]};
+  window.dailyCloudBusy=true;
+  await writeCloud(freshData,p);
+  cloudWasEmptied=true;
+  const cloudCheck=await readCloud(p);
+  if(!cloudCheck||!Array.isArray(cloudCheck.entries)||cloudCheck.entries.length!==0)throw new Error('नवीन रिकाम्या Cloud हिशोबाची पडताळणी झाली नाही.');
+  db.entries=(db.entries||[]).filter(e=>(e.profile||'my')!==p);
+  persist();
+  localStorage.setItem(marker,'1');
+  localStorage.removeItem(pendingKey);
+  pendingSaved=false;
+  window.dailyCloudBusy=false;
+  if(statusEl)statusEl.textContent='नवीन हिशोब सुरू झाला. जुना हिशोब फोन + Cloud Archive मध्ये सुरक्षित आहे.';
+  renderArchives();renderHome();renderReport();
+  alert('नवीन हिशोब यशस्वीपणे सुरू झाला!\n\nजुन्या नोंदी: '+entries.length+' — फोन + Cloud Archive मध्ये सुरक्षित.\nनवीन नोंदी: 0\nजुनी शिल्लक: पुढे आणलेली नाही.\n\nया वर्षाचा हिशोब स्वतंत्र राहील.');
+ }catch(e){
+  window.dailyCloudBusy=true;
+  let rollbackMessage='';
+  if(cloudWasEmptied){
+   try{
+    await writeCloud(profileData,p);
+    const restored=await readCloud(p);
+    const expectedIds=entries.map(x=>String(x.id)).sort().join('|');
+    const restoredIds=(restored?.entries||[]).map(x=>String(x.id)).sort().join('|');
+    if(!restored||restored.entries.length!==entries.length||restoredIds!==expectedIds)throw new Error('जुन्या Cloud नोंदींची पूर्ण पडताळणी झाली नाही.');
+    if(pendingSaved)localStorage.removeItem(pendingKey);
+    pendingSaved=false;
+    rollbackMessage=' जुना Cloud हिशोब परत ठेवून पडताळला आहे.';
+   }catch(rollbackError){
+    rollbackMessage=' सुरक्षितता लॉक कायम आहे. Cloud Sync/Restore करू नका; मदत घ्या.';
+   }
+  }else if(pendingSaved){
+   localStorage.removeItem(pendingKey);
+   pendingSaved=false;
+  }
+  window.dailyCloudBusy=false;
+  if(statusEl)statusEl.textContent='नवीन सुरुवात पूर्ण झाली नाही: '+(e.message||e)+rollbackMessage;
+  alert('नवीन हिशोब सुरू करता आला नाही.\nजुना Archive सुरक्षित ठेवला आहे.'+rollbackMessage+'\nकारण: '+(e.message||e));
+ }finally{window.dailyArchiveBusy=false;window.dailyCloudBusy=false}
+}
+function restoreArchive(key){let raw=localStorage.getItem(key);if(!raw){alert('सुरक्षित जुनी प्रत सापडली नाही.');return}try{let x=JSON.parse(raw);if(!x||!Array.isArray(x.entries))throw new Error('Archive फाइलची रचना योग्य नाही.');if(!confirm('जुन्या संग्रहित हिशोबातील '+x.entries.length+' नोंदी परत आणायच्या का? सध्याचा हिशोब बदलला जाईल; आधी त्याचा JSON बॅकअप घ्या.'))return;x.entries=x.entries||[];x.deletedEntries=x.deletedEntries||[];x.deletedCats=x.deletedCats||[];x.deletedBanks=x.deletedBanks||[];x.cats={...defaults,...(x.cats||{})};x.banks=ensureBankIds(x.banks||[]);x.budgets=x.budgets||{};db=x;ensureEntryProfiles();persist();renderArchives();alert('जुना संग्रहित हिशोब परत आणला. एकूण '+db.entries.length+' नोंदी उपलब्ध आहेत.')}catch(e){alert('जुना हिशोब उघडता आला नाही: '+e.message)}}
+function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Maza_Dainik_Hishob_Backup_'+isoToday()+'.json';a.click();URL.revokeObjectURL(url)}
+function downloadReportPDF(){
+ renderReport();const box=document.getElementById('reportBox');
+ if(!box||!box.innerText.trim()){alert('या महिन्यासाठी अहवाल उपलब्ध नाही. आधी नोंदी जोडा.');return}
+ const folds=[...box.querySelectorAll('details')],wasOpen=folds.map(x=>x.open);folds.forEach(x=>x.open=true);
+ document.body.classList.add('report-print-mode');let restored=false;
+ const restore=()=>{if(restored)return;restored=true;document.body.classList.remove('report-print-mode');folds.forEach((x,i)=>x.open=wasOpen[i]);window.removeEventListener('afterprint',restore)};
+ window.addEventListener('afterprint',restore);
+ try{window.focus();setTimeout(()=>window.print(),300)}
+ catch(e){restore();alert('PDF प्रिंट सुरू झाले नाही. Chrome मध्ये ⋮ → Print → Save as PDF निवडा.')}
+}
+function downloadReportImage(){
+ renderReport();
+ const box=document.getElementById('reportBox');
+ if(!box){alert('अहवाल उपलब्ध नाही.');return}
+ const folds=[...box.querySelectorAll('details')],wasOpen=folds.map(d=>d.open);
+ folds.forEach(d=>d.open=true);
+ const rawText=(box.innerText||box.textContent||'').replace(/\u00a0/g,' ');
+ folds.forEach((d,i)=>d.open=wasOpen[i]);
+ if(!rawText.trim()){alert('या कालावधीसाठी अहवाल उपलब्ध नाही.');return}
+ const imageTab=window.open('about:blank','_blank');
+ const lines=rawText.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+ // मोबाईल स्क्रीनसारखा अरुंद, उभा आणि लांब रिपोर्ट.
+ const width=720,pad=34,lineH=31,canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+ if(!ctx){if(imageTab)imageTab.close();alert('या फोनमध्ये Image तयार करण्याची सुविधा उपलब्ध नाही.');return}
+ ctx.font='19px sans-serif';
+ const wrapped=[];
+ lines.forEach(line=>{
+  let current='';
+  for(const word of line.split(/\s+/)){
+   const test=current?current+' '+word:word;
+   if(ctx.measureText(test).width>width-pad*2&&current){wrapped.push(current);current=word}
+   else current=test;
+  }
+  if(current)wrapped.push(current);
+ });
+ const height=Math.max(420,190+wrapped.length*lineH+pad);
+ canvas.width=width;canvas.height=height;
+ ctx.fillStyle='#f5f7fb';ctx.fillRect(0,0,width,height);
+ ctx.fillStyle='#102b52';ctx.fillRect(0,0,width,150);
+ const drawText=()=>{
+  ctx.fillStyle='#f0d58e';ctx.font='bold 29px sans-serif';ctx.textAlign='left';ctx.fillText('हिशोब सारथी',pad+88,42);
+  ctx.fillStyle='#fff0c2';ctx.font='bold 15px sans-serif';ctx.fillText('तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.',pad+88,69);
+  ctx.fillStyle='#ffffff';ctx.font='14px sans-serif';ctx.fillText('घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी',pad+88,95);
+  ctx.save();ctx.translate(520,58);ctx.scale(.48,.48);drawReportSectionIcon(ctx,'rickshaw',0,0);ctx.restore();
+  ctx.save();ctx.translate(620,58);ctx.scale(.48,.48);drawReportSectionIcon(ctx,'home',0,0);ctx.restore();
+  ctx.fillStyle='#ffffff';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.fillText('रिक्षा साथी',545,103);ctx.fillText('गृहिणी सारथी',645,103);
+  let y=184;ctx.textAlign='left';ctx.font='19px sans-serif';
+  wrapped.forEach(line=>{
+   ctx.fillStyle=(/एकूण उत्पन्न|निव्वळ शिल्लक/.test(line))?'#176b45':(/एकूण खर्च/.test(line)?'#b42318':'#172033');
+   ctx.fillText(line,pad,y);y+=lineH;
+  });
+  canvas.toBlob(blob=>{
+   if(!blob){if(imageTab)imageTab.close();alert('PNG फाइल तयार झाली नाही. पुन्हा प्रयत्न करा.');return}
+   const url=URL.createObjectURL(blob),name='Hishob_Sarthi_Report_'+(document.getElementById('reportMonth')?.value||'report')+'.png';
+   if(imageTab&&!imageTab.closed){
+    imageTab.document.open();
+    imageTab.document.write('<!doctype html><html lang="mr"><meta name="viewport" content="width=device-width,initial-scale=1"><title>हिशोब सारथी अहवाल</title><body style="margin:0;padding:10px;background:#eef2f7;font-family:system-ui;text-align:center"><p>मोबाईल उभ्या आकारातील अहवाल इमेज तयार आहे.</p><a download="'+name+'" href="'+url+'" style="display:inline-block;padding:12px 20px;background:#174c91;color:white;border-radius:9px;text-decoration:none">⬇️ PNG डाउनलोड करा</a><p><img src="'+url+'" style="display:block;width:100%;height:auto;margin:12px auto;max-width:720px"></p></body></html>');
+    imageTab.document.close();
+   }else{
+    const link=document.createElement('a');link.href=url;link.download=name;link.textContent='PNG डाउनलोड करा';link.style.cssText='display:block;padding:16px;background:#174c91;color:white;text-align:center';document.body.appendChild(link);link.click();
+    alert('डाउनलोड टॅब उघडता आला नाही. स्क्रीनवर PNG डाउनलोड लिंक दिली आहे.');
+   }
+   showAppToast('उभ्या आकारातील अहवाल इमेज तयार झाली.');
+   setTimeout(()=>URL.revokeObjectURL(url),120000);
+  },'image/png');
+ };
+ const logo=new Image();
+ logo.onload=()=>{try{ctx.drawImage(logo,10,8,104,104)}catch(e){}drawText()};
+ logo.onerror=()=>{drawText();showAppToast('मुख्य लोगो लोड झाला नाही; अहवाल इमेज लोगोशिवाय तयार केली आहे.')};
+ logo.src='./logo-h.svg?v=goldh7';
+}
+function drawReportSectionIcon(ctx,type,x,y){
+ ctx.save();ctx.translate(x,y);ctx.fillStyle=type==='home'?'#f0faf5':'#f2f8ff';ctx.strokeStyle=type==='home'?'#237653':'#174c91';ctx.lineWidth=3;ctx.lineCap='round';ctx.lineJoin='round';ctx.fillRect(0,0,104,76);ctx.strokeRect(0,0,104,76);
+ if(type==='home'){ctx.beginPath();ctx.moveTo(16,35);ctx.lineTo(48,8);ctx.lineTo(80,35);ctx.moveTo(25,30);ctx.lineTo(25,65);ctx.lineTo(71,65);ctx.lineTo(71,30);ctx.stroke();ctx.fillStyle='#f2cf73';ctx.fillRect(42,43,17,22);ctx.strokeRect(42,43,17,22);ctx.strokeRect(78,33,17,31)}
+ else{ctx.beginPath();ctx.moveTo(9,48);ctx.lineTo(17,24);ctx.quadraticCurveTo(20,17,29,17);ctx.lineTo(62,17);ctx.quadraticCurveTo(70,17,75,28);ctx.lineTo(84,48);ctx.lineTo(84,59);ctx.lineTo(9,59);ctx.closePath();ctx.stroke();ctx.beginPath();ctx.arc(27,60,7,0,Math.PI*2);ctx.arc(68,60,7,0,Math.PI*2);ctx.stroke();ctx.strokeRect(34,29,23,18);ctx.strokeRect(87,7,13,25)}
+ ctx.restore();
+}
+function mergeImportedBackup(current,incoming){const map=new Map();(current.entries||[]).forEach(e=>map.set(String(e.id),e));(incoming.entries||[]).forEach(e=>map.set(String(e.id),e));const deletedCats=[...new Set([...(current.deletedCats||[]),...(incoming.deletedCats||[])])];const cats=JSON.parse(JSON.stringify(current.cats||defaults));Object.keys(incoming.cats||{}).forEach(a=>{cats[a]=cats[a]||{income:[],expense:[]};['income','expense'].forEach(k=>cats[a][k]=[...new Set([...(cats[a][k]||[]),...((incoming.cats[a]||{})[k]||[])])])});const banks=[...(current.banks||[])];(incoming.banks||[]).forEach(b=>{if(!banks.some(x=>x.name===b.name&&x.last4===b.last4))banks.push(b)});return {entries:[...map.values()].sort((a,b)=>(a.date||'').localeCompare(b.date||'')),cats:cleanAllCats(cats,deletedCats),deletedCats,banks,budgets:{...(current.budgets||{}),...(incoming.budgets||{})}}}
+function applyImportedJson(raw){let x=normalizeBackupData(raw),merged=mergeImportedBackup(db,x);if(confirm('बॅकअपमधील '+x.entries.length+' नोंदी सध्याच्या नोंदींसोबत जोडायच्या का? समान ID असलेली नोंद बॅकअपमधील माहितीनुसार अपडेट होईल. इतर नोंदी सुरक्षित राहतील.')){db=merged;ensureEntryProfiles();persist();renderCategories();alert('बॅकअप सुरक्षितपणे जोडला. एकूण '+db.entries.length+' नोंदी उपलब्ध आहेत.')}}
+function restore(){let f=document.getElementById('restoreFile').files[0];if(!f){alert('आधी JSON बॅकअप फाइल निवडा');return}let r=new FileReader();r.onload=()=>{try{applyImportedJson(JSON.parse(r.result))}catch(e){alert('Restore झाले नाही: '+e.message)}};r.readAsText(f)}
+function restoreJsonText(){let t=document.getElementById('restoreJsonText').value.trim();if(!t){alert('आधी पूर्ण JSON मजकूर पेस्ट करा');return}try{applyImportedJson(JSON.parse(t));document.getElementById('restoreJsonText').value=''}catch(e){alert('JSON तपासता आला नाही: '+e.message)}}
+function render(){renderHome();if(!document.getElementById('days').classList.contains('hidden'))renderDays();if(!document.getElementById('reports').classList.contains('hidden'))renderReport()}
+updateProfileUI();fillCategories();renderBanks();render();let dc=document.getElementById('driveClientId');if(dc)dc.value=localStorage.getItem(KEY+'_driveClientId')||'';
+const archiveBtn=document.getElementById('archiveCurrentProfileBtn');if(archiveBtn)archiveBtn.addEventListener('click',function(ev){ev.preventDefault();ev.stopPropagation();if(typeof window.archiveCurrentProfile==='function'){window.archiveCurrentProfile().catch(err=>alert('Archive सुरू करता आले नाही: '+(err.message||err)));}else{alert('Archive सुविधा लोड झाली नाही. कृपया नवीन लिंक पुन्हा उघडा.')}});
+</script><script id="dailyFirebaseCloud">(function(){
+const cfg={apiKey:"AIzaSyDLUSqHepK4a2_7mUEas9mtGmO_kytK3_U",authDomain:"vidyarthimitra-cloud-backup.firebaseapp.com",projectId:"vidyarthimitra-cloud-backup",storageBucket:"vidyarthimitra-cloud-backup.firebasestorage.app",messagingSenderId:"632539516231",appId:"1:632539516231:web:787aac668cbc1417bb1062"};
+let auth,store,timer=null;function status(t){let e=document.getElementById('dailyCloudStatus');if(e)e.textContent=t;let h=document.getElementById('homeCloudStatus');if(h)h.textContent=t}
+function ready(){if(!window.firebase){status('Firebase सेवा लोड झाली नाही. इंटरनेट तपासा.');return false}try{if(!firebase.apps.length)firebase.initializeApp(cfg);auth=firebase.auth();store=firebase.firestore();return true}catch(e){status('Firebase सुरू करता आले नाही: '+e.message);return false}}
+window.dailyCloudUser=null;
+let phoneConfirmation=null,phoneRecaptcha=null,phoneLinkMode=false,gateConfirmation=null,gateRecaptcha=null;
+function gateMessage(t){const e=document.getElementById('gateStatus');if(e)e.textContent=t}
+function gateStep(id){document.querySelectorAll('#loginGate .login-step').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function gatePinKey(uid){return 'hishob_sarathi_pin_'+uid}
+function gateSessionKey(uid){return 'hishob_sarathi_unlocked_'+uid}
+function gateMarkUnlocked(uid){try{sessionStorage.setItem(gateSessionKey(uid),'1')}catch(e){}}
+function gateClearSession(uid){try{sessionStorage.removeItem(gateSessionKey(uid))}catch(e){}}
+async function gateHash(pin,salt){const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(salt+':'+pin));return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,'0')).join('')}
+window.gateSendOtp=async function(){
+ try{
+  if(!ready()){gateMessage('Firebase सेवा सुरू होत नाही. इंटरनेट आणि Firebase सेटिंग तपासा.');return}
+  let phone=(document.getElementById('gatePhone')?.value||'').trim().replace(/[\s()-]/g,'');
+  if(/^\d{10}$/.test(phone))phone='+91'+phone;
+  if(!/^\+[1-9]\d{7,14}$/.test(phone)){gateMessage('योग्य 10 अंकी मोबाइल नंबर टाका.');return}
+  gateMessage('OTP पाठवत आहे…');
+  if(gateRecaptcha){try{gateRecaptcha.clear()}catch(e){}gateRecaptcha=null}
+  const gateBox=document.getElementById('gateRecaptcha');if(gateBox)gateBox.innerHTML='';
+  gateRecaptcha=new firebase.auth.RecaptchaVerifier('gateRecaptcha',{size:'invisible'});
+  await gateRecaptcha.render();
+  gateConfirmation=auth.currentUser&&(auth.currentUser.email||'')
+   ? await auth.currentUser.linkWithPhoneNumber(phone,gateRecaptcha)
+   : await auth.signInWithPhoneNumber(phone,gateRecaptcha);
+  gateMessage('OTP पाठवला आहे. SMS मधील 6 अंकी OTP टाका.');
+ }catch(e){gateMessage('OTP पाठवता आला नाही: '+(e.message||e)+' (Firebase Authorized domains तपासा.)')}
+};
+window.gateVerifyOtp=async function(){
+ const code=(document.getElementById('gateCode')?.value||'').trim();
+ if(!gateConfirmation){gateMessage('आधी OTP पाठवा.');return}
+ if(!/^\d{6}$/.test(code)){gateMessage('6 अंकी OTP टाका.');return}
+ try{gateMessage('OTP पडताळत आहे…');await gateConfirmation.confirm(code);gateConfirmation=null;gateMessage('मोबाइल पडताळला.');if(auth.currentUser)gateAuthReady(auth.currentUser)}
+ catch(e){gateMessage('OTP पडताळणी अयशस्वी: '+(e.message||e))}
+};
+async function gatePinHash(pin,salt){
+ const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveBits']);
+ const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode(salt),iterations:150000,hash:'SHA-256'},key,256);
+ return Array.from(new Uint8Array(bits)).map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+function normalizeGatePhone(v){let p=String(v||'').trim().replace(/[ ()-]/g,'');if(/^[0-9]{10}$/.test(p))p='+91'+p;return p.startsWith('+')&&/^[1-9][0-9]{7,14}$/.test(p.slice(1))?p:''}
+function gateProfileRef(uid){return store.collection('users').doc(uid).collection('backups').doc('login_profile')}
+let gateCloudProfile=null;
+window.gateSavePin=async function(){try{
+ const a=(document.getElementById('gatePin1')?.value||'').trim(),b=(document.getElementById('gatePin2')?.value||'').trim(),phone=normalizeGatePhone(document.getElementById('gatePhone')?.value),u=auth&&auth.currentUser;
+ if(!u||!u.email){gateMessage('आधी तुमच्या मूळ Gmail खात्याने लॉगिन करा.');return}
+ if(!phone){gateMessage('योग्य 10 अंकी मोबाइल नंबर टाका.');return}
+ if(!/^[0-9]{6}$/.test(a)||a!==b){gateMessage('दोन्ही ठिकाणी समान 6 अंकी PIN टाका.');return}
+ if(!window.crypto||!crypto.subtle){gateMessage('या ब्राउझरमध्ये सुरक्षित PIN सुविधा उपलब्ध नाही. Chrome मध्ये HTTPS लिंक उघडा.');return}
+ gateMessage('तुमची सुरक्षित नोंदणी Cloud मध्ये सेव्ह करत आहे…');
+ const salt=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(x=>x.toString(16).padStart(2,'0')).join(''),hash=await gatePinHash(a,salt);
+ await gateProfileRef(u.uid).set({email:u.email,phone,salt,hash,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+ gateCloudProfile={email:u.email,phone,salt,hash};gateMarkUnlocked(u.uid);gateMessage('नोंदणी पूर्ण झाली. अॅप उघडत आहे…');document.getElementById('loginGate').style.display='none';
+}catch(e){gateMessage('नोंदणी सेव्ह झाली नाही: '+(e.message||e))}};
+window.gateUnlock=async function(){try{
+ const u=auth&&auth.currentUser,phone=normalizeGatePhone(document.getElementById('gateUnlockPhone')?.value),pin=(document.getElementById('gatePinUnlockValue')?.value||'').trim(),v=gateCloudProfile;
+ if(!u||!u.email){gateMessage('मूळ Gmail खात्याने पुन्हा लॉगिन करा.');gateStep('loginGoogleStep');return}
+ if(!v){gateMessage('खाते तपशील मिळाले नाहीत. पुन्हा Google लॉगिन करा.');return}
+ if(!phone||phone!==v.phone){gateMessage('मोबाईल नंबर जुळत नाही.');return}
+ if(!/^[0-9]{6}$/.test(pin)||await gatePinHash(pin,v.salt)!==v.hash){gateMessage('PIN चुकीचा आहे. पुन्हा प्रयत्न करा.');return}
+ gateMarkUnlocked(u.uid);gateMessage('मोबाईल नंबर आणि PIN बरोबर आहेत. अॅप उघडत आहे…');document.getElementById('loginGate').style.display='none';
+}catch(e){gateMessage('PIN तपासता आला नाही: '+(e.message||e))}};
+window.changeAccountPin=async function(){try{
+ const u=auth&&auth.currentUser,oldPin=(document.getElementById('changePinOld')?.value||'').trim(),newPin=(document.getElementById('changePinNew')?.value||'').trim(),confirmPin=(document.getElementById('changePinConfirm')?.value||'').trim(),msg=document.getElementById('accountManageStatus');
+ if(!u){if(msg)msg.textContent='आधी Google खात्याने लॉगिन करा.';return}
+ const snap=await gateProfileRef(u.uid).get(),stored=snap.exists?snap.data():null;
+ if(!stored){if(msg)msg.textContent='नोंदणी तपशील उपलब्ध नाहीत. लॉगिन स्क्रीनवर पुन्हा नोंदणी करा.';return}
+ if(!/^[0-9]{6}$/.test(oldPin)||await gatePinHash(oldPin,stored.salt)!==stored.hash){if(msg)msg.textContent='सध्याचा PIN चुकीचा आहे.';return}
+ if(!/^[0-9]{6}$/.test(newPin)||newPin!==confirmPin){if(msg)msg.textContent='नवीन PIN दोन्ही ठिकाणी समान 6 अंकी टाका.';return}
+ const salt=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(x=>x.toString(16).padStart(2,'0')).join(''),hash=await gatePinHash(newPin,salt);
+ await gateProfileRef(u.uid).set({email:u.email,phone:stored.phone,salt,hash,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});gateCloudProfile={email:u.email,phone:stored.phone,salt,hash};
+ ['changePinOld','changePinNew','changePinConfirm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});if(msg)msg.textContent='नवीन PIN सर्व मोबाईलसाठी Cloud मध्ये सेव्ह झाला. नोंदी सुरक्षित आहेत.';
+}catch(e){const msg=document.getElementById('accountManageStatus');if(msg)msg.textContent='PIN बदलता आला नाही: '+(e.message||e)}};
+window.accountRestartLogin=async function(){try{const u=auth&&auth.currentUser,msg=document.getElementById('accountManageStatus');if(!u){if(msg)msg.textContent='आधी तुमच्या जुन्या Google खात्याने लॉगिन करा.';return}if(!confirm('Google Sign out करायचे? तुमचा Cloud PIN, हिशोब, नोंदी आणि Backup डिलीट होणार नाहीत.'))return;['changePinOld','changePinNew','changePinConfirm'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});if(msg)msg.textContent='Cloud PIN आणि नोंदी सुरक्षित आहेत. Google खात्यातून बाहेर पडत आहे.';gateClearSession(u.uid);await auth.signOut()}catch(e){const msg=document.getElementById('accountManageStatus');if(msg)msg.textContent='Sign out करता आले नाही: '+(e.message||e)}};
+window.accountSignOut=async function(){try{if(!auth||!auth.currentUser){gateMessage('सध्या कोणतेही खाते लॉगिन नाही.');return}if(!confirm('Sign out करायचे आहे का? तुमचा Cloud PIN, नोंदी आणि Backup सुरक्षित राहतील.'))return;gateClearSession(auth.currentUser.uid);await auth.signOut()}catch(e){const msg=document.getElementById('accountManageStatus');if(msg)msg.textContent='लॉगआउट करता आले नाही: '+(e.message||e)}};
+async function gateAuthReady(u){if(!u){gateCloudProfile=null;gateStep('loginGoogleStep');gateMessage('तुमचे मूळ Gmail खाते निवडून लॉगिन करा.');return}switchAccountData(u.uid);if(sessionStorage.getItem(gateSessionKey(u.uid))==='1'){document.getElementById('loginGate').style.display='none';return}try{gateMessage('तुमचे सुरक्षित खाते तपासत आहे…');const snap=await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('खाते तपासण्यासाठी वेळ लागत आहे. इंटरनेट तपासून पुन्हा प्रयत्न करा.')),12000);gateProfileRef(u.uid).get().then(v=>{clearTimeout(timer);resolve(v)}).catch(e=>{clearTimeout(timer);reject(e)})});if(snap.exists){gateCloudProfile=snap.data();const e=document.getElementById('gateEmailDisplay2');if(e)e.value=u.email||'';gateStep('loginPinUnlock');gateMessage('नोंदणीकृत Gmail: '+u.email+'. मोबाईल नंबर आणि PIN टाका.')}else{gateCloudProfile=null;const e=document.getElementById('gateEmailDisplay');if(e)e.value=u.email||'';gateStep('loginPinSetup');gateMessage('पहिली नोंदणी: मोबाईल नंबर आणि 6 अंकी PIN तयार करा.')}}catch(e){gateStep('loginGoogleStep');gateMessage('खाते तपासता आले नाही: '+(e.message||e)+' Google लॉगिन पुन्हा करून पाहा.')}}
+function phoneStatus(t){const e=document.getElementById('dailyPhoneStatus');if(e)e.textContent=t}
+function makePhoneRecaptcha(){const box=document.getElementById('dailyPhoneRecaptcha');if(phoneRecaptcha){try{phoneRecaptcha.clear()}catch(e){}phoneRecaptcha=null}if(box)box.innerHTML='';phoneRecaptcha=new firebase.auth.RecaptchaVerifier('dailyPhoneRecaptcha',{size:'invisible',callback:()=>{}});return phoneRecaptcha.render()}
+window.dailyPhoneSendOtp=async function(){if(!ready())return;let phone=(document.getElementById('dailyPhoneNumber')?.value||'').trim().replace(/\s/g,'').replace(/-/g,'').replace(/\(/g,'').replace(/\)/g,'');if(/^\d{10}$/.test(phone))phone='+91'+phone;if(!/^\+[1-9]\d{7,14}$/.test(phone)){phoneStatus('योग्य मोबाइल नंबर टाका. उदाहरण: +919876543210');return}try{phoneStatus('OTP पाठवत आहे…');await makePhoneRecaptcha();phoneLinkMode=!!(auth.currentUser&&!!auth.currentUser.email);phoneConfirmation=phoneLinkMode?await auth.currentUser.linkWithPhoneNumber(phone,phoneRecaptcha):await auth.signInWithPhoneNumber(phone,phoneRecaptcha);phoneStatus('OTP पाठवला आहे. SMS मधील 6 अंकी OTP टाका.')}catch(e){phoneStatus('OTP पाठवता आला नाही: '+e.message+' (Firebase Authorized domains आणि SMS सेटिंग तपासा.)')}};
+window.dailyPhoneVerifyOtp=async function(){const code=(document.getElementById('dailyPhoneOtp')?.value||'').trim(),name=(document.getElementById('dailyPhoneName')?.value||'').trim();if(!phoneConfirmation){phoneStatus('आधी OTP पाठवा.');return}if(!/^\d{6}$/.test(code)){phoneStatus('6 अंकी OTP टाका.');return}try{phoneStatus('OTP पडताळत आहे…');const result=await phoneConfirmation.confirm(code),u=result.user;if(name)localStorage.setItem('dailyHishob_name_'+u.uid,name);window.dailyCloudUser=u;phoneConfirmation=null;phoneStatus('मोबाइल नंबर पडताळला. खाते जोडले गेले.');status('मोबाइल खाते जोडले: '+(u.phoneNumber||''));await window.dailyCloudSync()}catch(e){phoneStatus('OTP पडताळणी अयशस्वी: '+e.message)}};
+window.dailyCloudLogin=async function(){if(!ready())return;try{await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});await auth.signInWithPopup(p);status('Google खाते जोडले. सुरक्षित खाते तपासत आहे…')}catch(e){status('Google जोडणी अयशस्वी: '+e.message)}};
+window.dailyCloudSchedule=function(){clearTimeout(timer);timer=setTimeout(()=>window.dailyCloudSync(),1800)};
+function col(profile=activeProfile){return store.collection('users').doc(window.dailyCloudUser.uid).collection('hishob_sarathi_shared_v1_'+(profile==='homemaker'?'homemaker':'my'))}
+ function stableArchiveJson(value){if(Array.isArray(value))return '['+value.map(stableArchiveJson).join(',')+']';if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+stableArchiveJson(value[k])).join(',')+'}';return JSON.stringify(value)}
+window.dailyArchiveSaveCloud=async function(profile,archiveId,entries,settings){
+  if(!window.dailyCloudUser||!store)throw new Error('Cloud लॉगिन उपलब्ध नाही.');
+  const root=col(profile).doc('archives').collection(archiveId),chunks=[];
+  for(let i=0;i<entries.length;i+=100)chunks.push(entries.slice(i,i+100));
+  const ops=[];chunks.forEach((items,i)=>ops.push({ref:root.doc('entries_'+i),data:{items}}));
+  ops.push({ref:root.doc('settings'),data:settings||{}});
+  for(let i=0;i<ops.length;i+=400){const batch=store.batch();ops.slice(i,i+400).forEach(o=>batch.set(o.ref,o.data));await batch.commit()}
+  await root.doc('_meta').set({archiveId,profile,entryCount:entries.length,chunkCount:chunks.length,archivedAt:firebase.firestore.FieldValue.serverTimestamp(),schemaVersion:1});
+  const meta=await root.doc('_meta').get();
+  if(!meta.exists||meta.data().archiveId!==archiveId||meta.data().profile!==profile||Number(meta.data().entryCount)!==entries.length||Number(meta.data().chunkCount)!==chunks.length)throw new Error('Cloud Archive ची मुख्य माहिती पडताळता आली नाही.');
+  for(let i=0;i<chunks.length;i++){
+    const part=await root.doc('entries_'+i).get();
+    if(!part.exists||!Array.isArray(part.data().items)||stableArchiveJson(part.data().items)!==stableArchiveJson(chunks[i]))throw new Error('Cloud Archive मधील नोंद क्रमांक '+(i+1)+' ची पूर्ण पडताळणी झाली नाही.');
+  }
+  const settingsCheck=await root.doc('settings').get();
+  if(!settingsCheck.exists||stableArchiveJson(settingsCheck.data())!==stableArchiveJson(settings||{}))throw new Error('Cloud Archive मधील सेटिंग्जची पूर्ण पडताळणी झाली नाही.');
+  return true;
+ };
+
+function mergeCats(a,b,deleted=[]){let out={...JSON.parse(JSON.stringify(defaults)),...(a||{})};Object.keys(b||{}).forEach(area=>{out[area]=out[area]||{income:[],expense:[]};['income','expense'].forEach(k=>out[area][k]=[...new Set([...(out[area][k]||[]),...((b[area]||{})[k]||[])])])});return cleanAllCats(out,deleted)}
+async function readCloudFrom(c){let snap=await c.get(),meta=snap.docs.find(d=>d.id==='meta');if(!meta)return null;let m=meta.data(),entries=[],prefix=m.prefix?'entries_'+m.prefix+'_':'entries_';for(let i=0;i<(m.chunks||0);i++){let d=snap.docs.find(x=>x.id===prefix+i);if(d&&Array.isArray(d.data().items))entries.push(...d.data().items)}let settings=snap.docs.find(d=>d.id===(m.settingsId||'settings'));return {entries,deletedEntries:settings?.data()?.deletedEntries||[],cats:settings?.data()?.cats||defaults,deletedCats:settings?.data()?.deletedCats||[],banks:ensureBankIds(settings?.data()?.banks||[]),deletedBanks:(settings?.data()?.deletedBanks||[]).filter(k=>String(k).startsWith('id:')),budgets:settings?.data()?.budgets||{}}}
+async function readCloud(profile=activeProfile){return readCloudFrom(col(profile))}
+async function writeCloud(data,profile=activeProfile){let c=col(profile),old=await c.get(),entries=data.entries||[],chunks=[],version=Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);for(let i=0;i<entries.length;i+=250)chunks.push(entries.slice(i,i+250));let ops=[];chunks.forEach((items,i)=>ops.push({ref:c.doc('entries_'+version+'_'+i),data:{items}}));const settingsId='settings_'+version;ops.push({ref:c.doc(settingsId),data:{cats:data.cats||defaults,deletedCats:data.deletedCats||[],banks:data.banks||[],deletedBanks:data.deletedBanks||[],budgets:data.budgets||{},deletedEntries:data.deletedEntries||[]}});for(let i=0;i<ops.length;i+=450){let batch=store.batch();ops.slice(i,i+450).forEach(o=>batch.set(o.ref,o.data));await batch.commit()}await c.doc('meta').set({prefix:version,settingsId,chunks:chunks.length,count:entries.length,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});let stale=old.docs.filter(d=>d.id!=='meta');for(let i=0;i<stale.length;i+=450){let batch=store.batch();stale.slice(i,i+450).forEach(d=>batch.delete(d.ref));try{await batch.commit()}catch(cleanupError){console.warn('जुने Cloud snapshot नंतर साफ करता आले नाहीत:',cleanupError)}}}
+function mergeData(local,remote){let deletedEntries=[...new Set([...(remote.deletedEntries||[]),...(local.deletedEntries||[])].map(String))];let map=new Map();(remote.entries||[]).forEach(e=>map.set(String(e.id),e));(local.entries||[]).forEach(e=>map.set(String(e.id),e));deletedEntries.forEach(id=>map.delete(id));let deletedBanks=[...new Set([...(remote.deletedBanks||[]),...(local.deletedBanks||[])])];let banks=[...(remote.banks||[])];(local.banks||[]).forEach(b=>{if(!banks.some(x=>bankIdentity(x)===bankIdentity(b)))banks.push(b)});banks=banks.filter(b=>!deletedBanks.includes(bankIdentity(b)));const deletedCats=[...new Set([...(remote.deletedCats||[]),...(local.deletedCats||[])])];return {entries:[...map.values()].sort((a,b)=>(a.date||'').localeCompare(b.date||'')),deletedEntries,cats:mergeCats(remote.cats,local.cats,deletedCats),deletedCats,banks,deletedBanks,budgets:{...(remote.budgets||{}),...(local.budgets||{})}}}
+function profileCloudData(source,p){return {...source,entries:(source.entries||[]).filter(e=>(e.profile||'my')===p),banks:(source.banks||[])}}
+window.profileCloudData=profileCloudData;
+function mergeProfileIntoLocal(merged,p){db.deletedBanks=[...new Set([...(db.deletedBanks||[]),...(merged.deletedBanks||[])])];db.entries=[...db.entries.filter(e=>(e.profile||'my')!==p),...merged.entries.map(e=>({...e,profile:p}))];db.deletedEntries=[...new Set([...(db.deletedEntries||[]),...(merged.deletedEntries||[])])];const allBanks=[...db.banks];(merged.banks||[]).forEach(b=>{if(!allBanks.some(x=>bankIdentity(x)===bankIdentity(b)))allBanks.push(b)});db.banks=allBanks.filter(b=>!(db.deletedBanks||[]).includes(bankIdentity(b)));db.cats=mergeCats(db.cats,merged.cats,merged.deletedCats||[]);db.deletedCats=[...new Set([...(db.deletedCats||[]),...(merged.deletedCats||[])])];db.budgets={...(db.budgets||{}),...(merged.budgets||{})}}
+async function migrateLegacyCloud(){return false /* नवीन शेअर करण्यायोग्य आवृत्ती जुन्या वैयक्तिक Cloud मधून डेटा आयात करणार नाही. */}
+window.dailyCloudSync=async function(){if(!window.dailyCloudUser||window.dailyCloudBusy)return;const p=activeProfile;if(Array.from({length:localStorage.length},(_,i)=>localStorage.key(i)).some(k=>k&&k.startsWith(KEY+'_freshStartPending_'+p+'_'))){status('सुरक्षित नवीन सुरुवात तपासणी अपूर्ण आहे. Cloud Sync थांबवला आहे; मदत घ्या.');return}window.dailyCloudBusy=true;try{status('या विभागाचा स्वतंत्र Cloud Sync सुरू आहे…');let remote=await readCloud(p);if(!remote){const migrated=await migrateLegacyCloud();if(migrated)remote=await readCloud(p)}const local=profileCloudData(db,p);if(!remote){await writeCloud(local,p);status('या विभागाचा स्वतंत्र Cloud Backup तयार झाला. '+local.entries.length+' नोंदी सेव्ह.');return}const merged=mergeData(local,remote);mergeProfileIntoLocal(merged,p);persist();await writeCloud(profileCloudData(db,p),p);status((p==='homemaker'?'गृहिणी':'माझा')+' विभागाचा स्वतंत्र Cloud Sync पूर्ण. '+merged.entries.length+' नोंदी सुरक्षित.')}catch(e){status('Cloud Sync अयशस्वी: '+e.message+' (Firestore Rules तपासा.)')}finally{window.dailyCloudBusy=false}};
+window.dailyCloudRestore=async function(){if(!window.dailyCloudUser){await window.dailyCloudLogin();return}const p=activeProfile;if(localStorage.getItem(KEY+'_freshStartPending_'+p+'_'+new Date().getFullYear())){status('सुरक्षित नवीन सुरुवात तपासणी अपूर्ण आहे. Cloud Restore थांबवला आहे; मदत घ्या.');return}try{let remote=await readCloud(p);if(!remote){const migrated=await migrateLegacyCloud();if(migrated)remote=await readCloud(p)}if(!remote){status('या विभागाचा Cloud Backup अजून नाही.');return}const merged=mergeData(profileCloudData(db,p),remote);if(!confirm('फक्त '+(p==='homemaker'?'गृहिणी':'माझा')+' विभागातील Cloud आणि फोनच्या नोंदी एकत्र करायच्या का? दुसऱ्या विभागाच्या नोंदी बदलणार नाहीत. एकूण '+merged.entries.length+' नोंदी होतील.'))return;window.dailyCloudBusy=true;mergeProfileIntoLocal(merged,p);persist();window.dailyCloudBusy=false;await writeCloud(profileCloudData(db,p),p);status('फक्त निवडलेल्या विभागाचा Restore पूर्ण. '+merged.entries.length+' नोंदी.')}catch(e){window.dailyCloudBusy=false;status('Restore अयशस्वी: '+e.message)}};
+if(ready()){auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(()=>{let authStateQueue=Promise.resolve();auth.onAuthStateChanged(u=>{authStateQueue=authStateQueue.then(async()=>{if((auth.currentUser?.uid||null)!==(u?.uid||null))return;if(u&&(!!u.email||!!u.phoneNumber)){window.dailyCloudUser=u;const email=u.email||u.phoneNumber||'Google खाते';const a=document.getElementById('accountStatus');if(a)a.textContent='लॉगिन खाते: '+email;const h=document.getElementById('homeAccountEmail');if(h)h.textContent=email;await gateAuthReady(u);if((auth.currentUser?.uid||null)!==u.uid)return;status(u.phoneNumber?'मोबाइल खाते जोडले आहे. Cloud मधील नोंदी तपासत आहे…':'Google खाते जोडले आहे. Cloud मधील नोंदी तपासत आहे…');await window.dailyCloudSync()}else if(u){await auth.signOut();await gateAuthReady(null)}else{window.dailyCloudUser=null;const h=document.getElementById('homeAccountEmail');if(h)h.textContent='लॉगिन केलेले नाही';await gateAuthReady(null);document.getElementById('loginGate').style.display='flex';status('Google खात्याने लॉगिन करा. प्रत्येक खात्याचा हिशोब स्वतंत्र राहील.')}}).catch(e=>{gateStep('loginGoogleStep');document.getElementById('loginGate').style.display='flex';status('लॉगिन किंवा Cloud तपासणी अयशस्वी: '+(e.message||e))})})}).catch(e=>{gateStep('loginGoogleStep');document.getElementById('loginGate').style.display='flex';status('लॉगिन सेव्ह करता आले नाही: '+e.message)})}else{gateStep('loginGoogleStep');document.getElementById('loginGate').style.display='flex';status('Cloud सेवा सध्या उपलब्ध नाही. इंटरनेट तपासून पुन्हा प्रयत्न करा.')}
+})();</script><div id="appToast" role="status" aria-live="polite"></div></body></html>
