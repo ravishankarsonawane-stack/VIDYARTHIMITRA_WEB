@@ -47,7 +47,7 @@ jobs:
           mkdir -p www
           cp ../maza-dainik-hishob/hishob-sarathi-empty.html www/index.html
           cp ../maza-dainik-hishob/logo-h.svg www/logo-h.svg
-          cp ../maza-dainik-hishob/section-hishob.svg www/section-hishob.svg
+          cp ../maza-dainik-hishob/section-mazha.svg www/section-mazha.svg
           cp ../maza-dainik-hishob/section-gruhini.svg www/section-gruhini.svg
           cp ../maza-dainik-hishob/manifest.webmanifest www/manifest.webmanifest
           cat > native-auth-entry.js <<'EOF'
