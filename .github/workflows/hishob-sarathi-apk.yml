@@ -37,10 +37,12 @@ jobs:
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platform-tools" "platforms;android-36" "build-tools;36.0.0"
 
+      - name: Install Capacitor and native Firebase Authentication
+        working-directory: hishob-sarathi-apk
+        run: npm install --no-save @capacitor/core@8 @capacitor/cli@8 @capacitor/android@8 @capacitor-firebase/authentication@8.6.0 esbuild@0.25.0
+
       - name: Prepare app files and native Google sign-in bridge
         working-directory: hishob-sarathi-apk
-        env:
-          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: |
           mkdir -p www
           cp ../maza-dainik-hishob/hishob-sarathi-empty.html www/index.html
@@ -48,7 +50,6 @@ jobs:
           cp ../maza-dainik-hishob/section-hishob.svg www/section-hishob.svg
           cp ../maza-dainik-hishob/section-gruhini.svg www/section-gruhini.svg
           cp ../maza-dainik-hishob/manifest.webmanifest www/manifest.webmanifest
-          test -n "$GOOGLE_SERVICES_JSON"
           cat > native-auth-entry.js <<'EOF'
           import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 
@@ -68,13 +69,6 @@ jobs:
           s = s.replace("</head>", '<script src="./native-auth.js"></script></head>', 1)
           p.write_text(s, encoding="utf-8")
           PY
-          mkdir -p android/app
-          printf '%s' "$GOOGLE_SERVICES_JSON" > android/app/google-services.json
-          python3 -m json.tool android/app/google-services.json > /dev/null
-
-      - name: Install Capacitor and native Firebase Authentication
-        working-directory: hishob-sarathi-apk
-        run: npm install --no-save @capacitor/core@8 @capacitor/cli@8 @capacitor/android@8 @capacitor-firebase/authentication@8.6.0 esbuild@0.25.0
 
       - name: Generate Android project
         working-directory: hishob-sarathi-apk
@@ -83,15 +77,19 @@ jobs:
       - name: Configure Firebase Android and release signing
         working-directory: hishob-sarathi-apk
         env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
+          test -n "$GOOGLE_SERVICES_JSON"
           test -n "$ANDROID_KEYSTORE_BASE64"
           test -n "$ANDROID_KEYSTORE_PASSWORD"
           test -n "$ANDROID_KEY_ALIAS"
           test -n "$ANDROID_KEY_PASSWORD"
+          printf '%s' "$GOOGLE_SERVICES_JSON" > android/app/google-services.json
+          python3 -m json.tool android/app/google-services.json > /dev/null
           printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/hishob-sarathi-release.p12
           python3 - <<'PY'
           from pathlib import Path
