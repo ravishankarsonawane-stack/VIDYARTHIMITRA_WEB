@@ -86,8 +86,8 @@ jobs:
           import os, re
           p = Path("android/app/build.gradle")
           s = p.read_text(encoding="utf-8")
-          code, n1 = re.subn(r"\\bversionCode\\s+\\d+", "versionCode " + os.environ["APP_BUILD_NUMBER"], s, count=1)
-          name, n2 = re.subn(r'\\bversionName\\s+"[^"]+"', 'versionName "1.0.' + os.environ["APP_BUILD_NUMBER"] + '"', code, count=1)
+          code, n1 = re.subn(r"\bversionCode\s+\d+", "versionCode " + os.environ["APP_BUILD_NUMBER"], s, count=1)
+          name, n2 = re.subn(r'\bversionName\s+"[^"]+"', 'versionName "1.0.' + os.environ["APP_BUILD_NUMBER"] + '"', code, count=1)
           if n1 != 1 or n2 != 1:
               raise SystemExit("Could not safely set Android versionCode/versionName")
           p.write_text(name, encoding="utf-8")
