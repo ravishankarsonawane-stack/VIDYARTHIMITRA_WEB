@@ -6,7 +6,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
 <body><main class="wrap"><header class="head"><h1>हिशोब सारथी – फोटो बदला</h1><p>दोन्ही विभागांसाठी मोबाईल Gallery मधून फोटो निवडा.</p></header>
 <section class="card"><div id="account" class="status">Google खाते तपासत आहे…</div><button id="login" class="login hidden" onclick="loginGoogle()">Google खात्याने लॉगिन करा</button><p class="muted">फोटो तुमच्या लॉगिन केलेल्या खात्यात स्वतंत्रपणे सेव्ह होतील. हिशोबाच्या नोंदींना बदल होणार नाही.</p></section>
-<section class="card"><h2>१. माझा सारथी</h2><div class="preview" id="prevMy">फोटो निवडल्यानंतर येथे दिसेल</div><input class="pick" type="file" id="fileMy" accept="image/*" capture="environment"><p class="muted">घर, रिक्षा किंवा तुमचा आवडता फोटो निवडा.</p></section>
+<section class="card"><h2>१. माझा सारथी</h2><div class="preview" id="prevMy">फोटो निवडल्यानंतर येथे दिसेल</div><input class="pick" type="file" id="fileMy" accept="image/*"><p class="muted">घर, रिक्षा किंवा तुमचा आवडता फोटो निवडा.</p></section>
 <section class="card"><h2>२. गृहिणी सारथी</h2><div class="preview" id="prevHome">फोटो निवडल्यानंतर येथे दिसेल</div><input class="pick" type="file" id="fileHome" accept="image/*"><p class="muted">गृहिणी विभागासाठी हवा असलेला फोटो निवडा.</p></section>
 <button class="save" onclick="savePhotos()">दोन्ही निवडलेले फोटो सेव्ह करा</button><p id="status" class="status">फोटो निवडा. सेव्ह करण्यापूर्वी Preview तपासा.</p><a href="./index.html">← हिशोब सारथी ॲपकडे परत जा</a></main>
 <script>
