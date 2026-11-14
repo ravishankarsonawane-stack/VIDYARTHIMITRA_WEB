@@ -1,0 +1,9 @@
+{
+  "name": "hishob-sarathi-empty-android",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Android wrapper for the blank Hishob Sarathi app",
+  "scripts": {
+    "cap:sync": "cap sync android"
+  }
+}
