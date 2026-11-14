@@ -121,8 +121,10 @@ label{color:#334b6c}
  body.archive-print-mode #archiveViewer .entry{break-inside:avoid}
  @page{size:A4 portrait;margin:10mm}
 }
+@page reportPage{size:80mm 160mm;margin:4mm}
 @media print{
  @page{size:A4 portrait;margin:10mm}
+ body.report-print-mode #reports{page:reportPage!important}
  body{background:#fff!important;color:#111!important;font-size:11px}.report-print-mode #reports{display:block!important}.report-print-mode #reports>.panel:first-child{display:block!important}
  body *{visibility:hidden!important}
  #reports,#reports *{visibility:visible!important}
@@ -504,7 +506,6 @@ function downloadReportImage(){
  renderReport();
  const box=document.getElementById('reportBox');
  if(!box){alert('अहवाल उपलब्ध नाही.');return}
- // PDF प्रमाणे सर्व तपशील उघडून त्याच reportBox मधील मजकूर घ्या.
  const folds=[...box.querySelectorAll('details')],wasOpen=folds.map(d=>d.open);
  folds.forEach(d=>d.open=true);
  const rawText=(box.innerText||box.textContent||'').replace(/\u00a0/g,' ');
@@ -512,9 +513,10 @@ function downloadReportImage(){
  if(!rawText.trim()){alert('या कालावधीसाठी अहवाल उपलब्ध नाही.');return}
  const imageTab=window.open('about:blank','_blank');
  const lines=rawText.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
- const width=1000,pad=48,lineH=42,canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+ // मोबाईल स्क्रीनसारखा अरुंद, उभा आणि लांब रिपोर्ट.
+ const width=720,pad=34,lineH=31,canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
  if(!ctx){if(imageTab)imageTab.close();alert('या फोनमध्ये Image तयार करण्याची सुविधा उपलब्ध नाही.');return}
- ctx.font='27px sans-serif';
+ ctx.font='19px sans-serif';
  const wrapped=[];
  lines.forEach(line=>{
   let current='';
@@ -525,17 +527,18 @@ function downloadReportImage(){
   }
   if(current)wrapped.push(current);
  });
- const height=Math.max(520,230+wrapped.length*lineH+pad);
+ const height=Math.max(420,190+wrapped.length*lineH+pad);
  canvas.width=width;canvas.height=height;
  ctx.fillStyle='#f5f7fb';ctx.fillRect(0,0,width,height);
- ctx.fillStyle='#102b52';ctx.fillRect(0,0,width,180);
+ ctx.fillStyle='#102b52';ctx.fillRect(0,0,width,150);
  const drawText=()=>{
-  ctx.fillStyle='#f0d58e';ctx.font='bold 38px sans-serif';ctx.textAlign='left';ctx.fillText('हिशोब सारथी',pad+112,48);
-  ctx.fillStyle='#fff0c2';ctx.font='bold 20px sans-serif';ctx.fillText('तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.',pad+112,80);
-  ctx.fillStyle='#ffffff';ctx.font='19px sans-serif';ctx.fillText('घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी',pad+112,111);
-  ctx.font='bold 17px sans-serif';ctx.fillText('रिक्षा साथी',690,54);ctx.fillText('गृहिणी सारथी',830,54);
-  drawReportSectionIcon(ctx,'rickshaw',680,64);drawReportSectionIcon(ctx,'home',820,64);
-  let y=230;ctx.textAlign='left';ctx.font='27px sans-serif';
+  ctx.fillStyle='#f0d58e';ctx.font='bold 29px sans-serif';ctx.textAlign='left';ctx.fillText('हिशोब सारथी',pad+88,42);
+  ctx.fillStyle='#fff0c2';ctx.font='bold 15px sans-serif';ctx.fillText('तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.',pad+88,69);
+  ctx.fillStyle='#ffffff';ctx.font='14px sans-serif';ctx.fillText('घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी',pad+88,95);
+  ctx.save();ctx.translate(520,58);ctx.scale(.48,.48);drawReportSectionIcon(ctx,'rickshaw',0,0);ctx.restore();
+  ctx.save();ctx.translate(620,58);ctx.scale(.48,.48);drawReportSectionIcon(ctx,'home',0,0);ctx.restore();
+  ctx.fillStyle='#ffffff';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.fillText('रिक्षा साथी',545,103);ctx.fillText('गृहिणी सारथी',645,103);
+  let y=184;ctx.textAlign='left';ctx.font='19px sans-serif';
   wrapped.forEach(line=>{
    ctx.fillStyle=(/एकूण उत्पन्न|निव्वळ शिल्लक/.test(line))?'#176b45':(/एकूण खर्च/.test(line)?'#b42318':'#172033');
    ctx.fillText(line,pad,y);y+=lineH;
@@ -545,18 +548,18 @@ function downloadReportImage(){
    const url=URL.createObjectURL(blob),name='Hishob_Sarthi_Report_'+(document.getElementById('reportMonth')?.value||'report')+'.png';
    if(imageTab&&!imageTab.closed){
     imageTab.document.open();
-    imageTab.document.write('<!doctype html><html lang="mr"><meta name="viewport" content="width=device-width,initial-scale=1"><title>हिशोब सारथी अहवाल</title><body style="margin:0;padding:12px;background:#eef2f7;font-family:system-ui;text-align:center"><p>अहवाल इमेज तयार आहे. डाउनलोड करण्यासाठी बटण दाबा किंवा इमेजवर दीर्घ दाब द्या.</p><a download="'+name+'" href="'+url+'" style="display:inline-block;padding:12px 20px;background:#174c91;color:white;border-radius:9px;text-decoration:none">⬇️ PNG डाउनलोड करा</a><p><img src="'+url+'" style="display:block;width:100%;height:auto;margin:14px auto;max-width:1000px"></p></body></html>');
+    imageTab.document.write('<!doctype html><html lang="mr"><meta name="viewport" content="width=device-width,initial-scale=1"><title>हिशोब सारथी अहवाल</title><body style="margin:0;padding:10px;background:#eef2f7;font-family:system-ui;text-align:center"><p>मोबाईल उभ्या आकारातील अहवाल इमेज तयार आहे.</p><a download="'+name+'" href="'+url+'" style="display:inline-block;padding:12px 20px;background:#174c91;color:white;border-radius:9px;text-decoration:none">⬇️ PNG डाउनलोड करा</a><p><img src="'+url+'" style="display:block;width:100%;height:auto;margin:12px auto;max-width:720px"></p></body></html>');
     imageTab.document.close();
    }else{
     const link=document.createElement('a');link.href=url;link.download=name;link.textContent='PNG डाउनलोड करा';link.style.cssText='display:block;padding:16px;background:#174c91;color:white;text-align:center';document.body.appendChild(link);link.click();
     alert('डाउनलोड टॅब उघडता आला नाही. स्क्रीनवर PNG डाउनलोड लिंक दिली आहे.');
    }
-   showAppToast('अहवालाची इमेज तयार झाली. नवीन टॅबमध्ये PNG डाउनलोड करा.');
+   showAppToast('उभ्या आकारातील अहवाल इमेज तयार झाली.');
    setTimeout(()=>URL.revokeObjectURL(url),120000);
   },'image/png');
  };
  const logo=new Image();
- logo.onload=()=>{try{ctx.drawImage(logo,12,8,128,128)}catch(e){}drawText()};
+ logo.onload=()=>{try{ctx.drawImage(logo,10,8,104,104)}catch(e){}drawText()};
  logo.onerror=()=>{drawText();showAppToast('मुख्य लोगो लोड झाला नाही; अहवाल इमेज लोगोशिवाय तयार केली आहे.')};
  logo.src='./logo-h.svg?v=goldh7';
 }
