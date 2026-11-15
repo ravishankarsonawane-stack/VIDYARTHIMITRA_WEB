@@ -580,6 +580,54 @@ input,select,textarea{border-color:#cfe1e5!important;border-radius:11px!importan
 .pdf-logo img{width:100%!important;height:100%!important;object-fit:contain!important;border-radius:11px!important}
 @media(max-width:360px){.brand-mark{width:64px!important;height:64px!important;flex-basis:64px!important}#loginGate .login-logo{width:116px!important;height:116px!important}}
 
+
+/* Unified हिशोब सारथी navigation and page theme */
+body.profile-rickshaw .bottom{
+ grid-template-columns:repeat(5,minmax(0,1fr))!important;
+ background:#fff!important;
+ border-top:1px solid #9bc8d0!important;
+ box-shadow:0 -5px 18px #18334a12!important;
+ padding:6px 4px calc(6px + env(safe-area-inset-bottom))!important;
+}
+body.profile-rickshaw .bottom button{
+ color:#536575!important;
+ border-radius:12px!important;
+ min-width:0!important;
+ padding:7px 1px!important;
+ display:flex!important;
+ flex-direction:column!important;
+ align-items:center!important;
+ justify-content:center!important;
+ gap:3px!important;
+ font-weight:650!important;
+}
+body.profile-rickshaw .bottom button.active{
+ color:#286f82!important;
+ background:#eaf5f7!important;
+}
+body.profile-rickshaw .bottom .navicon{font-size:19px!important;line-height:1.1!important}
+body.profile-rickshaw .bottom button span:last-child{font-size:10px!important;white-space:nowrap!important}
+body.profile-rickshaw .panel{border-color:#9bc8d055}
+body.profile-rickshaw .panel h2,
+body.profile-rickshaw .panel h3,
+body.profile-rickshaw .dash-section-label,
+body.profile-rickshaw .dash-panel-heading h2{color:#286f82}
+body.profile-rickshaw .account-strip{border-color:#9bc8d0!important;background:linear-gradient(135deg,#eaf5f7,#fff)!important}
+body.profile-rickshaw .account-strip-top,
+body.profile-rickshaw .settings-fold summary{color:#286f82!important}
+body.profile-rickshaw .settings-fold summary:after{color:#398ba0!important}
+body.profile-rickshaw .cloud-card{border-color:#9bc8d0!important}
+body.profile-rickshaw .cloud-symbol{color:#398ba0!important}
+body.profile-rickshaw .full:not(.secondary),
+body.profile-rickshaw .dash-income-btn{background:#398ba0!important;border-color:#398ba0!important;color:#fff!important}
+body.profile-rickshaw .goldbtn{background:#286f82!important;border-color:#286f82!important;color:#fff!important}
+body.profile-rickshaw input:focus,
+body.profile-rickshaw select:focus,
+body.profile-rickshaw textarea:focus{border-color:#398ba0!important;box-shadow:0 0 0 3px #398ba020!important}
+@media(max-width:380px){
+ body.profile-rickshaw .bottom button span:last-child{font-size:9px!important}
+ body.profile-rickshaw .bottom .navicon{font-size:18px!important}
+}
 </style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
 <body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-h.svg?v=blue20261115" alt="हिशोब सारथी सोनेरी ह आणि कॅल्क्युलेटर लोगो"></div><h2>माझा सारथी — सुरक्षित लॉगिन</h2><p class="login-muted">हीच अॅप लिंक इतरांनाही देता येईल. प्रत्येकाने स्वतःच्या Google खात्याने प्रथम नोंदणी करून 6 अंकी PIN तयार करावा. प्रत्येक Google खात्यासाठी स्वतंत्र रिकामा हिशोब तयार होतो; तुमच्या वैयक्तिक नोंदी, बँक तपशील आणि PIN इतरांना दिसत नाहीत.</p><div id="loginLoadingStep" class="login-step active"><p style="text-align:center;padding:12px 0">खाते तपासत आहे…</p></div><div id="loginGoogleStep" class="login-step"><p>नोंदणीकृत Gmail खात्याने लॉगिन करा. नवीन मोबाईलवर दुसरे Google खाते असले तरी तुमचे मूळ Gmail निवडा.</p><button type="button" class="full goldbtn" onclick="dailyCloudLogin()">Google / Gmail ने लॉगिन करा</button></div><div id="loginPinSetup" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>मोबाईल नंबर</label><input id="gatePhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10 अंकी मोबाईल नंबर"><label>नवीन 6 अंकी PIN तयार करा</label><input id="gatePin1" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="gatePin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="gateSavePin()">नोंदणी पूर्ण करा</button></div><div id="loginPinUnlock" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay2" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>नोंदणीकृत मोबाईल नंबर</label><input id="gateUnlockPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="मोबाईल नंबर"><label>6 अंकी PIN</label><input id="gatePinUnlockValue" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><button class="full goldbtn" onclick="gateUnlock()">अॅप उघडा</button><button type="button" class="full login-secondary" onclick="accountRestartLogin()">दुसरे Gmail खाते वापरा / Sign out</button></div><p id="gateStatus" class="login-status">खाते तपासत आहे…</p></div></div>
 <header class="hero"><div class="brand-head"><div class="brand-mark" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.svg?v=blue20261115" alt="हिशोब सारथी – सोनेरी ह लोगो"></div><div class="brand-copy"><small>रिक्षा • घरखर्च • वैयक्तिक नोंदी</small><h1>माझा सारथी</h1><p>रिक्षा, घर आणि वैयक्तिक हिशोब — एकाच ठिकाणी.</p></div></div></header>
@@ -618,7 +666,7 @@ input,select,textarea{border-color:#cfe1e5!important;border-radius:11px!importan
 <div class="panel"><h2>बँक व पेमेंट तपशील</h2><label>बँक / खाते नाव</label><input id="bankName" placeholder="उदा. Axis Bank / Saraswat Bank"><label>सुरुवातीची शिल्लक (₹)</label><input id="bankOpening" type="number" inputmode="decimal" placeholder="आजच्या आधीची शिल्लक"><div class="row"><div><label>खाते ओळख (शेवटचे 4 अंक)</label><input id="bankLast4" maxlength="4" inputmode="numeric" placeholder="1234"></div><div><label>UPI ID (ऐच्छिक)</label><input id="bankUpi" placeholder="name@bank"></div></div><button class="full" onclick="addBank()">＋ बँक खाते जोडा</button><div id="bankList"></div><p class="muted">पूर्ण खाते क्रमांक किंवा PIN येथे साठवू नका.</p></div>
 <div class="panel"><h2>श्रेणी व्यवस्थापन</h2><label>विभाग</label><select id="catArea"><option value="rickshaw">रिक्षा</option><option value="home">घरखर्च</option><option value="personal">वैयक्तिक</option></select><label>उत्पन्न / खर्च</label><select id="catKind"><option value="income">उत्पन्न</option><option value="expense">खर्च</option></select><label>नवीन श्रेणी</label><input id="catNew" placeholder="श्रेणीचे नाव"><button class="full" onclick="addCategory()">श्रेणी जोडा</button><div id="categoryList"></div></div></section><section id="backup" class="hidden"><div class="panel cloud-card"><div class="cloud-head"><div><h2>☁ Cloud Backup</h2><p class="muted">नोंदी तुमच्या नोंदणीकृत Gmail खात्याशी आपोआप सुरक्षित होतात.</p></div><span class="cloud-symbol">☁</span></div><p id="dailyCloudStatus" class="cloud-status">Cloud स्थिती तपासत आहे…</p><button class="full goldbtn" onclick="dailyCloudSync()">आता Backup / Sync करा</button><button class="full secondary" style="margin-top:8px" onclick="dailyCloudRestore()">Cloud मधून Restore करा</button></div><div class="panel"><h3>फोनमधील बॅकअप फाइल</h3><p class="muted">JSON फाइल डाउनलोड करून वेगळ्या ठिकाणी जतन करा.</p><button class="full" onclick="backup()">JSON बॅकअप डाउनलोड</button><label>बॅकअप फाइल निवडा</label><input type="file" id="restoreFile" accept=".json,application/json"><button class="full secondary" onclick="restore()">फाइलमधून नोंदी परत आणा</button><label>किंवा JSON मजकूर पेस्ट करा</label><textarea id="restoreJsonText" rows="3" placeholder="पूर्ण JSON येथे पेस्ट करा"></textarea><button class="full secondary" onclick="restoreJsonText()">JSON मधून नोंदी जोडा</button></div><details class="panel settings-fold"><summary>खाते आणि PIN व्यवस्थापन</summary><div class="fold-content"><p class="muted" id="accountStatus">Google खाते जोडलेले असल्यास येथे दिसेल.</p><label>सध्याचा 6 अंकी PIN</label><input id="changePinOld" type="password" inputmode="numeric" maxlength="6" placeholder="सध्याचा PIN"><label>नवीन 6 अंकी PIN</label><input id="changePinNew" type="password" inputmode="numeric" maxlength="6" placeholder="नवीन PIN"><label>नवीन PIN पुन्हा टाका</label><input id="changePinConfirm" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा"><button class="full goldbtn" onclick="changeAccountPin()">PIN बदला</button><button class="full secondary" onclick="accountSignOut()">Google खात्यातून Sign out</button><p class="muted" id="accountManageStatus">तुमचा Cloud हिशोब सुरक्षित राहील.</p></div></details><details class="panel settings-fold"><summary>जुना हिशोब / अतिरिक्त पर्याय</summary><div class="fold-content"><button type="button" id="archiveCurrentProfileBtn" class="full goldbtn">☁ फोन + Cloud मध्ये जुना हिशोब सुरक्षित करा</button><p class="muted">नवीन सुरुवात 1 डिसेंबर 2026 पासूनच. आधी फोन + Cloud Archive पडताळले जाईल; जुनी नोंद किंवा शिल्लक नवीन वर्षात येणार नाही.</p><button class="danger full" style="margin-top:8px" onclick="startFresh()">जुना हिशोब सुरक्षित करून नवीन हिशोब सुरू करा</button><div id="archiveList" style="margin-top:10px"></div><section id="archiveViewer" class="panel" hidden style="margin-top:12px"><div class="row" style="justify-content:space-between;align-items:center"><h3 id="archiveViewerTitle">जुना हिशोब</h3><button type="button" class="secondary" onclick="closeArchiveViewer()">बंद करा</button></div><p id="archiveViewerSummary" class="note"></p><div id="archiveViewerRows"></div><button type="button" class="goldbtn full" onclick="printArchivePDF()">PDF / प्रिंट करा</button><p class="muted">ही फक्त वाचण्यासाठीची प्रत आहे. सध्याच्या हिशोबात कोणताही बदल होत नाही.</p></section></div></details></section>
 </main>
-<nav class="bottom"><button class="active" data-page="home" onclick="showPage('home')"><span class="navicon">⌂</span><span>मुख्य</span></button><button data-page="add" onclick="openForm('income')"><span class="navicon">＋</span><span>नोंद</span></button><button data-page="days" onclick="showPage('days')"><span class="navicon">▤</span><span>दिवस</span></button><button data-page="reports" onclick="showPage('reports')"><span class="navicon">▥</span><span>अहवाल</span></button><button data-page="backup" onclick="showPage('backup')"><span class="navicon">☁</span><span>बॅकअप</span></button></nav>
+<nav class="bottom" aria-label="मुख्य नेव्हिगेशन"><button class="active" data-page="home" onclick="showPage('home')"><span class="navicon">⌂</span><span>मुख्य</span></button><button data-page="add" onclick="openForm('income')"><span class="navicon">＋</span><span>नोंद</span></button><button data-page="days" onclick="showPage('days')"><span class="navicon">▤</span><span>तारीख</span></button><button data-page="reports" onclick="showPage('reports')"><span class="navicon">▥</span><span>अहवाल</span></button><button data-page="backup" onclick="showPage('backup')"><span class="navicon">⚙</span><span>सेटिंग</span></button></nav>
 <script id="appScript">
 const APP_PROFILE='my';const BASE_KEY='mazaDainikHishob_v1';let KEY=BASE_KEY;
 const defaults={rickshaw:{income:['Ola उत्पन्न','Rapido उत्पन्न','शाळा सेवा','शाळेची फी','इतर उत्पन्न'],expense:['CNG','मेकॅनिक / मजुरी','स्पेअर पार्ट्स','इंजिन ऑईल','पास / परमिट','इतर रिक्षा खर्च']},home:{income:['पगार','घरखर्चासाठी मिळालेली रक्कम','इतर घर उत्पन्न'],expense:['किराणा','भाजीपाला','दूध','वीज बिल','गॅस','मोबाईल रिचार्ज','इंटरनेट','LIC','SIP / EMI','औषधे','हॉटेल / जेवण','घर दुरुस्ती','इतर घरखर्च']},personal:{income:['पगार','इतर वैयक्तिक उत्पन्न'],expense:['इतर वैयक्तिक खर्च','प्रवास']},other:{income:['इतर उत्पन्न'],expense:['इतर खर्च']}};
