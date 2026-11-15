@@ -699,22 +699,62 @@ input:focus,select:focus,textarea:focus{outline:2px solid #b7357026;border-color
 .entry{border-left-color:#e6a0bd}.dategroup{border-left-color:#e6a0bd}
 .pdf-logo{border-color:#e6a0bd!important}.pdf-brand h1{color:#8f2858!important}.pdf-tagline{color:#a8326a!important}
 
-/* Login screen matched to Hishob Sarthi premium blue-gold login theme; Gruhini logo remains pink */
-#loginGate{background:radial-gradient(ellipse at 50% 0%,#d8b45b26,transparent 42%),linear-gradient(155deg,#07172c 0%,#12365e 52%,#081a31 100%)!important;color:#fff!important;padding:16px 13px!important}
-#loginGate .login-card{position:relative;width:min(100%,410px)!important;max-height:calc(100dvh - 28px);overflow:auto;padding:20px 19px 17px!important;border:1px solid #d9b45b70!important;border-top:4px solid #e3bf68!important;border-radius:25px!important;background:linear-gradient(180deg,#fff 0%,#f8faff 100%)!important;box-shadow:0 24px 70px #020b18a6!important}
-#loginGate .login-card:before{content:"SECURE ACCOUNT  •  CLOUD BACKUP";display:block;text-align:center;font-size:9px;font-weight:800;letter-spacing:1.5px;color:#9b751e;margin:0 0 8px}
-#loginGate .login-logo{width:76px!important;height:76px!important;margin:0 auto 8px!important;padding:3px!important;border:2px solid #d8b45b!important;border-radius:20px!important;background:#fff!important;box-shadow:0 6px 18px #15375a18!important}
-#loginGate .login-logo img{width:100%!important;height:100%!important;object-fit:contain!important;border-radius:14px!important}
-#loginGate h2{text-align:center!important;font-size:19px!important;line-height:1.35;margin:5px 0 7px!important;color:#12365d!important}
-#loginGate .login-muted{margin:0 0 12px!important;padding:9px 11px;border-radius:12px;background:#edf3fa!important;color:#53657a!important;font-size:11px!important;line-height:1.5!important}
-#loginGate .login-step{padding:12px 12px 13px;border:1px solid #e1e8f1;border-radius:15px;background:#fff}
-#loginGate .login-step p{font-size:12px!important;line-height:1.55!important;color:#58677a;margin:0 0 9px}
-#loginGate .login-step label{display:block;margin:9px 0 5px;font-size:11px;font-weight:750;color:#294765}
-#loginGate .login-step input{width:100%;min-height:43px;padding:10px 12px;border:1px solid #d6e0ec;border-radius:11px;background:#f8fafd!important;color:#172b43!important;font-size:14px;outline:none}
-#loginGate .login-step input:focus{border-color:#bd9847;box-shadow:0 0 0 3px #d8b45b25}
-#loginGate .login-step button{width:100%;min-height:45px;margin-top:11px!important;border-radius:12px!important;font-size:13px!important;font-weight:800;letter-spacing:.1px;background:linear-gradient(135deg,#07558f,#06345f)!important;color:#fff!important;border:0!important}
-#loginGate .login-step .login-secondary{background:#edf2f8!important;color:#294c73!important;border:1px solid #dce5ef!important}
-#loginGate .login-status{min-height:24px!important;margin:10px 0 0!important;padding:7px 9px;border-radius:10px;background:#f0f5fb!important;color:#24558a!important;font-size:10px!important;line-height:1.45!important;text-align:center}
+
+/* गृहिणी सारथी — Hishob Sarthi सारखी मुख्य पानाची रचना, गुलाबी रंगछटा */
+:root{--ink:#563747;--blue:#914465;--gold:#d99ab5;--bg:#fff7fa;--line:#edcfdb;--muted:#896d7b;--navy:#702047;--surface:#fff}
+html,body{background:linear-gradient(180deg,#fff0f6 0%,#fffafd 52%,#fbeaf1 100%)!important;color:#563747!important}
+.hero{padding:17px 16px 18px!important;background:linear-gradient(115deg,#f8dce8 0%,#fffafd 48%,#f2c9da 100%)!important;border-bottom:1px solid #e8a8c3!important;color:#563747!important}
+.hero:after{border-color:#d88eae!important;width:190px;height:190px;right:-70px;top:-92px;box-shadow:0 0 0 18px #b94d7d0c,0 0 0 38px #b94d7d08!important}
+.brand-head{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:14px}
+.brand-mark{width:88px;height:88px;flex:0 0 88px;padding:0;background:transparent!important;border:0!important;box-shadow:0 5px 16px #70204720!important;border-radius:22px;overflow:hidden}
+.brand-mark img{width:100%;height:100%;object-fit:contain}
+.brand-copy small{color:#914465!important;font-weight:800;font-size:10px;letter-spacing:.3px}
+.brand-copy small:before{display:none}
+.brand-copy h1{font-size:23px;color:#702047!important;text-shadow:none;margin:2px 0 3px}
+.brand-copy p{color:#914465!important;font-size:12px}
+.wrap{max-width:760px;padding:13px 13px 25px}
+.dash-welcome{display:flex;flex-direction:column;align-items:center;padding:4px 0 13px}
+.dash-welcome b{font-size:18px;color:#702047}
+.dash-welcome span{font-size:12px;color:#896d7b}
+.account-strip{padding:9px 12px;margin:0 0 12px;background:linear-gradient(135deg,#fff,#fff2f7)!important;border-color:#e8bfd0!important}
+.account-strip-top{color:#914465}
+.account-email{font-size:12px;margin-top:2px;color:#914465}
+.account-sync{font-size:10px;margin-top:1px}
+.account-live{background:#fbeaf1;color:#914465}
+.ref-totals{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0}
+.ref-totals .total{min-height:90px;padding:12px 13px;border:1px solid #edcfdb;border-radius:15px;box-shadow:0 4px 12px #8f3d6210}
+.ref-totals .total span{font-size:12px;font-weight:700;color:#914465}
+.ref-totals .total strong{font-size:21px;margin-top:7px;color:#702047}
+.ref-totals .total-in{background:linear-gradient(145deg,#fff,#fceaf1)!important;border-color:#edcfdb}
+.ref-totals .total-out{background:linear-gradient(145deg,#fff,#fff0f1)!important;border-color:#f0d2d7}
+.ref-totals .total-month-in{background:linear-gradient(145deg,#fff,#fff1f7)!important;border-color:#edcfdb}
+.ref-totals .total-month-out{background:linear-gradient(145deg,#fff,#f8edf3)!important;border-color:#ead7e1}
+.ref-shortcuts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:10px 0 14px}
+.ref-shortcuts button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:0;padding:7px 2px;background:transparent!important;color:#702047!important;box-shadow:none!important;border:0!important}
+.ref-shortcuts i{font-style:normal;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,#f8dce8,#e9aeca);color:#8f2858;font-size:22px;box-shadow:0 2px 7px #8f28581a}
+.ref-shortcuts b{font-size:10px;white-space:nowrap}
+.dash-today,.bank-summary{margin-top:12px}
+.panel{border-color:#edcfdb!important;border-radius:16px}
+.panel h2{color:#914465}
+.panel h2:before{background:#d99ab5}
+.bottom{background:linear-gradient(105deg,#702047,#a3426c)!important;border-top:1px solid #e8a8c3!important}
+.bottom button{color:#ffeaf2!important}
+.bottom button.active{color:#fff0f6!important;background:#b96789!important}
+@media(max-width:380px){.brand-mark{width:76px;height:76px;flex-basis:76px}.brand-copy h1{font-size:21px}.brand-copy p{font-size:11px}.ref-totals .total{padding:10px}.ref-totals .total strong{font-size:19px}.ref-shortcuts i{width:39px;height:39px}}
+/* Login: original mobile card sizing/layout retained; dark pink outside, light pink card and controls */
+#loginGate{background:radial-gradient(circle at 50% 5%,#fbeaf1 0%,#d98eae 48%,#702047 100%)!important;color:#563747!important}
+#loginGate .login-card{background:linear-gradient(160deg,#fffafd,#fff0f6)!important;border:1px solid #e8bfd0!important;border-top:5px solid #b96789!important;box-shadow:0 18px 45px #70204730!important}
+#loginGate h2{color:#914465!important}
+#loginGate .login-muted{color:#896d7b!important;background:#fff1f6!important}
+#loginGate .login-status{color:#a34f74!important;background:#fff1f6!important}
+#loginGate .login-logo{border-color:#d99ab5!important;background:linear-gradient(145deg,#fff,#fff0f6)!important}
+#loginGate .login-step{background:#fffafd!important;border-color:#edcfdb!important}
+#loginGate .login-step label{color:#914465!important}
+#loginGate .login-step input{background:#fff7fa!important;border-color:#e8bfd0!important;color:#563747!important}
+#loginGate .login-step input:focus{border-color:#b96789!important;box-shadow:0 0 0 3px #d99ab525!important}
+#loginGate .login-step button{background:linear-gradient(135deg,#b96789,#702047)!important;color:#fff!important;border-color:#b96789!important}
+#loginGate .login-step .login-secondary{background:#fff1f6!important;color:#914465!important;border-color:#edcfdb!important}
+@media(max-width:430px){.brand-mark{width:76px;height:76px;flex-basis:76px}.brand-copy h1{font-size:21px}.brand-copy p{font-size:11px}.dash-welcome{padding-top:4px}}
 
 </style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
 <body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-gruhini.svg?v=premiumhome20261115" alt="गृहिणी सारथी – गुलाबी घरखर्च लोगो"></div><h2>गृहिणी सारथी — सुरक्षित लॉगिन</h2><p class="login-muted">हीच अॅप लिंक इतरांनाही देता येईल. प्रत्येकाने स्वतःच्या Google खात्याने प्रथम नोंदणी करून 6 अंकी PIN तयार करावा. प्रत्येक Google खात्यासाठी स्वतंत्र रिकामा हिशोब तयार होतो; तुमच्या वैयक्तिक नोंदी, बँक तपशील आणि PIN इतरांना दिसत नाहीत.</p><div id="loginLoadingStep" class="login-step active"><p style="text-align:center;padding:12px 0">खाते तपासत आहे…</p></div><div id="loginGoogleStep" class="login-step"><p>नोंदणीकृत Gmail खात्याने लॉगिन करा. नवीन मोबाईलवर दुसरे Google खाते असले तरी तुमचे मूळ Gmail निवडा.</p><button type="button" class="full goldbtn" onclick="dailyCloudLogin()">Google / Gmail ने लॉगिन करा</button></div><div id="loginPinSetup" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>मोबाईल नंबर</label><input id="gatePhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10 अंकी मोबाईल नंबर"><label>नवीन 6 अंकी PIN तयार करा</label><input id="gatePin1" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="gatePin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="gateSavePin()">नोंदणी पूर्ण करा</button></div><div id="loginPinUnlock" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay2" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>नोंदणीकृत मोबाईल नंबर</label><input id="gateUnlockPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="मोबाईल नंबर"><label>6 अंकी PIN</label><input id="gatePinUnlockValue" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><button class="full goldbtn" onclick="gateUnlock()">अॅप उघडा</button><button type="button" class="full login-secondary" onclick="accountRestartLogin()">दुसरे Gmail खाते वापरा / Sign out</button></div><p id="gateStatus" class="login-status">खाते तपासत आहे…</p></div></div>
@@ -722,16 +762,15 @@ input:focus,select:focus,textarea:focus{outline:2px solid #b7357026;border-color
 <main class="wrap">
 <section id="home"><div class="panel profile-panel" style="margin-top:18px"><div class="profile-heading"><div><span class="eyebrow">गृहिणी सारथी</span><h2>गृहिणी सारथी</h2></div><span class="profile-lock">🔒 सुरक्षित हिशोब</span></div><div class="profile-grid" style="grid-template-columns:1fr"><button type="button" class="profile-choice profile-choice-main" data-profile="homemaker" onclick="setProfile('homemaker')"><span class="profile-icon"><img src="./section-gruhini.svg?v=tile2" alt="गृहिणी सारथी – घर आणि हिशोब"></span><b>गृहिणी सारथी</b><small>घरखर्च • बिलं • किराणा • औषधे • बचत</small><span class="profile-open">अॅप उघडा →</span></button></div><a href="./photo-upload.html" class="btn" style="display:block;text-align:center;text-decoration:none;margin-top:12px;background:#d6ad52;color:#17345e">📷 विभागाचा फोटो बदला</a></div></section>
 <section id="workspace" class="hidden">
-<div class="dash-intro"><div class="dash-intro-icon">₹</div><div><span>DAILY OVERVIEW</span><h2>आजचा हिशोब</h2><p>उत्पन्न, खर्च आणि महिन्याची स्थिती</p></div></div>
-<div class="panel account-strip"><div class="account-strip-top"><b id="workspaceTitle">गृहिणी सारथी</b><button type="button" class="secondary" onclick="showPage('home')">मुख्य पान</button></div><div id="homeAccountEmail" class="account-email">खाते तपासत आहे…</div><div id="homeCloudStatus" class="account-sync">Cloud स्थिती तपासत आहे…</div></div>
-<div class="dash-section-label"><span>हिशोब सारांश</span><small>आज आणि हा महिना</small></div>
-<div class="totals">
-<div class="total total-in"><span><i>↗</i> आजचे उत्पन्न</span><strong class="green" id="todayIn">₹0</strong><small>आज जमा</small></div>
-<div class="total total-out"><span><i>↘</i> आजचा खर्च</span><strong class="red" id="todayOut">₹0</strong><small>आज खर्च</small></div>
-<div class="total total-month-in"><span><i>▣</i> या महिन्याचे उत्पन्न</span><strong class="green" id="monthIn">₹0</strong><small>महिन्याची जमा</small></div>
-<div class="total total-month-out"><span><i>▤</i> या महिन्याचा खर्च</span><strong class="red" id="monthOut">₹0</strong><small>महिन्याचा खर्च</small></div>
+<div class="dash-welcome"><b>नमस्कार!</b><span>आजचा घरखर्च पाहूया...</span></div>
+<div class="panel account-strip"><div class="account-strip-top"><b id="workspaceTitle">गृहिणी सारथी</b><span class="account-live">● सुरक्षित खाते</span></div><div id="homeAccountEmail" class="account-email">खाते तपासत आहे…</div><div id="homeCloudStatus" class="account-sync">Cloud स्थिती तपासत आहे…</div></div>
+<div class="totals ref-totals">
+<div class="total total-in"><span>▣ आजचे उत्पन्न</span><strong class="green" id="todayIn">₹0</strong></div>
+<div class="total total-out"><span>▣ आजचा खर्च</span><strong class="red" id="todayOut">₹0</strong></div>
+<div class="total total-month-in"><span>▦ महिन्याचे उत्पन्न</span><strong class="green" id="monthIn">₹0</strong></div>
+<div class="total total-month-out"><span>▦ महिन्याचा खर्च</span><strong class="red" id="monthOut">₹0</strong></div>
 </div>
-<div class="panel dash-actions"><div class="dash-panel-heading"><div><span class="dash-kicker">QUICK ENTRY</span><h2>नवीन नोंद करा</h2></div><span class="dash-heading-mark">✦</span></div><div class="quick"><button class="dash-income-btn" onclick="openForm('income')"><span>＋</span><b>उत्पन्न नोंद</b><small>पैसे मिळाले</small></button><button class="goldbtn dash-expense-btn" onclick="openForm('expense')"><span>－</span><b>खर्च नोंद</b><small>पैसे खर्च झाले</small></button></div></div>
+<div class="ref-shortcuts"><button onclick="openForm('income')"><i>✚</i><b>नवीन नोंद</b></button><button onclick="showPage('days')"><i>▦</i><b>तारीखेनुसार</b></button><button onclick="showPage('reports')"><i>▤</i><b>अहवाल</b></button><button onclick="showPage('backup')"><i>⚙</i><b>सेटिंग</b></button></div>
 <div class="panel dash-today"><div class="dash-panel-heading"><div><span class="dash-kicker">RECENT ACTIVITY</span><h2>आजच्या नोंदी</h2></div><span class="dash-heading-mark">☷</span></div><div id="todayList"></div></div>
 <div class="panel bank-summary"><h2>बँक खात्यांची शिल्लक</h2><div id="homeBankBalances"><p class="muted">बँक खाते जोडलेले नाही.</p></div></div>
 <div class="note">नोंदी आपोआप फोनमध्ये जतन होतात आणि नोंदणीकृत Google खात्याच्या Cloud मध्ये Sync होतात.</div>
