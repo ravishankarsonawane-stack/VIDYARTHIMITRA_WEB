@@ -1,15 +1,15 @@
 {
-  "name": "माझा सारथी – दैनिक हिशोब",
-  "short_name": "माझा सारथी",
+  "name": "हिशोब सारथी – दैनिक हिशोब",
+  "short_name": "हिशोब सारथी",
   "description": "रिक्षा, घरखर्च आणि वैयक्तिक हिशोब",
   "start_url": "./maza-sarathi.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#111318",
-  "theme_color": "#111318",
+  "background_color": "#f4f7fc",
+  "theme_color": "#102b52",
   "icons": [
     {
-      "src": "./logo-h.svg?v=blue20261115",
+      "src": "./logo-h.svg?v=blue20261116",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
