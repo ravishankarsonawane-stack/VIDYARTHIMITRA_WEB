@@ -2,7 +2,7 @@
 <html lang="mr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1f624d"><meta name="application-name" content="हिशोब सारथी"><link rel="manifest" href="./manifest-gruhini.webmanifest"><link rel="icon" type="image/svg+xml" href="./logo-h.svg?v=shield2026"><link rel="apple-touch-icon" href="./logo-h.svg?v=shield2026"><title>गृहिणी सारथी – हिशोब सारथी</title>
+<meta name="theme-color" content="#a94f78"><meta name="application-name" content="हिशोब सारथी"><link rel="manifest" href="./manifest-gruhini.webmanifest"><link rel="icon" type="image/svg+xml" href="./logo-h.svg?v=shield2026"><link rel="apple-touch-icon" href="./logo-h.svg?v=shield2026"><title>गृहिणी सारथी – हिशोब सारथी</title>
 <style>
 :root{--ink:#172033;--blue:#2458a6;--gold:#d9b45b;--bg:#f3f6fb;--line:#dfe5ef;--muted:#667085;--navy:#111827;--surface:#fff}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
@@ -381,6 +381,53 @@ body{background:#f4f6f1!important;color:#263a30}
 
 /* Category actions and detail clarity */
 .cat-actions{display:flex;gap:7px;flex-wrap:wrap}
+
+/* Gruhini Sarathi: soft rose-pink theme */
+:root{--ink:#563746;--blue:#a94f78;--gold:#d7a1b5;--bg:#fff7fa;--line:#f0dce5;--muted:#8a6a79;--navy:#713d57;--surface:#fff}
+html,body{background:#fff7fa;color:#563746}
+.hero{background:radial-gradient(circle at 90% 5%,#f7d6e3 0,transparent 34%),linear-gradient(135deg,#8e4566 0%,#bd7192 58%,#9e5577 100%);color:#fff;border-bottom:3px solid #e7bfd0}
+.hero:after{border-color:#fff8;box-shadow:0 0 0 16px #fff2,0 0 0 34px #fff1}
+.hero small{color:#ffe5ef}.hero small:before{background:#f8dce7;color:#8e4566;box-shadow:0 2px 7px #562b4055}
+.hero p{color:#ffeaf1}
+.total{background:#fff;border:1px solid #f0dce5;border-top:3px solid #d7a1b5;box-shadow:0 4px 16px #7c40520c}
+.total span{color:#8a6a79}.total strong{color:#874661}
+.panel{background:#fff;border:1px solid #f0dce5;box-shadow:0 5px 18px #7c40520b}
+.panel h2{color:#9a4d70}.panel h2:before{background:#d7a1b5}
+button,.btn{background:#a94f78;color:#fff;box-shadow:0 2px 6px #a94f781c}
+button.goldbtn{background:linear-gradient(135deg,#f4dce6,#d7a1b5);color:#63394d}
+button.secondary{background:#fbeef3;color:#914767;border:1px solid #efd5e0}
+button.danger{background:#fff0f2;color:#a8324c;border:1px solid #f2d0d8}
+input,select,textarea{background:#fff;border:1px solid #e8cbd8}
+input:focus,select:focus,textarea:focus{outline:2px solid #a94f7826;border-color:#a94f78}
+label{color:#74495d}
+.entry{background:#fffafd;border:1px solid #f0dce5;border-left:3px solid #d7a1b5}
+.dategroup{border-left-color:#d7a1b5}
+.tabs button.active{background:#d7a1b5;color:#63394d}
+.bottom{background:#713d57;border-top:2px solid #e7bfd0;box-shadow:0 -4px 18px #713d571c}
+.bottom button{color:#fbeaf1}
+.bottom button.active{background:#91516f;color:#ffe1ec}
+.note{background:#fff3f7;border:1px solid #f0d5e0;color:#78475e}
+.month-folder,.date-folder{border-color:#f0dce5}
+.month-folder>summary{background:#fff0f5;border-left-color:#d7a1b5}
+.date-folder>summary{background:#fffafd;border-left-color:#bd7192}
+.month-folder summary b,.date-folder summary b{color:#874661}
+.folder-arrow{color:#a94f78}
+.account-strip,.cloud-card{border-color:#efd5e0;background:linear-gradient(135deg,#fffafd,#fff)}
+.account-strip-top,.settings-fold summary,.subpanel h3{color:#874661}
+.account-email{color:#874661}
+.settings-fold summary:after{color:#a94f78}
+.profile-choice{background:#fff7fa;color:#874661;border-color:#efd5e0}
+.profile-choice .profile-icon{background:linear-gradient(145deg,#fbeaf1,#fff);border-color:#efd0dd;color:#a94f78}
+.profile-choice.active{background:#8e4566;color:#fff0f5;border:2px solid #d7a1b5}
+.profile-choice.active small{color:#ffe4ed}
+#loginGate{background:linear-gradient(145deg,#8e4566,#bd7192)}
+#loginGate .login-card{border-top-color:#d7a1b5}
+#loginGate h2{color:#9a4d70}
+#loginGate .login-logo{background:linear-gradient(145deg,#fff,#fbeaf1);border-color:#d7a1b5}
+#loginGate .login-secondary{background:#fbeef3;color:#914767}
+.pdf-brand{border-bottom-color:#d7a1b5}
+.pdf-logo{border-color:#d7a1b5}
+
 </style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
 <body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-h.svg?v=shield2026" alt="हिशोब सारथी सोनेरी ह आणि कॅल्क्युलेटर लोगो"></div><h2>गृहिणी सारथी — सुरक्षित लॉगिन</h2><p class="login-muted">हीच अॅप लिंक इतरांनाही देता येईल. प्रत्येकाने स्वतःच्या Google खात्याने प्रथम नोंदणी करून 6 अंकी PIN तयार करावा. प्रत्येक Google खात्यासाठी स्वतंत्र रिकामा हिशोब तयार होतो; तुमच्या वैयक्तिक नोंदी, बँक तपशील आणि PIN इतरांना दिसत नाहीत.</p><div id="loginLoadingStep" class="login-step active"><p style="text-align:center;padding:12px 0">खाते तपासत आहे…</p></div><div id="loginGoogleStep" class="login-step"><p>नोंदणीकृत Gmail खात्याने लॉगिन करा. नवीन मोबाईलवर दुसरे Google खाते असले तरी तुमचे मूळ Gmail निवडा.</p><button type="button" class="full goldbtn" onclick="dailyCloudLogin()">Google / Gmail ने लॉगिन करा</button></div><div id="loginPinSetup" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>मोबाईल नंबर</label><input id="gatePhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10 अंकी मोबाईल नंबर"><label>नवीन 6 अंकी PIN तयार करा</label><input id="gatePin1" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="gatePin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="gateSavePin()">नोंदणी पूर्ण करा</button></div><div id="loginPinUnlock" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay2" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>नोंदणीकृत मोबाईल नंबर</label><input id="gateUnlockPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="मोबाईल नंबर"><label>6 अंकी PIN</label><input id="gatePinUnlockValue" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><button class="full goldbtn" onclick="gateUnlock()">अॅप उघडा</button><button type="button" class="full login-secondary" onclick="accountRestartLogin()">दुसरे Gmail खाते वापरा / Sign out</button></div><p id="gateStatus" class="login-status">खाते तपासत आहे…</p></div></div>
 <header class="hero"><div class="brand-head"><div class="brand-mark" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.svg?v=shield2026" alt="हिशोब सारथी – सोनेरी ह लोगो"></div><div class="brand-copy"><small>घरखर्च • बचत • घरव्यवस्थापन</small><h1>गृहिणी सारथी</h1><p>घराच्या प्रत्येक रुपयाचा सुंदर आणि सोपा हिशोब.</p></div></div></header>
