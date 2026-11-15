@@ -113,10 +113,78 @@ main.wrap{height:auto!important;min-height:0!important;max-height:none!important
 #reminderList{display:block!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important}
 #reminderList>.reminder{display:block!important;position:relative!important;overflow:visible!important}
 </style>
-<style id="parent-message-style">.parent-contact{display:flex;gap:10px;align-items:center;padding:11px 8px;border-bottom:1px solid #e7edf4;width:100%;background:#fff;border-top:0;border-left:0;border-right:0;text-align:left;cursor:pointer;color:inherit}.parent-contact:focus{outline:2px solid #0756a6}.parent-check{width:24px;height:24px;min-width:24px;border:2px solid #9aabba;border-radius:6px;display:grid;place-items:center;font-weight:900;color:#fff}.parent-contact.selected .parent-check{background:#0756a6;border-color:#0756a6}.parent-contact .pc-info{min-width:0;flex:1}.parent-contact .pc-name{font-weight:900;color:#082957}.parent-contact .pc-phone{font-size:13px;color:#52677e}.parent-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.parent-toolbar .btn{flex:1 1 145px}.parent-count{background:#eef5fc;border:1px solid #dce8f5;padding:9px 11px;border-radius:10px;font-weight:850;color:#082957;margin:9px 0}</style></head><body><header class="top"><div class="brand"><img class="logo" src="./icon.jpg?v=3"><div><h1>विद्यार्थीमित्र</h1><div class="en">VIDYARTHIMITRA</div><div class="sub">विद्यार्थी फी व्यवस्थापन / Student Fee Management · सुरक्षित, सोपा हिशोब</div></div></div></header>
-<nav class="tabs"><button id="tDash" class="on" onclick="go('dash')">🏠<br>मुख्य / Home</button><button id="tStudents" onclick="go('students')">👨‍🎓<br>विद्यार्थी</button><button id="tFee" onclick="go('fee')">💰<br>फी जमा</button><button id="tReminder" onclick="go('reminder')">🔔<br>Reminder</button><button id="tReports" onclick="go('reports')">📊<br>Report</button><button id="tParents" onclick="go('parents')">📢<br>पालक संदेश</button><button id="tSettings" onclick="go('settings')">⚙️<br>सेटिंग</button></nav>
+<style id="parent-message-style">.parent-contact{display:flex;gap:10px;align-items:center;padding:11px 8px;border-bottom:1px solid #e7edf4;width:100%;background:#fff;border-top:0;border-left:0;border-right:0;text-align:left;cursor:pointer;color:inherit}.parent-contact:focus{outline:2px solid #0756a6}.parent-check{width:24px;height:24px;min-width:24px;border:2px solid #9aabba;border-radius:6px;display:grid;place-items:center;font-weight:900;color:#fff}.parent-contact.selected .parent-check{background:#0756a6;border-color:#0756a6}.parent-contact .pc-info{min-width:0;flex:1}.parent-contact .pc-name{font-weight:900;color:#082957}.parent-contact .pc-phone{font-size:13px;color:#52677e}.parent-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.parent-toolbar .btn{flex:1 1 145px}.parent-count{background:#eef5fc;border:1px solid #dce8f5;padding:9px 11px;border-radius:10px;font-weight:850;color:#082957;margin:9px 0}</style><style id="premium-blue-redesign">
+:root{--pb-navy:#082b5b;--pb-blue:#1264bd;--pb-sky:#eaf3ff;--pb-gold:#e6b83f;--pb-ink:#142c49;--pb-muted:#718096;--pb-line:#e4ebf4;--pb-white:#fff}
+html{background:#f4f7fc;scroll-behavior:smooth}
+body.premium-blue{margin:0;background:linear-gradient(180deg,#edf4fc 0,#f7f9fc 300px,#f5f7fb 100%);color:var(--pb-ink);font-family:system-ui,-apple-system,"Noto Sans Devanagari",Segoe UI,sans-serif;padding-bottom:calc(82px + env(safe-area-inset-bottom))}
+.premium-blue .top{position:relative;top:auto;z-index:5;padding:14px 16px 18px;background:linear-gradient(130deg,#061d40 0%,#0b4788 66%,#176fc4 100%);border:0;border-radius:0 0 25px 25px;box-shadow:0 12px 28px #082b5b25}
+.premium-blue .brand{max-width:900px;margin:auto;gap:12px;align-items:center}
+.premium-blue .logo{width:60px;height:60px;flex:0 0 60px;border:2px solid #f3ca62;box-shadow:0 0 0 4px #ffffff20,0 5px 14px #00142c55}
+.premium-blue .brand-kicker{font-size:8px;letter-spacing:1.15px;font-weight:850;color:#c5ddf8}
+.premium-blue .brand h1{font-size:24px;line-height:1.15;margin:3px 0 0;color:#fff;font-weight:900;letter-spacing:0}
+.premium-blue .brand .en{font-size:10px;letter-spacing:2.2px;color:#f5d77c;font-weight:850}
+.premium-blue .top-actions{display:flex;gap:6px;margin-left:auto;position:static;box-shadow:none;background:transparent;border:0;padding:0}
+.premium-blue .top-actions button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:44px;min-height:42px;padding:5px;border:1px solid #ffffff35;border-radius:12px;background:#ffffff13;color:#fff;font-size:16px;box-shadow:none}
+.premium-blue .top-actions button span{font-size:9px;font-weight:750}
+.premium-blue .top-actions button.on{background:#ffffff27;border-color:#f4d47d;color:#ffe7a0}
+.premium-blue .bottom-nav{position:fixed;z-index:25;left:0;right:0;bottom:0;top:auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;padding:7px 8px calc(7px + env(safe-area-inset-bottom));background:#ffffffed;backdrop-filter:blur(18px);border:0;border-top:1px solid #dfe8f3;box-shadow:0 -7px 24px #183b6414}
+.premium-blue .bottom-nav button{min-width:0;min-height:55px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 1px;border:0;border-radius:13px;background:transparent;color:#718096;font-size:10px;font-weight:800;box-shadow:none}
+.premium-blue .bottom-nav button .nav-icon{width:27px;height:25px;display:grid;place-items:center;font-size:21px;line-height:1;color:#55718f}
+.premium-blue .bottom-nav button.on{background:#eaf3ff;color:#0755a7}
+.premium-blue .bottom-nav button.on .nav-icon{color:#0755a7}
+.premium-blue .wrap{width:min(100%,900px);max-width:900px;margin:0 auto;padding:15px 14px 28px}
+.premium-blue .page{min-height:55vh}
+.premium-blue .card{margin:12px 0;padding:17px;border:1px solid #e5ecf5;border-radius:19px;background:#fff;box-shadow:0 6px 22px #12375d0c}
+.premium-blue h2{color:#102f58;font-size:19px;font-weight:900;letter-spacing:-.2px}
+.premium-blue .dash-welcome{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:1px 0 20px;padding:20px 18px;border-radius:21px;color:#fff;background:linear-gradient(125deg,#0a2e60,#1267b8);box-shadow:0 10px 24px #0a3d7726;overflow:hidden;position:relative}
+.premium-blue .dash-welcome:after{content:"";position:absolute;width:150px;height:150px;border:1px solid #ffffff1c;border-radius:50%;right:-40px;top:-75px;box-shadow:0 0 0 20px #ffffff0a,0 0 0 42px #ffffff08}
+.premium-blue .dash-welcome h2{color:#fff;font-size:24px;margin:5px 0}
+.premium-blue .dash-welcome p{margin:0;color:#dceaff;font-size:12px;line-height:1.5}
+.premium-blue .eyebrow{font-size:10px;font-weight:850;letter-spacing:.5px;color:#8aa3bf}
+.premium-blue .dash-welcome .eyebrow{color:#d5e6fb}
+.premium-blue .welcome-mark{width:54px;height:54px;display:grid;place-items:center;border:1px solid #ffffff45;border-radius:17px;background:#ffffff18;font-size:27px;z-index:1}
+.premium-blue .overview-heading{display:flex;align-items:center;justify-content:space-between;margin:0 2px 10px}
+.premium-blue .overview-heading h2{margin:2px 0 0;font-size:18px}
+.premium-blue .live-pill{padding:6px 9px;border-radius:20px;background:#e8f6ef;color:#188253;font-size:9px;font-weight:850}
+.premium-blue .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.premium-blue .stat{position:relative;min-width:0;min-height:112px;padding:14px;border:1px solid #e5edf7;border-radius:17px;background:#fff;box-shadow:0 4px 14px #12375d09}
+.premium-blue .stat-icon{float:right;width:29px;height:29px;display:grid;place-items:center;border-radius:10px;background:#edf4ff;color:#145da9;font-weight:900;font-size:17px}
+.premium-blue .stat-label{display:block;padding-top:3px;color:#61748b;font-size:11px;font-weight:800}
+.premium-blue .stat b{display:block;margin:8px 0 2px;color:#102f58;font-size:23px;line-height:1.1;overflow-wrap:anywhere}
+.premium-blue .stat small{color:#9aa8b8;font-size:9px}
+.premium-blue .stat-collected .stat-icon{background:#eaf7f0;color:#168457}
+.premium-blue .stat-balance .stat-icon{background:#fff5df;color:#a97813}
+.premium-blue .stat-pending .stat-icon{background:#fff0ef;color:#c54b47}
+.premium-blue .home-shortcuts{padding:16px}
+.premium-blue .home-shortcuts h2{margin-bottom:13px}
+.premium-blue .shortcut-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.premium-blue .shortcut{min-height:108px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;padding:13px;border:1px solid #e3ebf5;border-radius:16px;background:linear-gradient(145deg,#fff,#f6f9fd);color:#17385e;text-align:left;box-shadow:none}
+.premium-blue .shortcut span{width:31px;height:31px;display:grid;place-items:center;border-radius:10px;background:#e9f2ff;color:#145da9;font-size:19px;font-weight:900}
+.premium-blue .shortcut b{font-size:12px}
+.premium-blue .shortcut small{font-size:10px;color:#8392a4}
+.premium-blue input,.premium-blue select,.premium-blue textarea{border:1px solid #dce6f1;border-radius:12px;background:#fbfdff;color:#142c49;min-height:44px;outline:none}
+.premium-blue input:focus,.premium-blue select:focus,.premium-blue textarea:focus{border-color:#5b9de0;box-shadow:0 0 0 3px #dcecff}
+.premium-blue .btn{border:0;border-radius:12px;min-height:42px;padding:11px 15px;background:linear-gradient(135deg,#176fc5,#0a4385);box-shadow:0 4px 10px #14599a20}
+.premium-blue .btn.green{background:linear-gradient(135deg,#20a071,#11724f)}
+.premium-blue .btn.gold{background:linear-gradient(135deg,#f4d477,#d7a52c);color:#17324f}
+.premium-blue .btn.light{background:#edf3fa;color:#234565;box-shadow:none}
+.premium-blue .label{color:#536a83;font-size:11px}
+.premium-blue .small{line-height:1.55}
+.premium-blue .row{padding:13px 2px;border-color:#edf1f6}
+.premium-blue .pill{background:#edf4fc;color:#27547f}
+.premium-blue .reminder{border:1px solid #ecd48b;border-radius:17px;background:linear-gradient(145deg,#fffefa,#fff8e8);box-shadow:0 5px 18px #6b50100d}
+.premium-blue .receipt{border:1px solid #e5cf8a;border-radius:17px;box-shadow:0 6px 20px #0b2d5710}
+.premium-blue .modal{padding:12px}
+.premium-blue .modal .box{border-radius:20px;box-shadow:0 15px 45px #001b3b35}
+.premium-blue table{border-radius:12px;overflow:hidden}
+.premium-blue th{background:#edf4fc;color:#24466c}
+@media(min-width:700px){.premium-blue .stats{grid-template-columns:repeat(4,minmax(0,1fr))}.premium-blue .shortcut-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.premium-blue .dash-welcome{padding:24px}.premium-blue .bottom-nav{left:50%;right:auto;transform:translateX(-50%);width:min(100%,900px);border:1px solid #e0e9f3;border-bottom:0;border-radius:17px 17px 0 0}}
+@media(max-width:380px){.premium-blue .brand h1{font-size:20px}.premium-blue .logo{width:52px;height:52px;flex-basis:52px}.premium-blue .brand-kicker{font-size:7px}.premium-blue .top-actions button{min-width:37px}.premium-blue .stat{padding:12px;min-height:105px}.premium-blue .stat b{font-size:20px}}
+</style>
+</head><body class="premium-blue"><header class="top"><div class="brand"><img class="logo" src="./icon.jpg?v=3" alt="विद्यार्थीमित्र रिक्षा व विद्यार्थी लोगो"><div class="brand-copy"><div class="brand-kicker">STUDENT TRANSPORT & FEE MANAGER</div><h1>विद्यार्थीमित्र</h1><div class="en">VIDYARTHIMITRA</div></div><div class="top-actions tabs"><button id="tParents" onclick="go('parents')" aria-label="पालक संदेश">📢<span>पालक</span></button><button id="tSettings" onclick="go('settings')" aria-label="सेटिंग">⚙️<span>सेटिंग</span></button></div></div></header>
+<nav class="tabs bottom-nav" aria-label="मुख्य मेनू"><button id="tDash" class="on" onclick="go('dash')"><span class="nav-icon">⌂</span><span>मुख्य</span></button><button id="tStudents" onclick="go('students')"><span class="nav-icon">♙</span><span>विद्यार्थी</span></button><button id="tFee" onclick="go('fee')"><span class="nav-icon">₹</span><span>फी जमा</span></button><button id="tReminder" onclick="go('reminder')"><span class="nav-icon">♧</span><span>रिमाइंडर</span></button><button id="tReports" onclick="go('reports')"><span class="nav-icon">▥</span><span>रिपोर्ट</span></button></nav>
 <main class="wrap">
-<section id="dash" class="page on"><div class="card"><h2>Dashboard / मुख्य माहिती</h2><div class="stats"><div class="stat">विद्यार्थी / Students<b id="stCount">0</b></div><div class="stat">जमा / Collected<b id="stPaid">₹0</b></div><div class="stat">बाकी / Balance<b id="stBal">₹0</b></div><div class="stat">थकीत / Pending<b id="stPend">0</b></div></div></div>
+<section id="dash" class="page on"><div class="dash-welcome"><div><div class="eyebrow">तुमच्या फी व्यवस्थापनाचे स्वागत</div><h2>नमस्कार! 👋</h2><p>विद्यार्थ्यांची फी आणि हिशोब आता एका ठिकाणी.</p></div><div class="welcome-mark">🎓</div></div><div class="overview-heading"><div><span class="eyebrow">आजचा आढावा</span><h2>मुख्य माहिती</h2></div><span class="live-pill">● अद्ययावत</span></div><div class="stats"><div class="stat stat-students"><span class="stat-icon">♙</span><span class="stat-label">एकूण विद्यार्थी</span><b id="stCount">0</b><small>नोंदणीकृत विद्यार्थी</small></div><div class="stat stat-collected"><span class="stat-icon">₹</span><span class="stat-label">एकूण जमा</span><b id="stPaid">₹0</b><small>जमा झालेली फी</small></div><div class="stat stat-balance"><span class="stat-icon">◷</span><span class="stat-label">एकूण बाकी</span><b id="stBal">₹0</b><small>वसूल करायची फी</small></div><div class="stat stat-pending"><span class="stat-icon">!</span><span class="stat-label">बाकी असलेले</span><b id="stPend">0</b><small>फी बाकी असलेले विद्यार्थी</small></div></div>
 <div class="card home-shortcuts"><h2>जलद सुविधा / Quick Actions</h2><div class="shortcut-grid">
 <button type="button" class="shortcut s-students" onclick="go('students')"><span>👨‍🎓</span><b>विद्यार्थी यादी</b><small>विद्यार्थी जोडा / शोधा</small></button>
 <button type="button" class="shortcut s-fee" onclick="go('fee')"><span>₹</span><b>फी जमा करा</b><small>नवीन पेमेंट नोंद</small></button>
