@@ -1,1 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d"><title id="t">गृहिणी सारथी</title><desc id="d">गुलाबी आणि पांढऱ्या चौकटीत घर, गृहिणी आणि घरखर्चाची वही</desc><defs><linearGradient id="p" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe8f1"/><stop offset="1" stop-color="#c53d7c"/></linearGradient></defs><rect x="22" y="22" width="468" height="468" rx="92" fill="url(#p)" stroke="#a92d68" stroke-width="18"/><rect x="43" y="43" width="426" height="426" rx="72" fill="none" stroke="#fff7fb" stroke-width="7"/><path d="M105 239 256 112l151 127" fill="none" stroke="#fff" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/><path d="M139 228v191h234V228L256 126z" fill="#fff9fc" stroke="#9f285e" stroke-width="15" stroke-linejoin="round"/><path d="M213 419v-94q0-17 17-17h52q17 0 17 17v94" fill="#f7cadd" stroke="#b53672" stroke-width="10"/><circle cx="256" cy="247" r="43" fill="#efbf9d"/><path d="M214 246q-5-56 44-57 53 1 47 61l-15-20q-36 1-59-20-2 24-17 36" fill="#392638"/><path d="M195 355q8-67 61-67t61 67v35H195z" fill="#d94d8d"/><g transform="translate(302 302) rotate(8)"><rect width="61" height="82" rx="8" fill="#fff" stroke="#b53672" stroke-width="6"/><path d="M13 22h35M13 39h35M13 56h25" stroke="#df8caf" stroke-width="6" stroke-linecap="round"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
+<title id="t">गृहिणी सारथी</title>
+<desc id="d">गुलाबी आणि सोनेरी आकर्षक चिन्हात घर, गृहिणी आणि घरखर्चाची वही</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb7d2"/><stop offset=".48" stop-color="#d94d91"/><stop offset="1" stop-color="#741d50"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff1b0"/><stop offset=".5" stop-color="#ffd35a"/><stop offset="1" stop-color="#b97919"/></linearGradient>
+ <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#ffeaf3"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="9" stdDeviation="8" flood-color="#4a1030" flood-opacity=".38"/></filter>
+</defs>
+<rect x="20" y="20" width="472" height="472" rx="104" fill="url(#bg)" stroke="url(#gold)" stroke-width="17"/>
+<rect x="41" y="41" width="430" height="430" rx="84" fill="none" stroke="#fff4fa" stroke-opacity=".78" stroke-width="5"/>
+<path d="M76 142Q256 40 436 142" fill="none" stroke="#fff" stroke-opacity=".13" stroke-width="18" stroke-linecap="round"/>
+<circle cx="256" cy="245" r="157" fill="#fff" opacity=".08"/>
+<!-- home silhouette -->
+<g filter="url(#shadow)" stroke-linejoin="round">
+ <path d="M102 232 256 105l154 127" fill="none" stroke="url(#gold)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M135 220 256 122l121 98v170q0 18-18 18H153q-18 0-18-18z" fill="url(#paper)" stroke="#fff4fa" stroke-width="9"/>
+ <path d="M207 408v-90q0-20 20-20h58q20 0 20 20v90" fill="#f7c4da" stroke="#b73575" stroke-width="10"/>
+ <circle cx="256" cy="222" r="39" fill="#efc3a5" stroke="#b73575" stroke-width="5"/>
+ <path d="M218 220q-5-52 39-55 49 0 45 58l-14-17q-32 0-55-19-2 21-15 33" fill="#4b2940"/>
+ <path d="M192 345q7-68 64-68t64 68v37H192z" fill="#d94d91"/>
+ <path d="M221 294q35 24 70 0" fill="none" stroke="#ffeaf3" stroke-width="8" stroke-linecap="round"/>
+</g>
+<!-- household ledger medallion -->
+<g filter="url(#shadow)" transform="translate(326 326)">
+ <circle cx="66" cy="66" r="70" fill="#8c245c" stroke="url(#gold)" stroke-width="9"/>
+ <rect x="28" y="20" width="76" height="91" rx="12" fill="#fffdf8" stroke="#f4c85c" stroke-width="6"/>
+ <path d="M44 42h43M44 59h43M44 76h30" stroke="#d779a4" stroke-width="6" stroke-linecap="round"/>
+ <path d="m47 91 10 9 20-22" fill="none" stroke="#16845d" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<path d="m98 112 15 15 30-31" fill="none" stroke="url(#gold)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/>
+<circle cx="256" cy="445" r="7" fill="#fff0a0"/>
+</svg>
