@@ -1,15 +1,15 @@
 {
   "name": "गृहिणी सारथी – घरखर्च",
   "short_name": "गृहिणी सारथी",
-  "description": "घरखर्च, बिलं, किराणा आणि बचत",
+  "description": "घरखर्च, बिलं, किराणा, बचत आणि घरव्यवस्थापन",
   "start_url": "./gruhini-sarathi.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#111318",
-  "theme_color": "#111318",
+  "background_color": "#fff7fa",
+  "theme_color": "#a8326a",
   "icons": [
     {
-      "src": "./logo-gruhini.svg?v=20261115",
+      "src": "./logo-gruhini.svg?v=pink20261116",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
