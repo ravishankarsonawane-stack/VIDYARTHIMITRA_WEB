@@ -1,49 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 360" role="img" aria-labelledby="t d">
-<title id="t">माझा सारथी</title><desc id="d">घर, रिक्षाचालक, रिक्षा आणि हिशोबाची चिन्हे</desc>
-<defs>
- <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#eaf5ff"/><stop offset="1" stop-color="#b9dcfa"/></linearGradient>
- <linearGradient id="blue" x2="0" y2="1"><stop stop-color="#1975c9"/><stop offset="1" stop-color="#07366e"/></linearGradient>
- <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#ffe89a"/><stop offset="1" stop-color="#d69b22"/></linearGradient>
-</defs>
-<rect x="5" y="5" width="470" height="350" rx="34" fill="url(#sky)"/>
-<circle cx="405" cy="58" r="27" fill="#fff" opacity=".8"/>
-<path d="M0 284Q115 255 232 282T480 270V360H0Z" fill="#fff"/>
-<!-- home -->
-<g transform="translate(28 55)">
- <path d="M8 104L91 34l83 70" fill="#fff" stroke="#15569a" stroke-width="10" stroke-linejoin="round"/>
- <path d="M28 99v126h126V99" fill="#f8fcff" stroke="#15569a" stroke-width="8"/>
- <rect x="49" y="124" width="36" height="40" rx="4" fill="#a8d7fa" stroke="#15569a" stroke-width="5"/>
- <path d="M67 124v40m-18-20h36" stroke="#15569a" stroke-width="3"/>
- <rect x="104" y="150" width="29" height="75" rx="3" fill="#e7bd69" stroke="#15569a" stroke-width="5"/>
- <circle cx="125" cy="188" r="3" fill="#15569a"/>
-</g>
-<!-- man -->
-<g transform="translate(188 50)">
- <path d="M39 58Q35 17 76 12Q117 14 112 60L104 76H48Z" fill="#172b45"/>
- <ellipse cx="76" cy="68" rx="34" ry="39" fill="#c98f6b"/>
- <path d="M43 57Q47 19 79 20Q108 20 111 58Q89 39 69 43Q54 45 43 57" fill="#172b45"/>
- <path d="M48 105Q76 88 105 105L124 209H25Z" fill="url(#blue)" stroke="#e1b44c" stroke-width="5"/>
- <path d="M60 111l16 25 17-25" fill="none" stroke="#fff" stroke-width="5"/>
- <path d="M38 131L14 183M111 132l18 47" stroke="#c98f6b" stroke-width="14" stroke-linecap="round"/>
- <path d="M52 208l-7 50m47-50 8 50" stroke="#243b59" stroke-width="17" stroke-linecap="round"/>
- <path d="M34 259h23m35 0h22" stroke="#172b45" stroke-width="8" stroke-linecap="round"/>
-</g>
-<!-- auto rickshaw -->
-<g transform="translate(17 231)">
- <path d="M12 50l21-42Q39 0 57 0h125q18 0 26 17l22 43v33H8V66Z" fill="#0b294c" stroke="#dba72e" stroke-width="6"/>
- <path d="M56 9h105l23 38H35Z" fill="#cceaff" stroke="#dba72e" stroke-width="5"/>
- <path d="M108 9v38" stroke="#15569a" stroke-width="5"/>
- <path d="M8 56h222v28H8Z" fill="#0b294c"/>
- <circle cx="56" cy="88" r="17" fill="#172b45" stroke="#fff" stroke-width="5"/><circle cx="184" cy="88" r="17" fill="#172b45" stroke="#fff" stroke-width="5"/>
- <path d="M15 60h24m166 0h18" stroke="#ffe18a" stroke-width="5" stroke-linecap="round"/>
-</g>
-<!-- accounts icons -->
-<g transform="translate(318 174)">
- <rect x="0" y="0" width="128" height="142" rx="17" fill="#fff" stroke="#d6a32b" stroke-width="5"/>
- <rect x="15" y="15" width="98" height="30" rx="8" fill="#eaf4ff"/>
- <path d="M26 30h52" stroke="#1c5c9f" stroke-width="5" stroke-linecap="round"/>
- <g fill="#1b69b2"><rect x="19" y="61" width="19" height="19" rx="4"/><rect x="54" y="61" width="19" height="19" rx="4"/><rect x="89" y="61" width="19" height="19" rx="4"/></g>
- <path d="M22 101l19 13 24-25" fill="none" stroke="#26996c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
- <path d="M80 105h29" stroke="#d6a32b" stroke-width="6" stroke-linecap="round"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="t d">
+<title id="t">माझा सारथी</title><desc id="d">निळी रिक्षा आणि हिशोबाची वही यांचे स्वच्छ, आधुनिक चिन्ह</desc>
+<defs><linearGradient id="body" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffd96d"/><stop offset="1" stop-color="#d99a18"/></linearGradient><linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dff4ff"/><stop offset="1" stop-color="#8dc9f1"/></linearGradient></defs>
+<path d="M34 149l18-54q7-20 29-20h72q18 0 28 18l24 56v26H34z" fill="#103b70" stroke="#08294e" stroke-width="8" stroke-linejoin="round"/>
+<path d="M75 86h75q13 0 20 14l13 28H61l8-29q2-13 6-13z" fill="url(#glass)" stroke="#f5c44f" stroke-width="6" stroke-linejoin="round"/>
+<path d="M113 88v39" stroke="#15538e" stroke-width="5"/><path d="M40 148h164v26H40z" fill="url(#body)" stroke="#103b70" stroke-width="6"/>
+<circle cx="76" cy="178" r="19" fill="#172b45" stroke="#f7f9fc" stroke-width="7"/><circle cx="171" cy="178" r="19" fill="#172b45" stroke="#f7f9fc" stroke-width="7"/>
+<path d="M91 32h95a10 10 0 0 1 10 10v48h-22V53h-83z" fill="#fff" stroke="#d7a32b" stroke-width="6" stroke-linejoin="round"/>
+<path d="M105 61h61M105 75h47" stroke="#2d6ba5" stroke-width="6" stroke-linecap="round"/>
+<circle cx="168" cy="76" r="17" fill="#eaf5ff" stroke="#d7a32b" stroke-width="5"/><path d="M160 76l6 6 11-13" fill="none" stroke="#1b6b50" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M29 205h182" stroke="#d7a32b" stroke-width="5" stroke-linecap="round" opacity=".75"/>
 </svg>
