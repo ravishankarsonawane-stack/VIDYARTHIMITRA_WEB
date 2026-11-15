@@ -1044,7 +1044,7 @@ function downloadReportImage(){
   });
   canvas.toBlob(blob=>{
    if(!blob){if(imageTab)imageTab.close();alert('PNG फाइल तयार झाली नाही. पुन्हा प्रयत्न करा.');return}
-   const url=URL.createObjectURL(blob),name=(activeProfile==='homemaker'?'Gruhini_Sarathi_Report_':'Hishob_Sarathi_Report_')++(document.getElementById('reportMonth')?.value||'report')+'.png';
+   const url=URL.createObjectURL(blob),name=(activeProfile==='homemaker'?'Gruhini_Sarathi_Report_':'Hishob_Sarathi_Report_')+(document.getElementById('reportMonth')?.value||'report')+'.png';
    if(imageTab&&!imageTab.closed){
     imageTab.document.open();
     imageTab.document.write('<!doctype html><html lang="mr"><meta name="viewport" content="width=device-width,initial-scale=1"><title>गृहिणी सारथी अहवाल</title><body style="margin:0;padding:10px;background:#eef2f7;font-family:system-ui;text-align:center"><p>मोबाईल उभ्या आकारातील अहवाल इमेज तयार आहे.</p><a download="'+name+'" href="'+url+'" style="display:inline-block;padding:12px 20px;background:#174c91;color:white;border-radius:9px;text-decoration:none">⬇️ PNG डाउनलोड करा</a><p><img src="'+url+'" style="display:block;width:100%;height:auto;margin:12px auto;max-width:720px"></p></body></html>');
