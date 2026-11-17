@@ -314,7 +314,7 @@ function ensureEntryProfiles(){
 }
 ensureEntryProfiles();
 function profileAreas(){return PROFILE_AREAS[activeProfile]||PROFILE_AREAS.my}
-function setProfile(p){if(!PROFILE_AREAS[p])return;if(p!==activeProfile){saveActiveProfileSettings();activeProfile=p;activateProfileSettings(p);document.body.classList.toggle('profile-rickshaw',p==='my');document.body.classList.toggle('profile-homemaker',p==='homemaker');localStorage.setItem(KEY+'_profile',p);persist();updateProfileUI();}const title=document.getElementById('workspaceTitle');if(title)title.textContent=p==='homemaker'?'गृहिणी सारथी':'माझा सारथी';showPage('workspace');renderHome();if(window.dailyCloudUser)window.dailyCloudSync()}
+function setProfile(p){if(!PROFILE_AREAS[p])return;const changed=p!==activeProfile;if(changed){saveActiveProfileSettings();activeProfile=p;activateProfileSettings(p);document.body.classList.toggle('profile-rickshaw',p==='my');document.body.classList.toggle('profile-homemaker',p==='homemaker');localStorage.setItem(KEY+'_profile',p);persist();}updateProfileUI();const title=document.getElementById('workspaceTitle');if(title)title.textContent=p==='homemaker'?'गृहिणी सारथी':'माझा सारथी';showPage('workspace');if(changed&&window.dailyCloudUser){Promise.resolve().then(()=>window.dailyCloudSync()).catch(e=>console.warn('Profile Cloud Sync:',e));}}
 function updateProfileUI(){
  document.querySelectorAll('.profile-choice').forEach(b=>b.classList.toggle('active',b.dataset.profile===activeProfile));
  
