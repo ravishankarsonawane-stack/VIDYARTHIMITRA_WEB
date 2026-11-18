@@ -841,6 +841,7 @@ button.secondary{background:#fff0f7;color:#a51e63;border-color:#f0c1d8}
 // स्वतंत्र स्थानिक PIN: गृहिणी सारथीचे PIN व नोंदी हिशोब सारथीपासून वेगळे.
 const GRUHINI_PIN_KEY='gruhiniSarathiLocalPin_v1';
 let gruhiniUnlocked=false;
+if(localStorage.getItem(GRUHINI_PIN_KEY)){document.getElementById('gruhiniPinSetup').classList.add('hidden');document.getElementById('gruhiniPinUnlock').classList.remove('hidden');document.getElementById('gruhiniPinIntro').textContent='अॅप उघडण्यासाठी तुमचा 6 अंकी PIN टाका.'}
 async function gruhiniHash(pin,salt){const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveBits']);const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode(salt),iterations:150000,hash:'SHA-256'},key,256);return Array.from(new Uint8Array(bits)).map(x=>x.toString(16).padStart(2,'0')).join('')}
 function gruhiniPinStatus(t){const e=document.getElementById('gruhiniPinStatus');if(e)e.textContent=t}
 window.gruhiniCreatePin=async function(){const a=document.getElementById('gruhiniPin1').value.trim(),b=document.getElementById('gruhiniPin2').value.trim();if(!/^\d{6}$/.test(a)||a!==b){gruhiniPinStatus('दोन्ही ठिकाणी समान 6 अंकी PIN टाका.');return}try{const salt=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(x=>x.toString(16).padStart(2,'0')).join('');const hash=await gruhiniHash(a,salt);localStorage.setItem(GRUHINI_PIN_KEY,JSON.stringify({salt,hash}));gruhiniOpenAfterPin()}catch(e){gruhiniPinStatus('PIN तयार करता आला नाही: '+e.message)}};
@@ -869,7 +870,7 @@ function ensureEntryProfiles(){
  const legacy=db.entries.some(e=>!e.profile);
  if(!legacy)return;
  try{if(!localStorage.getItem(KEY+'_beforeProfileSplit'))localStorage.setItem(KEY+'_beforeProfileSplit',JSON.stringify(db));}catch(_){}
- db.entries.forEach(e=>{if(!e.profile)e.profile=e.area==='personal'?'personal':'my'});
+ db.entries.forEach(e=>{if(!e.profile)e.profile='homemaker'});
 }
 ensureEntryProfiles();
 function profileAreas(){return PROFILE_AREAS[activeProfile]||PROFILE_AREAS.my}
