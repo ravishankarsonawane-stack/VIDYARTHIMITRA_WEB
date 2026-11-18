@@ -1,0 +1,6 @@
+{
+  "appId": "com.gruhinisarathi.app",
+  "appName": "Gruhini Sarathi",
+  "webDir": "www",
+  "server": { "androidScheme": "https" }
+}
