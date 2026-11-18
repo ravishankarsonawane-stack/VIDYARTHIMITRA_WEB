@@ -756,6 +756,36 @@ html,body{background:linear-gradient(180deg,#fff0f6 0%,#fffafd 52%,#fbeaf1 100%)
 #loginGate .login-step .login-secondary{background:#fff1f6!important;color:#914465!important;border-color:#edcfdb!important}
 @media(max-width:430px){.brand-mark{width:76px;height:76px;flex-basis:76px}.brand-copy h1{font-size:21px}.brand-copy p{font-size:11px}.dash-welcome{padding-top:4px}}
 
+
+/* Reference layout refresh — Gruhini Sarathi: pink + white */
+:root{--brand:#d92e83;--brand-dark:#9f1e60;--brand-soft:#fff0f7;--brand-line:#f4c5dc;--brand-ink:#6e1744}
+html,body{background:#fff7fb;color:#342033}
+.hero{background:linear-gradient(120deg,#fff0f7,#ffe0ee 58%,#fff8fc)!important;color:var(--brand-ink)!important;border:0!important;padding:18px 16px 16px!important;box-shadow:inset 0 -1px 0 #f4c5dc}
+.hero:after{display:none}
+.brand-head{max-width:760px;margin:auto;align-items:center;gap:14px}
+.brand-mark{width:88px;height:84px;flex-basis:88px;background:#fff;border:2px solid #e94b98;box-shadow:0 4px 14px #c72b791c}
+.brand-copy small{color:#b52870!important}.brand-copy h1{color:#b51f6c!important;text-shadow:none!important}.brand-copy p,.brand-subline{color:#8c315f!important}
+#loginGate{background:linear-gradient(145deg,#fff0f7,#ffe0ee 55%,#fff9fc)!important;color:#49243a}
+#loginGate .login-card{border:1px solid #f2bfd7!important;border-top:5px solid #db3284!important;border-radius:25px!important;box-shadow:0 14px 38px #a92c691b!important;padding:22px!important}
+#loginGate .login-logo{border:2px solid #e64b98!important;background:#fff!important;box-shadow:0 5px 18px #bd36751b!important;border-radius:25px!important}
+#loginGate h2{color:#b51f6c!important;text-align:center;font-size:22px}
+#loginGate .login-muted{text-align:center;color:#80536d!important}
+#loginGate label{color:#713451}
+#loginGate input{border:1px solid #efbfd6;border-radius:13px;background:#fff}
+#loginGate button{background:linear-gradient(110deg,#e83d91,#bd236f)!important;color:#fff!important;border:0!important;border-radius:14px!important;box-shadow:0 5px 13px #c52a761e!important}
+#loginGate .login-secondary{background:#fff!important;color:#a51e63!important;border:1px solid #e8a9ca!important}
+.dash-welcome{background:linear-gradient(110deg,#f8d8e9,#fff0f7);color:#76214c;border-radius:17px;padding:15px 16px;margin:12px 0;display:flex;flex-direction:column;gap:3px}
+.dash-welcome b{font-size:19px}.dash-welcome span{font-size:12px;color:#8e4b6c}
+.total{border:1px solid #f2c9dd!important;border-radius:16px!important;box-shadow:0 4px 14px #b02b6d0b!important}
+.total-in{background:linear-gradient(145deg,#f0fbf4,#fff)!important}.total-out{background:linear-gradient(145deg,#fff0f2,#fff)!important}.total-month-in{background:linear-gradient(145deg,#f6efff,#fff)!important}.total-month-out{background:linear-gradient(145deg,#fff5e9,#fff)!important}
+.panel{border:1px solid #f2d5e3!important;border-radius:18px!important;box-shadow:0 5px 17px #a52b680c!important}
+.panel h2{color:#a92168!important}.panel h2:before{background:#e33b8d!important}
+button,.btn{background:#c92878;color:#fff;border-radius:12px}
+button.secondary{background:#fff0f7;color:#a51e63;border-color:#f0c1d8}
+.bottom{background:#a91f65!important;border-top:2px solid #f2a9cc!important;box-shadow:0 -4px 18px #a91f6520!important}
+.bottom button{color:#ffe8f3!important}.bottom button.active{background:#cf347f!important;color:#fff!important}
+.ref-shortcuts button{background:#fff!important;border:1px solid #f0c5da!important;color:#9e205f!important;border-radius:15px!important;box-shadow:0 3px 10px #a52b680b!important}
+
 </style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
 <body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-gruhini.svg?v=premiumhome20261115" alt="गृहिणी सारथी – गुलाबी घरखर्च लोगो"></div><h2>गृहिणी सारथी — सुरक्षित लॉगिन</h2><p class="login-muted">हीच अॅप लिंक इतरांनाही देता येईल. प्रत्येकाने स्वतःच्या Google खात्याने प्रथम नोंदणी करून 6 अंकी PIN तयार करावा. प्रत्येक Google खात्यासाठी स्वतंत्र रिकामा हिशोब तयार होतो; तुमच्या वैयक्तिक नोंदी, बँक तपशील आणि PIN इतरांना दिसत नाहीत.</p><div id="loginLoadingStep" class="login-step active"><p style="text-align:center;padding:12px 0">खाते तपासत आहे…</p></div><div id="loginGoogleStep" class="login-step"><p>नोंदणीकृत Gmail खात्याने लॉगिन करा. नवीन मोबाईलवर दुसरे Google खाते असले तरी तुमचे मूळ Gmail निवडा.</p><button type="button" class="full goldbtn" onclick="dailyCloudLogin()">Google / Gmail ने लॉगिन करा</button></div><div id="loginPinSetup" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>मोबाईल नंबर</label><input id="gatePhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10 अंकी मोबाईल नंबर"><label>नवीन 6 अंकी PIN तयार करा</label><input id="gatePin1" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="gatePin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="gateSavePin()">नोंदणी पूर्ण करा</button></div><div id="loginPinUnlock" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay2" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>नोंदणीकृत मोबाईल नंबर</label><input id="gateUnlockPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="मोबाईल नंबर"><label>6 अंकी PIN</label><input id="gatePinUnlockValue" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><button class="full goldbtn" onclick="gateUnlock()">अॅप उघडा</button><button type="button" class="full login-secondary" onclick="accountRestartLogin()">दुसरे Gmail खाते वापरा / Sign out</button></div><p id="gateStatus" class="login-status">खाते तपासत आहे…</p></div></div>
 <header class="hero"><div class="brand-head"><div class="brand-mark" aria-label="गृहिणी सारथी लोगो"><img src="./logo-gruhini.svg?v=premiumhome20261115" alt="गृहिणी सारथी – गुलाबी घर आणि हिशोब लोगो"></div><div class="brand-copy"><small>घरखर्च • बचत • घरव्यवस्थापन</small><h1>गृहिणी सारथी</h1><p>घराच्या प्रत्येक रुपयाचा सुंदर आणि सोपा हिशोब.</p></div></div></header>
