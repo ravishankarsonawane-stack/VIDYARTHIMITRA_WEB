@@ -66,6 +66,32 @@ jobs:
         working-directory: gruhini-sarathi-apk
         run: npx cap add android
 
+      - name: Apply branded Android launcher icon
+        working-directory: gruhini-sarathi-apk
+        run: |
+          python3 -m pip install --quiet pillow cairosvg
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import cairosvg, io
+          src = Path("www/logo-gruhini.svg")
+          if not src.exists():
+              raise SystemExit("Branded SVG icon is missing")
+          raw = cairosvg.svg2png(url=str(src), output_width=512, output_height=512)
+          art = Image.open(io.BytesIO(raw)).convert("RGBA")
+          # Adaptive foreground needs safe margins so Android's circle/squircle masks do not crop the artwork.
+          fg = Image.new("RGBA", (512, 512), (0,0,0,0))
+          art.thumbnail((390,390), Image.Resampling.LANCZOS)
+          fg.alpha_composite(art, ((512-art.width)//2, (512-art.height)//2))
+          for density, size in {"mdpi":108,"hdpi":162,"xhdpi":216,"xxhdpi":324,"xxxhdpi":432}.items():
+              folder = Path("android/app/src/main/res") / ("mipmap-" + density)
+              folder.mkdir(parents=True, exist_ok=True)
+              bg = Image.new("RGBA",(size,size),"#b52d70")
+              scaled = Image.open(io.BytesIO(raw)).convert("RGBA").resize((size,size),Image.Resampling.LANCZOS)
+              bg.alpha_composite(scaled)
+              bg.convert("RGB").save(folder/"ic_launcher.png")
+              fg.resize((size,size),Image.Resampling.LANCZOS).save(folder/"ic_launcher_foreground.png")
+          PY
       - name: Set Android version
         working-directory: gruhini-sarathi-apk
         env:
