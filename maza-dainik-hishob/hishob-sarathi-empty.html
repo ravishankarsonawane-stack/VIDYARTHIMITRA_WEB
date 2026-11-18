@@ -247,7 +247,35 @@ button.secondary{background:#eef6ff;color:#174d7b;border-color:#c8def2}
 .bottom button{color:#e4f2ff!important}.bottom button.active{background:#174d7b!important;color:#ffe4a0!important}
 .ref-shortcuts button{background:#fff!important;border:1px solid #d0e3f5!important;color:#174d7b!important;border-radius:15px!important;box-shadow:0 3px 10px #103b630b!important}
 
-</style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
+</style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script><style id="reference-design-2026">
+:root{--ink:#102f52;--blue:#0d4c7b;--gold:#e0b84f;--bg:#f2f8ff;--line:#d5e5f4;--muted:#60758b;--navy:#07345b;--surface:#fff}
+body{background:#f2f8ff!important;color:#153653}
+#loginGate{background:radial-gradient(ellipse at 50% 92%,#d5ebff 0,transparent 44%),linear-gradient(155deg,#e9f5ff,#f8fbff 55%,#dceeff)!important;padding:20px!important}
+#loginGate .login-card{width:min(100%,390px)!important;background:linear-gradient(180deg,#fff,#fafdff)!important;border:1px solid #c8dff2!important;border-top:5px solid #d8ae45!important;border-radius:28px!important;padding:25px 22px!important;box-shadow:0 20px 55px #123c6024!important}
+#loginGate .login-logo{width:126px!important;height:126px!important;border:3px solid #d7b14e!important;border-radius:28px!important;background:#fff!important;padding:3px!important;box-shadow:0 9px 25px #16456a24!important}
+#loginGate h2{font-size:22px!important;text-align:center!important;color:#0b3d68!important;margin:8px 0 6px!important}
+#loginGate .login-muted{text-align:center!important;color:#617990!important;font-size:12px!important;line-height:1.65!important}
+#loginGate label{color:#234d70!important;font-weight:650}
+#loginGate input{border:1px solid #c9dff1!important;border-radius:13px!important;background:#fff!important}
+#loginGate button.goldbtn{background:linear-gradient(110deg,#0a4d7c,#082e53)!important;color:#fff!important;border-radius:14px!important;min-height:49px;box-shadow:0 5px 13px #123e612b}
+#loginGate .login-status{text-align:center;color:#28608d!important}
+.hero{background:linear-gradient(115deg,#07345b,#0e5d91 60%,#0a3965)!important;border:0!important;border-bottom:4px solid #e4bd57!important;padding:17px 18px 18px!important}
+.brand-head{display:flex;align-items:center;gap:14px;max-width:760px;margin:auto}
+.brand-mark{width:74px;height:74px;flex:0 0 74px;border:2px solid #e7c65f;border-radius:20px;background:#fff;padding:3px;box-shadow:0 5px 15px #001b3540}
+.brand-mark img{width:100%;height:100%;object-fit:contain;border-radius:15px}
+.brand-copy small{color:#dceeff!important;font-size:11px}
+.brand-copy h1{color:#fff!important;font-size:23px!important;margin:3px 0!important}
+.brand-copy p{color:#e4f1fc!important;font-size:12px!important}
+.wrap{padding:13px!important}
+.panel{border:1px solid #d7e6f4!important;border-radius:19px!important;box-shadow:0 5px 18px #173c5c0c!important}
+.total{border:1px solid #d7e6f4!important;border-radius:16px!important;background:linear-gradient(150deg,#fff,#f4faff)!important}
+.total strong{color:#123f69}
+h2{color:#124875!important}
+.quick button{border-radius:14px!important;min-height:50px}
+.bottom{background:#07345b!important;border-top:2px solid #e0b84f!important}
+.bottom button.active{background:#164f78!important;color:#ffe08a!important}
+.profile-choice{border-radius:18px!important;border-color:#c9dff2!important}
+</style></head>
 <body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-h.svg?v=shield2026" alt="हिशोब सारथी लोगो"></div><h2>हिशोब सारथी PIN लॉगिन</h2><p class="login-muted">तुमचा हिशोब सुरक्षित ठेवण्यासाठी 6 अंकी PIN वापरा. Google खाते फक्त Cloud Backup / Restore साठी लागेल.</p><div id="localPinSetup" class="login-step"><label>नवीन 6 अंकी PIN तयार करा</label><input id="localPin1" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="localPin2" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="saveLocalAppPin()">PIN सेव्ह करा आणि ॲप उघडा</button></div><div id="localPinUnlock" class="login-step"><label>तुमचा 6 अंकी PIN टाका</label><input id="localPinUnlockValue" type="password" inputmode="numeric" maxlength="6" autocomplete="current-password" placeholder="6 अंकी PIN"><button type="button" class="full goldbtn" onclick="unlockLocalAppPin()">PIN टाकून ॲप उघडा</button></div><p id="gateStatus" class="login-status">PIN तयार करा.</p></div></div><header class="hero"><div class="brand-head"><div class="brand-mark" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.svg?v=shield2026" alt="हिशोब सारथी – सोनेरी ह लोगो"></div><div class="brand-copy"><small>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</small><h1>हिशोब सारथी</h1><p>तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.</p></div></div></header>
 <main class="wrap">
 <section id="home"><div class="panel profile-panel" style="margin-top:18px"><div class="profile-heading"><div><span class="eyebrow">हिशोब सारथी</span><h2>आपला विभाग निवडा</h2></div><span class="profile-lock">🔒 सुरक्षित हिशोब</span></div><div class="profile-grid profile-grid-two"><button type="button" class="profile-choice profile-choice-main" data-profile="my" onclick="setProfile('my')"><span class="profile-icon" aria-label="माझा सारथी चित्र"><img src="./section-mazha.svg?v=tile2" alt="माझा सारथी – पुरुष, रिक्षा आणि व्यवहार"></span><b>माझा सारथी</b><small>रिक्षा • उत्पन्न • खर्च • वैयक्तिक व्यवहार</small><span class="profile-open">उघडा →</span></button><button type="button" class="profile-choice profile-choice-main" data-profile="homemaker" onclick="setProfile('homemaker')"><span class="profile-icon" aria-label="गृहिणी हिशोब चित्र"><img src="./section-gruhini.svg?v=tile1" alt="घर आणि गृहिणी"></span><b>गृहिणी सारथी</b><small>घरखर्च • बिल • किराणा • बचत</small><span class="profile-open">उघडा →</span></button></div></div></section>
