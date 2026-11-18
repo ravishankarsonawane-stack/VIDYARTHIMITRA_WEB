@@ -1,0 +1,150 @@
+name: Build Gruhini Sarathi APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "gruhini-sarathi-apk/**"
+      - "maza-dainik-hishob/gruhini-sarathi.html"
+      - "maza-dainik-hishob/logo-gruhini.svg"
+      - "maza-dainik-hishob/section-gruhini.svg"
+      - "maza-dainik-hishob/section-mazha.svg"
+      - "maza-dainik-hishob/manifest-gruhini.webmanifest"
+      - ".github/workflows/gruhini-sarathi-apk.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Install Android SDK
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Install Capacitor
+        working-directory: gruhini-sarathi-apk
+        run: npm install
+
+      - name: Prepare standalone Gruhini app
+        working-directory: gruhini-sarathi-apk
+        env:
+          APP_BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          mkdir -p www
+          cp ../maza-dainik-hishob/gruhini-sarathi.html www/index.html
+          cp ../maza-dainik-hishob/logo-gruhini.svg www/logo-gruhini.svg
+          cp ../maza-dainik-hishob/section-gruhini.svg www/section-gruhini.svg
+          cp ../maza-dainik-hishob/section-mazha.svg www/section-mazha.svg
+          cp ../maza-dainik-hishob/manifest-gruhini.webmanifest www/manifest-gruhini.webmanifest
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+          p = Path("www/index.html")
+          s = p.read_text(encoding="utf-8")
+          s = s.replace("const APP_BUILD_VERSION = 'web';", "const APP_BUILD_VERSION = '1.0." + os.environ["APP_BUILD_NUMBER"] + "';", 1)
+          p.write_text(s, encoding="utf-8")
+          PY
+
+      - name: Generate Android project
+        working-directory: gruhini-sarathi-apk
+        run: npx cap add android
+
+      - name: Set Android version
+        working-directory: gruhini-sarathi-apk
+        env:
+          APP_BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os, re
+          p = Path("android/app/build.gradle")
+          s = p.read_text(encoding="utf-8")
+          s, n1 = re.subn(r"\\bversionCode\\s+\\d+", "versionCode " + os.environ["APP_BUILD_NUMBER"], s, count=1)
+          s, n2 = re.subn(r'\\bversionName\\s+"[^"]+"', 'versionName "1.0.' + os.environ["APP_BUILD_NUMBER"] + '"', s, count=1)
+          if n1 != 1 or n2 != 1:
+              raise SystemExit("Could not set Android version")
+          p.write_text(s, encoding="utf-8")
+          PY
+
+      - name: Configure release signing
+        working-directory: gruhini-sarathi-apk
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          test -n "$ANDROID_KEYSTORE_BASE64"
+          test -n "$ANDROID_KEYSTORE_PASSWORD"
+          test -n "$ANDROID_KEY_ALIAS"
+          test -n "$ANDROID_KEY_PASSWORD"
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/gruhini-sarathi-release.p12
+          cat >> android/app/build.gradle <<'EOF'
+
+          android {
+              signingConfigs {
+                  release {
+                      storeFile file("gruhini-sarathi-release.p12")
+                      storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                      keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                      keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+                  }
+              }
+              buildTypes {
+                  release {
+                      signingConfig signingConfigs.release
+                      minifyEnabled false
+                  }
+              }
+          }
+          EOF
+
+      - name: Sync Android project
+        working-directory: gruhini-sarathi-apk
+        run: npx cap sync android
+
+      - name: Build signed release APK
+        working-directory: gruhini-sarathi-apk/android
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: ./gradlew assembleRelease
+
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Gruhini-Sarathi-Signed-APK
+          path: gruhini-sarathi-apk/android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish APK release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: gruhini-sarathi-v1.0.${{ github.run_number }}
+          name: गृहिणी सारथी v1.0.${{ github.run_number }}
+          body: |
+            गृहिणी सारथी स्वतंत्र Android APK.
+            - स्वतंत्र Package ID: com.gruhinisarathi.app
+            - गृहिणी सारथीचा स्वतंत्र PIN आणि स्थानिक डेटा.
+            - हिशोब सारथीचा डेटा या अॅपमध्ये मिसळत नाही.
+          files: gruhini-sarathi-apk/android/app/build/outputs/apk/release/app-release.apk
+          make_latest: false
