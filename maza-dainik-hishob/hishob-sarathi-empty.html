@@ -217,6 +217,36 @@ body.landing .bottom{display:none!important}
 .profile-choice-main b{font-size:15px!important}
 @media(max-width:420px){.profile-choice-main{min-height:190px!important;padding:9px 7px!important}.profile-choice-main .profile-icon{height:102px!important}.profile-choice-main b{font-size:14px!important}}
 
+
+/* Reference layout refresh — Hishob Sarathi: navy + gold + white */
+:root{--brand:#0d3b68;--brand-dark:#092d50;--brand-gold:#e2b84e;--brand-soft:#eaf5ff;--brand-line:#c8def2;--brand-ink:#12395f}
+html,body{background:#f2f8ff;color:#173653}
+.hero{background:linear-gradient(120deg,#e5f3ff,#d5ebff 58%,#f7fbff)!important;color:#12395f!important;border:0!important;padding:18px 16px 16px!important;box-shadow:inset 0 -1px 0 #c6def4}
+.hero:after{display:none}
+.brand-head{max-width:760px;margin:auto;align-items:center;gap:14px}
+.brand-mark{width:88px;height:84px;flex-basis:88px;background:#fff;border:2px solid #174d7b;box-shadow:0 4px 14px #103b631c}
+.brand-copy small{color:#174d7b!important}.brand-copy h1{color:#10395f!important;text-shadow:none!important}.brand-copy p,.brand-subline{color:#214f78!important}
+#loginGate{background:linear-gradient(145deg,#e8f5ff,#d8ecff 55%,#f7fbff)!important;color:#173653}
+#loginGate .login-card{border:1px solid #c8def2!important;border-top:5px solid #d9ae46!important;border-radius:25px!important;box-shadow:0 14px 38px #103b631b!important;padding:22px!important}
+#loginGate .login-logo{border:2px solid #174d7b!important;background:#fff!important;box-shadow:0 5px 18px #103b631b!important;border-radius:25px!important}
+#loginGate h2{color:#10395f!important;text-align:center;font-size:22px}
+#loginGate .login-muted{text-align:center;color:#526d86!important}
+#loginGate label{color:#244b70}
+#loginGate input{border:1px solid #c8def2;border-radius:13px;background:#fff}
+#loginGate button{background:linear-gradient(110deg,#0c4777,#092f54)!important;color:#fff!important;border:0!important;border-radius:14px!important;box-shadow:0 5px 13px #0c47771e!important}
+#loginGate .login-secondary{background:#eef6ff!important;color:#174d7b!important;border:1px solid #c8def2!important}
+.dash-welcome{background:linear-gradient(110deg,#dcefff,#f4faff);color:#10395f;border-radius:17px;padding:15px 16px;margin:12px 0;display:flex;flex-direction:column;gap:3px}
+.dash-welcome b{font-size:19px}.dash-welcome span{font-size:12px;color:#426789}
+.total{border:1px solid #d1e3f5!important;border-radius:16px!important;box-shadow:0 4px 14px #103b630b!important}
+.total-in{background:linear-gradient(145deg,#eaf8f0,#fff)!important}.total-out{background:linear-gradient(145deg,#fff0f1,#fff)!important}.total-month-in{background:linear-gradient(145deg,#eaf4ff,#fff)!important}.total-month-out{background:linear-gradient(145deg,#f4efff,#fff)!important}
+.panel{border:1px solid #d7e6f4!important;border-radius:18px!important;box-shadow:0 5px 17px #103b630c!important}
+.panel h2{color:#174d7b!important}.panel h2:before{background:#dfb44d!important}
+button,.btn{background:#0c4777;color:#fff;border-radius:12px}
+button.secondary{background:#eef6ff;color:#174d7b;border-color:#c8def2}
+.bottom{background:#0a3156!important;border-top:2px solid #dfb44d!important;box-shadow:0 -4px 18px #0a315620!important}
+.bottom button{color:#e4f2ff!important}.bottom button.active{background:#174d7b!important;color:#ffe4a0!important}
+.ref-shortcuts button{background:#fff!important;border:1px solid #d0e3f5!important;color:#174d7b!important;border-radius:15px!important;box-shadow:0 3px 10px #103b630b!important}
+
 </style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
 <body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-h.svg?v=shield2026" alt="हिशोब सारथी सोनेरी ह आणि कॅल्क्युलेटर लोगो"></div><h2>हिशोब सारथी लॉगिन</h2><p class="login-muted">हीच अॅप लिंक इतरांनाही देता येईल. प्रत्येकाने स्वतःच्या Google खात्याने प्रथम नोंदणी करून 6 अंकी PIN तयार करावा. प्रत्येक Google खात्यासाठी स्वतंत्र रिकामा हिशोब तयार होतो; तुमच्या वैयक्तिक नोंदी, बँक तपशील आणि PIN इतरांना दिसत नाहीत.</p><div id="loginLoadingStep" class="login-step active"><p style="text-align:center;padding:12px 0">खाते तपासत आहे…</p></div><div id="loginGoogleStep" class="login-step"><p>नोंदणीकृत Gmail खात्याने लॉगिन करा. नवीन मोबाईलवर दुसरे Google खाते असले तरी तुमचे मूळ Gmail निवडा.</p><button type="button" class="full goldbtn" onclick="dailyCloudLogin()">Google / Gmail ने लॉगिन करा</button></div><div id="loginPinSetup" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>मोबाईल नंबर</label><input id="gatePhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10 अंकी मोबाईल नंबर"><label>नवीन 6 अंकी PIN तयार करा</label><input id="gatePin1" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="gatePin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="gateSavePin()">नोंदणी पूर्ण करा</button></div><div id="loginPinUnlock" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay2" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>नोंदणीकृत मोबाईल नंबर</label><input id="gateUnlockPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="मोबाईल नंबर"><label>6 अंकी PIN</label><input id="gatePinUnlockValue" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><button class="full goldbtn" onclick="gateUnlock()">अॅप उघडा</button><button type="button" class="full login-secondary" onclick="accountRestartLogin()">दुसरे Gmail खाते वापरा / Sign out</button></div><p id="gateStatus" class="login-status">खाते तपासत आहे…</p></div></div>
 <header class="hero"><div class="brand-head"><div class="brand-mark" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.svg?v=shield2026" alt="हिशोब सारथी – सोनेरी ह लोगो"></div><div class="brand-copy"><small>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</small><h1>हिशोब सारथी</h1><p>तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.</p></div></div></header>
