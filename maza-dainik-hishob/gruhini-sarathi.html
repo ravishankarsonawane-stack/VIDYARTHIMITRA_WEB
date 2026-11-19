@@ -786,6 +786,17 @@ button.secondary{background:#fff0f7;color:#a51e63;border-color:#f0c1d8}
 .bottom button{color:#ffe8f3!important}.bottom button.active{background:#cf347f!important;color:#fff!important}
 .ref-shortcuts button{background:#fff!important;border:1px solid #f0c5da!important;color:#9e205f!important;border-radius:15px!important;box-shadow:0 3px 10px #a52b680b!important}
 
+
+/* Gruhini Sarathi pink-and-white mobile theme */
+:root{--ink:#382536;--blue:#a8326a;--bg:#fff7fb;--line:#f0dce7;--muted:#806b79;--navy:#7d2851;--surface:#fff}
+body{background:#fff7fb;color:#382536}
+.hero{background:linear-gradient(135deg,#a8326a,#d85b98 72%,#ef9ac0);color:#fff;border-bottom:3px solid #f4c9dc}
+.hero small{color:#ffe3ef}.hero p{color:#fff0f6}
+.panel{background:#fff;border-color:#f0dce7;box-shadow:0 4px 16px #a8326a0d}
+h2{color:#a8326a}.total{border-color:#f0dce7}
+button,.btn{background:#b83f79}button.secondary{background:#fff0f6;color:#922d60;border-color:#f0cadd}
+button.goldbtn{background:#f3b5d0;color:#702044}
+.sarathi-back{border-color:#edc4d8!important;color:#922d60!important;background:#fff5fa!important}
 </style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script><style id="reference-design-2026">
 :root{--ink:#48263a;--bg:#fff5f9;--line:#f1cddd;--muted:#896b7b}
 body{background:#fff5f9!important;color:#512b40}
@@ -1065,7 +1076,7 @@ function isoToday(){let d=new Date();return d.getFullYear()+'-'+String(d.getMont
 function monthNow(){return isoToday().slice(0,7)}
 function sum(arr,k){return arr.filter(x=>x.kind===k).reduce((a,x)=>a+Number(x.amount),0)}
 let __sarathiPageStack=[],__sarathiCurrentPage='workspace',__sarathiSkipHistory=false;
-function sarathiBack(){if(__sarathiPageStack.length){history.back()}else{showPage('workspace')}}
+function sarathiBack(){if(__sarathiPageStack.length){const prev=__sarathiPageStack.pop();__sarathiSkipHistory=true;showPage(prev);__sarathiSkipHistory=false;}else{showPage('workspace')}}
 window.addEventListener('popstate',()=>{if(__sarathiPageStack.length){const prev=__sarathiPageStack.pop();__sarathiSkipHistory=true;showPage(prev);__sarathiSkipHistory=false;}else{showPage('workspace')}history.pushState({sarathiApp:true},'','#app')});
 history.pushState({sarathiApp:true},'','#app');
 function showPage(id){if(id==='home')id='workspace';if(!__sarathiSkipHistory&&id!==__sarathiCurrentPage){__sarathiPageStack.push(__sarathiCurrentPage);history.pushState({sarathiApp:true,page:id},'','#'+id)}__sarathiCurrentPage=id;document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));const page=document.getElementById(id);if(page){page.classList.remove('hidden');if(id!=='workspace'&&!page.querySelector(':scope > .sarathi-back')){const back=document.createElement('button');back.type='button';back.className='sarathi-back';back.textContent='← मागे';back.setAttribute('onclick','sarathiBack()');back.style.cssText='display:inline-flex;align-items:center;gap:8px;margin:2px 0 12px;padding:9px 16px;border:1px solid #c9a64d;border-radius:10px;background:#fff;color:#18365c;font-size:14px;font-weight:700;';page.insertBefore(back,page.firstChild)}}document.querySelectorAll('.bottom button').forEach(b=>b.classList.toggle('active',b.dataset.page===(id==='workspace'?'home':id)));document.body.classList.toggle('landing',false);if(id==='days')renderDays();if(id==='reports'){renderReport();renderBanks();}if(id==='backup')renderArchives();if(id==='workspace')renderHome();window.scrollTo(0,0)}
@@ -1303,8 +1314,12 @@ function downloadReportPDF(){
  document.body.classList.add('report-print-mode');let restored=false;
  const restore=()=>{if(restored)return;restored=true;document.body.classList.remove('report-print-mode');folds.forEach((x,i)=>x.open=wasOpen[i]);window.removeEventListener('afterprint',restore)};
  window.addEventListener('afterprint',restore);
- try{window.focus();setTimeout(()=>window.print(),300)}
- catch(e){restore();alert('PDF प्रिंट सुरू झाले नाही. Chrome मध्ये ⋮ → Print → Save as PDF निवडा.')}
+ if(window.AndroidPrint&&typeof window.AndroidPrint.printReport==='function'){
+  window.AndroidPrint.printReport();
+  setTimeout(()=>{if(!restored)restore()},2500);
+ }else{
+  window.focus();setTimeout(()=>window.print(),300);
+ }
 }
 function downloadReportImage(){
  renderReport();
@@ -1315,7 +1330,7 @@ function downloadReportImage(){
  const rawText=(box.innerText||box.textContent||'').replace(/\u00a0/g,' ');
  folds.forEach((d,i)=>d.open=wasOpen[i]);
  if(!rawText.trim()){alert('या कालावधीसाठी अहवाल उपलब्ध नाही.');return}
- const imageTab=window.open('about:blank','_blank');
+ const imageTab=null;
  const lines=rawText.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
  // मोबाईल स्क्रीनसारखा अरुंद, उभा आणि लांब रिपोर्ट.
  const width=720,pad=34,lineH=31,canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
@@ -1351,14 +1366,16 @@ function downloadReportImage(){
   canvas.toBlob(blob=>{
    if(!blob){if(imageTab)imageTab.close();alert('PNG फाइल तयार झाली नाही. पुन्हा प्रयत्न करा.');return}
    const url=URL.createObjectURL(blob),name=(activeProfile==='homemaker'?'Gruhini_Sarathi_Report_':'Hishob_Sarathi_Report_')+(document.getElementById('reportMonth')?.value||'report')+'.png';
-   if(imageTab&&!imageTab.closed){
-    imageTab.document.open();
-    imageTab.document.write('<!doctype html><html lang="mr"><meta name="viewport" content="width=device-width,initial-scale=1"><title>गृहिणी सारथी अहवाल</title><body style="margin:0;padding:10px;background:#eef2f7;font-family:system-ui;text-align:center"><p>मोबाईल उभ्या आकारातील अहवाल इमेज तयार आहे.</p><a download="'+name+'" href="'+url+'" style="display:inline-block;padding:12px 20px;background:#174c91;color:white;border-radius:9px;text-decoration:none">⬇️ PNG डाउनलोड करा</a><p><img src="'+url+'" style="display:block;width:100%;height:auto;margin:12px auto;max-width:720px"></p></body></html>');
-    imageTab.document.close();
-   }else{
-    const link=document.createElement('a');link.href=url;link.download=name;link.textContent='PNG डाउनलोड करा';link.style.cssText='display:block;padding:16px;background:#174c91;color:white;text-align:center';document.body.appendChild(link);link.click();
-    alert('डाउनलोड टॅब उघडता आला नाही. स्क्रीनवर PNG डाउनलोड लिंक दिली आहे.');
-   }
+   let viewer=document.getElementById('gruhiniImageViewer');if(viewer)viewer.remove();
+   viewer=document.createElement('div');viewer.id='gruhiniImageViewer';
+   viewer.style.cssText='position:fixed;inset:0;z-index:99999;background:#fff5fa;overflow:auto;padding:12px 12px 28px;text-align:center;font-family:system-ui';
+   const bar=document.createElement('div');bar.style.cssText='display:flex;gap:8px;max-width:720px;margin:0 auto 12px';
+   const back=document.createElement('button');back.type='button';back.textContent='← ॲपमध्ये परत';back.style.cssText='flex:1;background:#a8326a;color:#fff;border:0;border-radius:10px;padding:13px;font-size:15px;font-weight:700';
+   const save=document.createElement('a');save.href=url;save.download=name;save.textContent='⬇️ PNG डाउनलोड';save.style.cssText='flex:1;display:block;background:#d94f91;color:#fff;border-radius:10px;padding:13px;text-decoration:none;font-size:15px;font-weight:700';
+   const image=document.createElement('img');image.src=url;image.alt='गृहिणी सारथी अहवाल';image.style.cssText='display:block;width:100%;height:auto;max-width:720px;margin:12px auto;background:#fff;box-shadow:0 3px 15px #0002';
+   const closeViewer=()=>{viewer.remove();URL.revokeObjectURL(url);document.removeEventListener('keydown',viewerKeyHandler)};
+   const viewerKeyHandler=e=>{if(e.key==='Escape'||e.key==='Backspace'){e.preventDefault();closeViewer()}};
+   back.addEventListener('click',closeViewer);bar.append(back,save);viewer.append(bar,image);document.body.appendChild(viewer);document.addEventListener('keydown',viewerKeyHandler);
    showAppToast('उभ्या आकारातील अहवाल इमेज तयार झाली.');
    setTimeout(()=>URL.revokeObjectURL(url),120000);
   },'image/png');
