@@ -383,6 +383,19 @@ label{font-size:12px!important;color:#315b7d!important;font-weight:700!important
 .ref-shortcuts button{display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;text-align:left!important;min-height:65px!important;padding:9px 11px!important;border-radius:14px!important;background:#fff!important;color:#0759a9!important;border:1px solid #c9def2!important;box-shadow:0 3px 10px #064d8c10!important;font-size:13px!important}
 .ref-shortcuts button i{display:grid!important;place-items:center!important;width:35px!important;height:35px!important;flex:0 0 35px!important;border-radius:11px!important;background:#e6f4ff!important;color:#087bc7!important;font-size:19px!important;font-style:normal!important}
 .ref-shortcuts button b{font-size:13px!important;line-height:1.3!important;color:#174777!important}
+
+/* FINAL FULL-SCREEN LOGIN — Hishob Sarathi */
+#loginGate{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;min-height:100vh!important;min-height:100dvh!important;padding:0!important;margin:0!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important;overflow-y:auto!important;background:linear-gradient(160deg,#edf7ff 0%,#d9edff 58%,#b9dcf7 100%)!important;color:#10395f!important}
+#loginGate .login-card{box-sizing:border-box!important;width:100%!important;max-width:none!important;min-height:100vh!important;min-height:100dvh!important;max-height:none!important;height:auto!important;overflow:visible!important;margin:0!important;padding:max(28px,env(safe-area-inset-top)) 22px max(24px,env(safe-area-inset-bottom))!important;border:0!important;border-radius:0!important;border-top:0!important;box-shadow:none!important;background:transparent!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+#loginGate .login-logo{width:min(44vw,190px)!important;height:min(44vw,190px)!important;max-width:190px!important;max-height:190px!important;margin:0 auto 20px!important;border:3px solid #174d7b!important;border-radius:32px!important;background:#fff!important;box-shadow:0 8px 24px #103b6322!important;padding:5px!important}
+#loginGate .login-card h2{font-size:clamp(22px,6vw,29px)!important;text-align:center!important;margin:8px 0 10px!important;color:#10395f!important}
+#loginGate .login-muted,#loginGate .login-status{text-align:center!important}
+#loginGate .login-step{width:100%!important;max-width:440px!important;margin:0 auto!important}
+#loginGate input,#loginGate button{box-sizing:border-box!important;width:100%!important;min-height:52px!important;font-size:16px!important;border-radius:15px!important}
+#loginGate button{background:linear-gradient(110deg,#0c4777,#092f54)!important;color:#fff!important;border:0!important}
+#loginGate .login-secondary{background:#fff!important;color:#174d7b!important;border:1px solid #c8def2!important}
+@media(max-height:650px){#loginGate .login-card{justify-content:flex-start!important;padding-top:18px!important}.login-logo{width:112px!important;height:112px!important;margin-bottom:10px!important}}
+
 </style>
 </head>
 <body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-h.jpg?v=fullillustration2026" alt="हिशोब सारथी लोगो"></div><h2>हिशोब सारथी PIN लॉगिन</h2><p class="login-muted">तुमचा हिशोब सुरक्षित ठेवण्यासाठी 6 अंकी PIN वापरा. Google खाते फक्त Cloud Backup / Restore साठी लागेल.</p><div id="localPinSetup" class="login-step"><label>नवीन 6 अंकी PIN तयार करा</label><input id="localPin1" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="localPin2" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="saveLocalAppPin()">PIN सेव्ह करा आणि ॲप उघडा</button></div><div id="localPinUnlock" class="login-step"><label>तुमचा 6 अंकी PIN टाका</label><input id="localPinUnlockValue" type="password" inputmode="numeric" maxlength="6" autocomplete="current-password" placeholder="6 अंकी PIN"><button type="button" class="full goldbtn" onclick="unlockLocalAppPin()">PIN टाकून ॲप उघडा</button></div><p id="gateStatus" class="login-status">PIN तयार करा.</p></div></div><header class="hero"><div class="brand-head"><div class="brand-mark" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.jpg?v=fullillustration2026" alt="हिशोब सारथी – पूर्ण चित्रयुक्त लोगो"></div><div class="brand-copy"><small>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</small><h1>हिशोब सारथी</h1><p>तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.</p></div></div></header>
@@ -742,7 +755,7 @@ function downloadReportPDF(){
  window.addEventListener('afterprint',restore);
  if(window.AndroidPrint&&typeof window.AndroidPrint.printReport==='function'){
   window.AndroidPrint.printReport();
-  setTimeout(()=>{if(!restored)restore()},2500);
+  setTimeout(()=>{if(!restored)restore()},60000);
  }else{
   window.focus();setTimeout(()=>window.print(),300);
  }
