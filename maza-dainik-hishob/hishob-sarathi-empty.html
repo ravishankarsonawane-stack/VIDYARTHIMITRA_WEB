@@ -247,6 +247,21 @@ button.secondary{background:#eef6ff;color:#174d7b;border-color:#c8def2}
 .bottom button{color:#e4f2ff!important}.bottom button.active{background:#174d7b!important;color:#ffe4a0!important}
 .ref-shortcuts button{background:#fff!important;border:1px solid #d0e3f5!important;color:#174d7b!important;border-radius:15px!important;box-shadow:0 3px 10px #103b630b!important}
 
+
+/* FINAL FULL-SCREEN PIN LOGIN — approved mobile layout */
+#loginGate{padding:0!important;align-items:stretch!important;justify-content:stretch!important;background:linear-gradient(155deg,#1264c8 0%,#073b83 100%)!important;overflow-y:auto!important;overscroll-behavior:contain}
+#loginGate .login-card{width:100%!important;max-width:none!important;min-height:100vh;min-height:100dvh;border-radius:0!important;border:0!important;border-top:0!important;box-shadow:none!important;padding:clamp(22px,5vh,48px) clamp(20px,6vw,34px) max(24px,env(safe-area-inset-bottom))!important;background:linear-gradient(180deg,#ffffff 0%,#f5f9ff 100%)!important;display:flex;flex-direction:column;justify-content:center;align-items:stretch}
+#loginGate .login-logo{width:min(76vw,330px)!important;height:auto!important;aspect-ratio:1/1.04;margin:0 auto clamp(18px,4vh,34px)!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:hidden}
+#loginGate .login-logo img{width:100%!important;height:100%!important;object-fit:contain!important;border-radius:0!important}
+#loginGate h2{text-align:center;font-size:clamp(23px,6vw,30px);font-weight:850;color:#073b83!important;margin:0 0 10px!important}
+#loginGate .login-muted{text-align:center;font-size:14px;line-height:1.65;margin:0 auto 20px;max-width:440px}
+#loginGate .login-step{width:100%;max-width:480px;margin:0 auto}
+#loginGate label{display:block;margin:13px 0 7px;font-weight:750}
+#loginGate input{width:100%;min-height:52px;border:1.5px solid #7dbdff;border-radius:13px;padding:12px 15px;font-size:18px;background:#fff}
+#loginGate button,#loginGate .goldbtn{width:100%;min-height:54px;border-radius:14px!important;background:linear-gradient(135deg,#1264c8,#073b83)!important;color:#fff!important;border:0!important;box-shadow:0 7px 18px #0b4d9a33!important;font-size:16px;font-weight:800}
+#loginGate .login-status{text-align:center;min-height:32px;margin-top:18px!important;color:#073b83!important}
+@media(max-height:650px){#loginGate .login-card{padding-top:14px!important;padding-bottom:14px!important}#loginGate .login-logo{width:min(43vw,190px)!important;margin-bottom:10px!important}#loginGate .login-muted{margin-bottom:8px}#loginGate label{margin:8px 0 5px}}
+
 </style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script><style id="reference-design-2026">
 :root{--ink:#102f52;--blue:#0d4c7b;--gold:#e0b84f;--bg:#f2f8ff;--line:#d5e5f4;--muted:#60758b;--navy:#07345b;--surface:#fff}
 body{background:#f2f8ff!important;color:#153653}
