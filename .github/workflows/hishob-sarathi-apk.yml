@@ -189,6 +189,36 @@ jobs:
         working-directory: hishob-sarathi-apk
         run: npx cap sync android
 
+      - name: Add native Android PDF print bridge
+        working-directory: hishob-sarathi-apk
+        run: |
+          mkdir -p android/app/src/main/java/com/hishobsarathi/empty
+          cat > android/app/src/main/java/com/hishobsarathi/empty/MainActivity.java <<'JAVA'
+          package com.hishobsarathi.empty;
+          import android.content.Context;
+          import android.print.PrintAttributes;
+          import android.print.PrintManager;
+          import android.webkit.JavascriptInterface;
+          import android.webkit.WebView;
+          import com.getcapacitor.BridgeActivity;
+          public class MainActivity extends BridgeActivity {
+              @Override public void onCreate(android.os.Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+                  WebView webView = getBridge().getWebView();
+                  webView.addJavascriptInterface(new Object() {
+                      @JavascriptInterface public void printReport() {
+                          runOnUiThread(() -> {
+                              PrintManager manager = (PrintManager)getSystemService(Context.PRINT_SERVICE);
+                              if (manager != null) manager.print("Hishob_Sarathi_Report",
+                                  webView.createPrintDocumentAdapter("Hishob Sarathi Report"),
+                                  new PrintAttributes.Builder().setMediaSize(PrintAttributes.MediaSize.ISO_A4).build());
+                          });
+                      }
+                  }, "AndroidPrint");
+              }
+          }
+          JAVA
+
       - name: Build signed release APK
         working-directory: hishob-sarathi-apk/android
         env:

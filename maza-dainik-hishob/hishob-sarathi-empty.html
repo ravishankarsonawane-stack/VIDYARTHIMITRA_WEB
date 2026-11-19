@@ -740,8 +740,12 @@ function downloadReportPDF(){
  document.body.classList.add('report-print-mode');let restored=false;
  const restore=()=>{if(restored)return;restored=true;document.body.classList.remove('report-print-mode');folds.forEach((x,i)=>x.open=wasOpen[i]);window.removeEventListener('afterprint',restore)};
  window.addEventListener('afterprint',restore);
- try{window.focus();setTimeout(()=>window.print(),300)}
- catch(e){restore();alert('PDF प्रिंट सुरू झाले नाही. Chrome मध्ये ⋮ → Print → Save as PDF निवडा.')}
+ if(window.AndroidPrint&&typeof window.AndroidPrint.printReport==='function'){
+  window.AndroidPrint.printReport();
+  setTimeout(()=>{if(!restored)restore()},2500);
+ }else{
+  window.focus();setTimeout(()=>window.print(),300);
+ }
 }
 function downloadReportImage(){
  renderReport();
@@ -787,14 +791,16 @@ function downloadReportImage(){
   canvas.toBlob(blob=>{
    if(!blob){if(imageTab)imageTab.close();alert('PNG फाइल तयार झाली नाही. पुन्हा प्रयत्न करा.');return}
    const url=URL.createObjectURL(blob),name='Hishob_Sarthi_Report_'+(document.getElementById('reportMonth')?.value||'report')+'.png';
-   if(imageTab&&!imageTab.closed){
-    imageTab.document.open();
-    imageTab.document.write('<!doctype html><html lang="mr"><meta name="viewport" content="width=device-width,initial-scale=1"><title>हिशोब सारथी अहवाल</title><body style="margin:0;padding:10px;background:#eef2f7;font-family:system-ui;text-align:center"><button type="button" onclick="returnToApp()" style="display:block;width:100%;max-width:720px;margin:0 auto 12px;padding:13px 16px;background:#102b52;color:#fff;border:0;border-radius:10px;font-size:16px;font-weight:700">← मुख्य ॲपमध्ये परत</button><p>मोबाईल उभ्या आकारातील अहवाल इमेज तयार आहे.</p><a download="'+name+'" href="'+url+'" style="display:inline-block;padding:12px 20px;background:#174c91;color:white;border-radius:9px;text-decoration:none">⬇️ PNG डाउनलोड करा</a><p><img src="'+url+'" style="display:block;width:100%;height:auto;margin:12px auto;max-width:720px"></p><script>function returnToApp(){try{if(window.opener&&!window.opener.closed){window.opener.focus();window.close();return}}catch(e){}try{window.close()}catch(e){}setTimeout(function(){if(!window.closed)history.back()},250)}window.addEventListener("keydown",function(e){if(e.key==="Escape")returnToApp()});<\/script></body></html>');
-    imageTab.document.close();
-   }else{
-    const link=document.createElement('a');link.href=url;link.download=name;link.textContent='PNG डाउनलोड करा';link.style.cssText='display:block;padding:16px;background:#174c91;color:white;text-align:center';document.body.appendChild(link);link.click();
-    alert('डाउनलोड टॅब उघडता आला नाही. स्क्रीनवर PNG डाउनलोड लिंक दिली आहे.');
-   }
+   let viewer=document.getElementById('hishobImageViewer');if(viewer)viewer.remove();
+   viewer=document.createElement('div');viewer.id='hishobImageViewer';
+   viewer.style.cssText='position:fixed;inset:0;z-index:99999;background:#eef2f7;overflow:auto;padding:12px 12px 28px;text-align:center;font-family:system-ui';
+   const bar=document.createElement('div');bar.style.cssText='display:flex;gap:8px;max-width:720px;margin:0 auto 12px';
+   const back=document.createElement('button');back.type='button';back.textContent='← ॲपमध्ये परत';back.style.cssText='flex:1;background:#102b52;color:#fff;border:0;border-radius:10px;padding:13px;font-size:15px;font-weight:700';
+   const save=document.createElement('a');save.href=url;save.download=name;save.textContent='⬇️ PNG डाउनलोड';save.style.cssText='flex:1;display:block;background:#174c91;color:#fff;border-radius:10px;padding:13px;text-decoration:none;font-size:15px;font-weight:700';
+   const image=document.createElement('img');image.src=url;image.alt='हिशोब सारथी अहवाल';image.style.cssText='display:block;width:100%;height:auto;max-width:720px;margin:12px auto;background:#fff;box-shadow:0 3px 15px #0002';
+   const closeViewer=()=>{viewer.remove();URL.revokeObjectURL(url);document.removeEventListener('keydown',viewerKeyHandler)};
+   const viewerKeyHandler=e=>{if(e.key==='Escape'||e.key==='Backspace'){e.preventDefault();closeViewer()}};
+   back.addEventListener('click',closeViewer);bar.append(back,save);viewer.append(bar,image);document.body.appendChild(viewer);document.addEventListener('keydown',viewerKeyHandler);
    showAppToast('उभ्या आकारातील अहवाल इमेज तयार झाली.');
    setTimeout(()=>URL.revokeObjectURL(url),120000);
   },'image/png');
