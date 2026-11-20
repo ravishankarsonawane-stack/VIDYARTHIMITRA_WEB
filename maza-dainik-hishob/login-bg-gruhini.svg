@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1600">
-<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#fff8fc"/><stop offset=".55" stop-color="#fff0f6"/><stop offset="1" stop-color="#f8d8e7"/></linearGradient><linearGradient id="wave" x2="1"><stop stop-color="#f7a9cb" stop-opacity=".58"/><stop offset="1" stop-color="#df6fa4" stop-opacity=".26"/></linearGradient></defs>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffafd"/><stop offset=".48" stop-color="#fff0f6"/><stop offset="1" stop-color="#f6c9dd"/></linearGradient><linearGradient id="wave" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#ed8db8" stop-opacity=".68"/><stop offset=".5" stop-color="#f7bad2" stop-opacity=".58"/><stop offset="1" stop-color="#d95b96" stop-opacity=".46"/></linearGradient></defs>
 <rect width="900" height="1600" fill="url(#bg)"/>
-<path d="M0 1120 C170 1020 280 1190 450 1120 S720 980 900 1100 V1600 H0Z" fill="url(#wave)"/>
-<path d="M0 1260 C210 1160 330 1310 510 1240 S740 1130 900 1220 V1600 H0Z" fill="#f4bfd6" opacity=".55"/>
-<g fill="none" stroke="#e99abb" stroke-width="7" opacity=".34" stroke-linecap="round"><path d="M65 300 Q25 230 78 180 Q130 235 90 300 Q155 270 170 205 Q205 270 150 325"/><path d="M830 450 Q780 380 830 320 Q880 380 845 450 Q900 420 900 360"/></g>
-<g fill="#f4b4cf" opacity=".38"><ellipse cx="68" cy="370" rx="24" ry="70" transform="rotate(-35 68 370)"/><ellipse cx="120" cy="405" rx="24" ry="70" transform="rotate(30 120 405)"/><ellipse cx="830" cy="560" rx="24" ry="70" transform="rotate(-35 830 560)"/><ellipse cx="875" cy="600" rx="24" ry="70" transform="rotate(30 875 600)"/></g>
-<g fill="#fff" opacity=".48"><circle cx="760" cy="160" r="110"/><circle cx="160" cy="980" r="90"/></g>
-</svg>
+<path d="M0 1000 C150 900 270 1085 430 1015 S720 900 900 1005 V1600 H0Z" fill="url(#wave)"/>
+<path d="M0 1160 C180 1065 330 1230 500 1150 S740 1050 900 1155 V1600 H0Z" fill="#f2a9ca" opacity=".62"/>
+<path d="M0 1340 C160 1260 300 1405 470 1335 S730 1240 900 1325 V1600 H0Z" fill="#e987b4" opacity=".32"/>
+<g fill="none" stroke="#dc78a5" stroke-width="8" stroke-linecap="round" opacity=".45"><path d="M25 270 Q65 185 105 270 Q145 355 185 270"/><path d="M65 215 Q105 295 145 215"/><path d="M730 430 Q770 345 810 430 Q850 515 890 430"/><path d="M770 375 Q810 455 850 375"/></g>
+<g fill="#f2a6c5" opacity=".55"><ellipse cx="65" cy="350" rx="25" ry="70" transform="rotate(-38 65 350)"/><ellipse cx="145" cy="350" rx="25" ry="70" transform="rotate(38 145 350)"/><circle cx="105" cy="350" r="22"/><ellipse cx="760" cy="520" rx="25" ry="70" transform="rotate(-38 760 520)"/><ellipse cx="840" cy="520" rx="25" ry="70" transform="rotate(38 840 520)"/><circle cx="800" cy="520" r="22"/></g>
+<g fill="#fff" opacity=".42"><circle cx="760" cy="150" r="95"/><circle cx="130" cy="900" r="70"/></g></svg>
