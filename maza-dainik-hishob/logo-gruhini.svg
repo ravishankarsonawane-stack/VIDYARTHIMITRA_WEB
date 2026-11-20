@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
 <title id="t">गृहिणी सारथी</title>
-<desc id="d">गुलाबी आणि सोनेरी आकर्षक चिन्हात घर, गृहिणी आणि घरखर्चाची वही</desc>
+<desc id="d">गुलाबी आणि पांढरे आकर्षक चिन्हात घर, गृहिणी आणि घरखर्चाची वही</desc>
 <defs>
  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb7d2"/><stop offset=".48" stop-color="#d94d91"/><stop offset="1" stop-color="#741d50"/></linearGradient>
- <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff1b0"/><stop offset=".5" stop-color="#ffd35a"/><stop offset="1" stop-color="#b97919"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset=".5" stop-color="#ffe8f2"/><stop offset="1" stop-color="#f3b8d2"/></linearGradient>
  <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#ffeaf3"/></linearGradient>
  <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="9" stdDeviation="8" flood-color="#4a1030" flood-opacity=".38"/></filter>
 </defs>
@@ -24,10 +24,10 @@
 <!-- household ledger medallion -->
 <g filter="url(#shadow)" transform="translate(326 326)">
  <circle cx="66" cy="66" r="70" fill="#8c245c" stroke="url(#gold)" stroke-width="9"/>
- <rect x="28" y="20" width="76" height="91" rx="12" fill="#fffdf8" stroke="#f4c85c" stroke-width="6"/>
+ <rect x="28" y="20" width="76" height="91" rx="12" fill="#fffdf8" stroke="#f8cfe0" stroke-width="6"/>
  <path d="M44 42h43M44 59h43M44 76h30" stroke="#d779a4" stroke-width="6" stroke-linecap="round"/>
  <path d="m47 91 10 9 20-22" fill="none" stroke="#16845d" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 <path d="m98 112 15 15 30-31" fill="none" stroke="url(#gold)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/>
-<circle cx="256" cy="445" r="7" fill="#fff0a0"/>
+<circle cx="256" cy="445" r="7" fill="#ffffff"/>
 </svg>
