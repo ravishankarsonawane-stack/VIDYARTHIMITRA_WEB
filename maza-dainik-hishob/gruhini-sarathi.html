@@ -1000,6 +1000,24 @@ label{font-size:12px!important;color:#71334f!important;font-weight:700!important
 @media(min-width:600px){.wrap{padding:14px 16px 24px!important}.ref-shortcuts button{min-height:74px!important}}
 @media(max-width:360px){.brand-mark{width:50px!important;height:50px!important;flex-basis:50px!important}.brand-copy h1{font-size:19px!important}.ref-shortcuts button{padding:8px!important;gap:7px!important}}
 </style>
+<style id="final-reference-background-override">
+
+/* FINAL OVERRIDE: reference image backgrounds must win over older theme styles */
+:root{--bg:radial-gradient(ellipse at 10% 8%,rgba(255,255,255,.98),transparent 35%),radial-gradient(ellipse at 92% 90%,rgba(255,116,177,.24),transparent 35%),linear-gradient(145deg,#fff0f7 0%,#fff9fc 52%,#ffe2ef 100%)!important;--gold:#d51b72!important;--line:#f3a6ca!important;--blue:#d51b72!important}
+html,body,body.app{background:radial-gradient(ellipse at 10% 8%,rgba(255,255,255,.98),transparent 35%),radial-gradient(ellipse at 92% 90%,rgba(255,116,177,.24),transparent 35%),linear-gradient(145deg,#fff0f7 0%,#fff9fc 52%,#ffe2ef 100%)!important;background-attachment:fixed!important}
+.hero{background:radial-gradient(ellipse at 12% 10%,rgba(255,255,255,.98),transparent 36%),radial-gradient(ellipse at 88% 90%,rgba(255,105,170,.24),transparent 36%),linear-gradient(145deg,#ffe3f0 0%,#fff9fc 55%,#ffd6e9 100%)!important;color:#a80d53!important;border-bottom:3px solid #d51b72!important}
+.hero h1,.hero p,.hero small{color:#a80d53!important}
+#loginGate,#gruhiniPinGate{box-sizing:border-box!important;width:100%!important;max-width:none!important;min-height:100vh!important;min-height:100dvh!important;height:auto!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important;background:radial-gradient(ellipse at 12% 10%,rgba(255,255,255,.98),transparent 36%),radial-gradient(ellipse at 88% 90%,rgba(255,105,170,.24),transparent 36%),linear-gradient(145deg,#ffe3f0 0%,#fff9fc 55%,#ffd6e9 100%)!important;background-attachment:fixed!important;align-items:stretch!important;justify-content:stretch!important}
+#loginGate .login-card,#gruhiniPinGate .pin-card,#gruhiniPinGate .login-card{box-sizing:border-box!important;width:100%!important;max-width:none!important;min-height:100vh!important;min-height:100dvh!important;height:auto!important;margin:0!important;padding:clamp(22px,5vh,48px) clamp(20px,6vw,34px) max(24px,env(safe-area-inset-bottom))!important;border:0!important;border-radius:0!important;border-top:0!important;box-shadow:none!important;background:transparent!important;display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:stretch!important}
+#loginGate .login-logo,#gruhiniPinGate .login-logo,#gruhiniPinGate .pin-logo{width:min(76vw,330px)!important;height:auto!important;aspect-ratio:1/1.04!important;margin:0 auto clamp(18px,4vh,34px)!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:hidden!important}
+#loginGate .login-logo img,#gruhiniPinGate .login-logo img,#gruhiniPinGate .pin-logo img{width:100%!important;height:100%!important;object-fit:contain!important;border-radius:0!important}
+#loginGate h2,#gruhiniPinGate h2{color:#a80d53!important;text-align:center!important;font-size:clamp(23px,6vw,30px)!important}
+#loginGate input,#gruhiniPinGate input{width:100%!important;min-height:52px!important;border:1.5px solid #f3a6ca!important;border-radius:13px!important;background:rgba(255,255,255,.9)!important}
+#loginGate button,#gruhiniPinGate button{width:100%!important;min-height:54px!important;border-radius:14px!important;background:linear-gradient(135deg,#d51b72,#a80d53)!important;color:#fff!important;border:0!important}
+#loginGate .login-status,#gruhiniPinGate .login-status{color:#a80d53!important}
+@media(max-height:650px){#loginGate .login-card,#gruhiniPinGate .pin-card{padding-top:14px!important;padding-bottom:14px!important}#loginGate .login-logo,#gruhiniPinGate .login-logo{width:min(43vw,190px)!important;margin-bottom:10px!important}}
+
+</style>
 </head>
 <body class="landing"><style>
 #loginGate{display:none!important}
