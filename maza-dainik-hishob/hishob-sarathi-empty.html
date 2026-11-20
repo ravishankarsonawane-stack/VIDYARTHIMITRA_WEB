@@ -447,6 +447,33 @@ html,body,body.app{background:radial-gradient(ellipse at 12% 5%,rgba(73,174,255,
 @media(max-height:650px){#loginGate .login-card,#gruhiniPinGate .pin-card{padding-top:14px!important;padding-bottom:14px!important}#loginGate .login-logo,#gruhiniPinGate .login-logo{width:min(43vw,190px)!important;margin-bottom:10px!important}}
 
 </style>
+<style id="dashboard-reference-layout">
+
+/* Dashboard reference layout — Hishob Sarathi */
+:root{--brand:#07549e;--brand-dark:#073b83;--brand-soft:#eaf5ff;--brand-line:#c7e3fb}
+html,body{background:radial-gradient(ellipse at 10% 0%,#c9eaff 0,transparent 34%),radial-gradient(ellipse at 92% 92%,#bcebf1 0,transparent 34%),linear-gradient(145deg,#e8f5ff,#fff 54%,#e4f3ff)!important;background-attachment:fixed!important;color:#092e58!important}
+.hero{background:radial-gradient(ellipse at 90% 0%,#c9f2ff 0,transparent 42%),linear-gradient(130deg,#e4f4ff,#f8fcff 58%,#d8edff)!important;border:0!important;border-bottom:3px solid #77c8f2!important;padding:16px 15px!important;box-shadow:0 6px 22px #07549e18!important}
+.brand-head{max-width:760px!important;gap:13px!important}
+.brand-mark{width:76px!important;height:76px!important;flex:0 0 76px!important;border:2px solid #9edcff!important;border-radius:22px!important;background:#fff!important;box-shadow:0 6px 17px #07549e22!important;padding:3px!important}
+.brand-copy small,.brand-copy p{color:#245a89!important}.brand-copy h1{color:#073b83!important;font-size:23px!important}
+.wrap{max-width:760px!important;padding:12px!important}
+#workspace .account-strip{border:1px solid #c5e3fa!important;border-radius:18px!important;background:rgba(255,255,255,.9)!important}
+#workspace .account-strip-top b{font-size:19px!important;color:#073b83!important}
+#workspace .totals{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;margin:12px 0!important}
+#workspace .total{min-height:88px!important;border:1px solid #c5e3fa!important;border-radius:17px!important;padding:13px!important;background:linear-gradient(145deg,#fff,#edf7ff)!important;box-shadow:0 4px 14px #07549e12!important}
+#workspace .total span{font-size:13px!important;font-weight:700!important;color:#244e75!important}
+#workspace .total strong{font-size:23px!important}
+#workspace .ref-shortcuts{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;margin:12px 0!important}
+#workspace .ref-shortcuts button{min-height:96px!important;border:1px solid #b9dcf7!important;border-radius:17px!important;background:linear-gradient(150deg,#fff,#edf7ff)!important;color:#073b83!important;box-shadow:0 4px 12px #07549e13!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important}
+#workspace .ref-shortcuts i{font-size:28px!important;color:#0874c9!important}
+#workspace .ref-shortcuts b{font-size:14px!important}
+#workspace .panel{border:1px solid #c7e3fb!important;border-radius:17px!important;background:rgba(255,255,255,.92)!important;box-shadow:0 4px 15px #07549e10!important}
+#workspace .panel h2{color:#073b83!important}
+#workspace .quick button,#workspace .goldbtn{background:linear-gradient(120deg,#0878cf,#073b83)!important;color:#fff!important;border:0!important}
+.bottom{background:linear-gradient(90deg,#063a78,#07549e)!important;border-top:2px solid #91d4ff!important}
+.bottom button.active{background:#1478c7!important;color:#fff!important}
+
+</style>
 </head>
 <body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-h.jpg?v=fullillustration2026" alt="हिशोब सारथी लोगो"></div><h2>हिशोब सारथी PIN लॉगिन</h2><p class="login-muted">तुमचा हिशोब सुरक्षित ठेवण्यासाठी 6 अंकी PIN वापरा. Google खाते फक्त Cloud Backup / Restore साठी लागेल.</p><div id="localPinSetup" class="login-step"><label>नवीन 6 अंकी PIN तयार करा</label><input id="localPin1" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="localPin2" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="saveLocalAppPin()">PIN सेव्ह करा आणि ॲप उघडा</button></div><div id="localPinUnlock" class="login-step"><label>तुमचा 6 अंकी PIN टाका</label><input id="localPinUnlockValue" type="password" inputmode="numeric" maxlength="6" autocomplete="current-password" placeholder="6 अंकी PIN"><button type="button" class="full goldbtn" onclick="unlockLocalAppPin()">PIN टाकून ॲप उघडा</button></div><p id="gateStatus" class="login-status">PIN तयार करा.</p></div></div><header class="hero"><div class="brand-head"><div class="brand-mark" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.jpg?v=fullillustration2026" alt="हिशोब सारथी – पूर्ण चित्रयुक्त लोगो"></div><div class="brand-copy"><small>घरखर्च • रिक्षा व्यवहार • वैयक्तिक नोंदी</small><h1>हिशोब सारथी</h1><p>तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.</p></div></div></header>
 <main class="wrap">
