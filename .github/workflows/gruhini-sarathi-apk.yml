@@ -7,6 +7,7 @@ on:
       - "gruhini-sarathi-apk/**"
       - "maza-dainik-hishob/gruhini-sarathi.html"
       - "maza-dainik-hishob/logo-gruhini.svg"
+      - "maza-dainik-hishob/login-bg-gruhini.svg"
       - "maza-dainik-hishob/section-gruhini.svg"
       - "maza-dainik-hishob/section-mazha.svg"
       - "maza-dainik-hishob/manifest-gruhini.webmanifest"
@@ -50,6 +51,7 @@ jobs:
           mkdir -p www
           cp ../maza-dainik-hishob/gruhini-sarathi.html www/index.html
           cp ../maza-dainik-hishob/logo-gruhini.svg www/logo-gruhini.svg
+          cp ../maza-dainik-hishob/login-bg-gruhini.svg www/login-bg-gruhini.svg
           cp ../maza-dainik-hishob/section-gruhini.svg www/section-gruhini.svg
           cp ../maza-dainik-hishob/section-mazha.svg www/section-mazha.svg
           cp ../maza-dainik-hishob/manifest-gruhini.webmanifest www/manifest-gruhini.webmanifest
