@@ -1018,6 +1018,17 @@ html,body,body.app{background:radial-gradient(ellipse at 10% 8%,rgba(255,255,255
 @media(max-height:650px){#loginGate .login-card,#gruhiniPinGate .pin-card{padding-top:14px!important;padding-bottom:14px!important}#loginGate .login-logo,#gruhiniPinGate .login-logo{width:min(43vw,190px)!important;margin-bottom:10px!important}}
 
 </style>
+<style id="gruhini-pin-screen-final">
+
+/* PIN-first screen uses its own logo class */
+#gruhiniPinGate .pin-card{box-sizing:border-box!important;width:100%!important;max-width:none!important;min-height:100vh!important;min-height:100dvh!important;margin:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:stretch!important;padding:clamp(22px,5vh,48px) clamp(20px,6vw,34px) max(24px,env(safe-area-inset-bottom))!important}
+#gruhiniPinGate .pin-logo{display:block!important;width:min(76vw,330px)!important;height:auto!important;aspect-ratio:1/1.04!important;object-fit:contain!important;margin:0 auto clamp(18px,4vh,34px)!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+#gruhiniPinGate .pin-card h2{color:#a80d53!important;text-align:center!important;font-size:clamp(23px,6vw,30px)!important}
+#gruhiniPinGate .pin-card input{width:100%!important;min-height:52px!important;border:1.5px solid #f3a6ca!important;border-radius:13px!important;background:rgba(255,255,255,.9)!important}
+#gruhiniPinGate .pin-card button{width:100%!important;min-height:54px!important;border-radius:14px!important;background:linear-gradient(135deg,#d51b72,#a80d53)!important;color:#fff!important;border:0!important}
+@media(max-height:650px){#gruhiniPinGate .pin-card{padding-top:14px!important;padding-bottom:14px!important}#gruhiniPinGate .pin-logo{width:min(43vw,190px)!important;margin-bottom:10px!important}}
+
+</style>
 </head>
 <body class="landing"><style>
 #loginGate{display:none!important}
