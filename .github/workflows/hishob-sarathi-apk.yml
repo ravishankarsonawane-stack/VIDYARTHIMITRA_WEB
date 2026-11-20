@@ -8,6 +8,8 @@ on:
       - "maza-dainik-hishob/hishob-sarathi-empty.html"
       - "maza-dainik-hishob/logo-h.svg"
       - "maza-dainik-hishob/logo-h.jpg"
+      - "maza-dainik-hishob/logo-h.svg"
+      - "maza-dainik-hishob/login-bg-hishob.svg"
       - "maza-dainik-hishob/section-hishob.svg"
       - "maza-dainik-hishob/section-gruhini.svg"
       - ".github/workflows/hishob-sarathi-apk.yml"
@@ -48,6 +50,8 @@ jobs:
           mkdir -p www
           cp ../maza-dainik-hishob/hishob-sarathi-empty.html www/index.html
           cp ../maza-dainik-hishob/logo-h.jpg www/logo-h.jpg
+          cp ../maza-dainik-hishob/logo-h.svg www/logo-h.svg
+          cp ../maza-dainik-hishob/login-bg-hishob.svg www/login-bg-hishob.svg
           cp ../maza-dainik-hishob/section-mazha.svg www/section-mazha.svg
           cp ../maza-dainik-hishob/section-gruhini.svg www/section-gruhini.svg
           cp ../maza-dainik-hishob/manifest.webmanifest www/manifest.webmanifest
