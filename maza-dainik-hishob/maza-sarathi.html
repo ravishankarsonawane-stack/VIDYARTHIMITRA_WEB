@@ -752,7 +752,7 @@ button.secondary{background:#eef6ff;color:#174d7b;border-color:#c8def2}
 .ref-shortcuts button{background:#fff!important;border:1px solid #d0e3f5!important;color:#174d7b!important;border-radius:15px!important;box-shadow:0 3px 10px #103b630b!important}
 
 </style><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script></head>
-<body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-h.svg?v=premiumauto20261115" alt="हिशोब सारथी सोनेरी ह आणि कॅल्क्युलेटर लोगो"></div><h2>हिशोब सारथी — सुरक्षित लॉगिन</h2><p class="login-muted">हीच अॅप लिंक इतरांनाही देता येईल. प्रत्येकाने स्वतःच्या Google खात्याने प्रथम नोंदणी करून 6 अंकी PIN तयार करावा. प्रत्येक Google खात्यासाठी स्वतंत्र रिकामा हिशोब तयार होतो; तुमच्या वैयक्तिक नोंदी, बँक तपशील आणि PIN इतरांना दिसत नाहीत.</p><div id="loginLoadingStep" class="login-step active"><p style="text-align:center;padding:12px 0">खाते तपासत आहे…</p></div><div id="loginGoogleStep" class="login-step"><p>नोंदणीकृत Gmail खात्याने लॉगिन करा. नवीन मोबाईलवर दुसरे Google खाते असले तरी तुमचे मूळ Gmail निवडा.</p><button type="button" class="full goldbtn" onclick="dailyCloudLogin()">Google / Gmail ने लॉगिन करा</button></div><div id="loginPinSetup" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>मोबाईल नंबर</label><input id="gatePhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10 अंकी मोबाईल नंबर"><label>नवीन 6 अंकी PIN तयार करा</label><input id="gatePin1" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="gatePin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="gateSavePin()">नोंदणी पूर्ण करा</button></div><div id="loginPinUnlock" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay2" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>नोंदणीकृत मोबाईल नंबर</label><input id="gateUnlockPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="मोबाईल नंबर"><label>6 अंकी PIN</label><input id="gatePinUnlockValue" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><button class="full goldbtn" onclick="gateUnlock()">अॅप उघडा</button><button type="button" class="full login-secondary" onclick="accountRestartLogin()">दुसरे Gmail खाते वापरा / Sign out</button></div><p id="gateStatus" class="login-status">खाते तपासत आहे…</p></div></div>
+<body class="landing"><div id="loginGate"><div class="login-card"><div class="login-logo"><img src="./logo-h.svg?v=premiumauto20261115" alt="हिशोब सारथी सोनेरी ह आणि कॅल्क्युलेटर लोगो"></div><h2>हिशोब सारथी — सुरक्षित लॉगिन</h2><p class="login-muted">हीच अॅप लिंक इतरांनाही देता येईल. प्रत्येकाने स्वतःच्या Google खात्याने प्रथम नोंदणी करून 6 अंकी PIN तयार करावा. प्रत्येक Google खात्यासाठी स्वतंत्र रिकामा हिशोब तयार होतो; तुमच्या वैयक्तिक नोंदी, बँक तपशील आणि PIN इतरांना दिसत नाहीत.</p><div id="loginLoadingStep" class="login-step active"><p style="text-align:center;padding:12px 0">खाते तपासत आहे…</p></div><div id="loginGoogleStep" class="login-step"><p>नोंदणीकृत Gmail खात्याने लॉगिन करा. नवीन मोबाईलवर दुसरे Google खाते असले तरी तुमचे मूळ Gmail निवडा.</p><button type="button" class="full goldbtn" onclick="dailyCloudLogin()">Google / Gmail ने लॉगिन करा</button></div><div id="loginPinSetup" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>मोबाईल नंबर</label><input id="gatePhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="10 अंकी मोबाईल नंबर"><label>नवीन 6 अंकी PIN तयार करा</label><input id="gatePin1" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><label>PIN पुन्हा टाका</label><input id="gatePin2" type="password" inputmode="numeric" maxlength="6" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="gateSavePin()">नोंदणी पूर्ण करा</button></div><div id="loginPinUnlock" class="login-step"><label>नोंदणीकृत Gmail ID</label><input id="gateEmailDisplay2" type="email" readonly placeholder="Google लॉगिननंतर दिसेल"><label>नोंदणीकृत मोबाईल नंबर</label><input id="gateUnlockPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="मोबाईल नंबर"><label>6 अंकी PIN</label><input id="gatePinUnlockValue" type="password" inputmode="numeric" maxlength="6" placeholder="6 अंकी PIN"><button class="full goldbtn" onclick="gateUnlock()">अॅप उघडा</button><button type="button" class="full login-secondary" onclick="gateShowPinReset()">PIN विसरलात? / PIN Reset</button><div id="gatePinReset" class="hidden"><p class="login-muted">PIN बदलण्यासाठी याच नोंदणीकृत Google खात्याची पुन्हा पडताळणी करा. तुमच्या नोंदी किंवा Backup बदलले जाणार नाहीत.</p><button type="button" class="full login-secondary" onclick="gateVerifyResetIdentity()">Google खात्याची पुन्हा पडताळणी</button><div id="gatePinResetFields" class="hidden"><label>नवीन 6 अंकी PIN</label><input id="gateResetPin1" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="नवीन 6 अंकी PIN"><label>नवीन PIN पुन्हा टाका</label><input id="gateResetPin2" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="PIN पुन्हा टाका"><button type="button" class="full goldbtn" onclick="gateResetPin()">नवीन PIN सेव्ह करा</button></div></div><button type="button" class="full login-secondary" onclick="accountRestartLogin()">दुसरे Gmail खाते वापरा / Sign out</button></div><p id="gateStatus" class="login-status">खाते तपासत आहे…</p></div></div>
 <header class="hero"><div class="brand-head"><div class="brand-mark" aria-label="हिशोब सारथी लोगो"><img src="./logo-h.svg?v=premiumauto20261115" alt="हिशोब सारथी – सोनेरी ह लोगो"></div><div class="brand-copy"><small>रिक्षा • घरखर्च • वैयक्तिक नोंदी</small><h1>हिशोब सारथी</h1><p>तुमच्या प्रत्येक हिशोबाचा विश्वासू सोबती.</p></div></div></header>
 <main class="wrap">
 <section id="home"><div class="panel profile-panel" style="margin-top:18px"><div class="profile-heading"><div><span class="eyebrow">हिशोब सारथी</span><h2>माझा सारथी</h2></div><span class="profile-lock">🔒 सुरक्षित हिशोब</span></div><div class="profile-grid" style="grid-template-columns:1fr"><button type="button" class="profile-choice profile-choice-main" data-profile="my" onclick="setProfile('my')"><span class="profile-icon"><img src="./section-mazha.svg?v=tile3" alt="माझा सारथी – रिक्षा आणि हिशोब"></span><b>माझा सारथी</b><small>रिक्षा उत्पन्न • खर्च • घरखर्च • वैयक्तिक नोंदी</small><span class="profile-open">अॅप उघडा →</span></button></div><a href="./photo-upload.html" class="btn" style="display:block;text-align:center;text-decoration:none;margin-top:12px;background:#d6ad52;color:#17345e">📷 विभागाचा फोटो बदला</a></div></section>
@@ -1211,6 +1211,50 @@ window.gateSavePin=async function(){try{
  await gateProfileRef(u.uid).set({email:u.email,phone,salt,hash,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
  gateCloudProfile={email:u.email,phone,salt,hash};gateMarkUnlocked(u.uid);gateMessage('नोंदणी पूर्ण झाली. अॅप उघडत आहे…');document.getElementById('loginGate').style.display='none';openDailyReviewPage();
 }catch(e){gateMessage('नोंदणी सेव्ह झाली नाही: '+(e.message||e))}};
+window.gateShowPinReset=function(){
+ const box=document.getElementById('gatePinReset'),fields=document.getElementById('gatePinResetFields');
+ if(box)box.classList.remove('hidden');
+ if(fields)fields.classList.add('hidden');
+ gateMessage('PIN Reset साठी तुमच्या नोंदणीकृत Google खात्याची पुन्हा पडताळणी आवश्यक आहे.');
+};
+window.gateVerifyResetIdentity=async function(){
+ try{
+  const u=auth&&auth.currentUser;
+  if(!u||!u.email){gateMessage('नोंदणीकृत Google खात्यात पुन्हा लॉगिन करा.');return}
+  if(!u.providerData.some(p=>p.providerId==='google.com')){gateMessage('या खात्यासाठी Google पडताळणी उपलब्ध नाही.');return}
+  gateMessage('Google खात्याची पुन्हा पडताळणी सुरू आहे…');
+  const provider=new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({prompt:'select_account'});
+  await u.reauthenticateWithPopup(provider);
+  const fields=document.getElementById('gatePinResetFields');
+  if(fields)fields.classList.remove('hidden');
+  gateMessage('Google खाते पडताळले. आता नवीन 6 अंकी PIN तयार करा.');
+ }catch(e){gateMessage('Google पडताळणी झाली नाही: '+(e.code||'')+' '+(e.message||e))}
+};
+window.gateResetPin=async function(){
+ try{
+  const u=auth&&auth.currentUser;
+  const a=(document.getElementById('gateResetPin1')?.value||'').trim();
+  const b=(document.getElementById('gateResetPin2')?.value||'').trim();
+  if(!u||!u.email){gateMessage('Google खात्याची पुन्हा पडताळणी करा.');return}
+  if(!/^[0-9]{6}$/.test(a)||a!==b){gateMessage('दोन्ही ठिकाणी समान 6 अंकी PIN टाका.');return}
+  if(!window.crypto||!crypto.subtle){gateMessage('सुरक्षित PIN सुविधा उपलब्ध नाही. HTTPS वर Chrome वापरा.');return}
+  const snap=await gateProfileRef(u.uid).get();
+  if(!snap.exists){gateMessage('या Gmail साठी जुने PIN खाते सापडले नाही. प्रथम नोंदणी करा.');return}
+  const stored=snap.data()||{};
+  if(!stored.phone||!stored.salt||!stored.hash){gateMessage('जुन्या PIN खात्याची माहिती अपूर्ण आहे. खाते बदलण्याआधी सहाय्य आवश्यक आहे.');return}
+  gateMessage('नवीन PIN सुरक्षितपणे सेव्ह करत आहे…');
+  const salt=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(x=>x.toString(16).padStart(2,'0')).join('');
+  const hash=await gatePinHash(a,salt);
+  await gateProfileRef(u.uid).set({...stored,email:u.email,salt,hash,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+  gateCloudProfile={...stored,email:u.email,salt,hash};
+  ['gateResetPin1','gateResetPin2','gatePinUnlockValue','gateUnlockPhone'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
+  gateMarkUnlocked(u.uid);
+  gateMessage('PIN यशस्वीपणे बदलला. तुमच्या जुन्या नोंदी आणि Backup सुरक्षित आहेत. अॅप उघडत आहे…');
+  document.getElementById('loginGate').style.display='none';
+  openDailyReviewPage();
+ }catch(e){gateMessage('PIN Reset करता आला नाही: '+(e.code||'')+' '+(e.message||e))}
+};
 window.gateUnlock=async function(){try{
  const u=auth&&auth.currentUser,phone=normalizeGatePhone(document.getElementById('gateUnlockPhone')?.value),pin=(document.getElementById('gatePinUnlockValue')?.value||'').trim(),v=gateCloudProfile;
  if(!u||!u.email){gateMessage('मूळ Gmail खात्याने पुन्हा लॉगिन करा.');gateStep('loginGoogleStep');return}
