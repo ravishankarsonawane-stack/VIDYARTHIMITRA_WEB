@@ -288,10 +288,18 @@ async function vmCloudStart(){
     });
     return Array.from(map.values());
   };
+  // Recovery Bin entries act as archive markers during sync. Do not let older
+  // cloud copies silently resurrect students/payments the user deliberately archived.
+  const mergedRecoveryBin=mergeById(remote.payload.recoveryBin,local.recoveryBin);
+  const archivedStudentIds=new Set(mergedRecoveryBin.filter(x=>x&&x.kind==='student'&&x.student).map(x=>String(x.student.id)));
+  const archivedPaymentIds=new Set(mergedRecoveryBin.filter(x=>x&&x.kind==='payment'&&x.payment).map(x=>String(x.payment.id)));
+  mergedRecoveryBin.forEach(x=>{
+    if(x&&x.kind==='student'&&Array.isArray(x.payments))x.payments.forEach(p=>{if(p&&p.id!=null)archivedPaymentIds.add(String(p.id))});
+  });
   const merged={
-    students:mergeById(remote.payload.students,local.students),
-    payments:mergeById(remote.payload.payments,local.payments),
-    recoveryBin:mergeById(remote.payload.recoveryBin,local.recoveryBin),
+    students:mergeById(remote.payload.students,local.students).filter(s=>!archivedStudentIds.has(String(s.id))),
+    payments:mergeById(remote.payload.payments,local.payments).filter(p=>!archivedStudentIds.has(String(p.studentId))&&!archivedPaymentIds.has(String(p.id))),
+    recoveryBin:mergedRecoveryBin,
     settings:{...(remote.payload.settings||{}),...(local.settings||{}),pin:''},
     meta:{...(remote.payload.meta||{}),...(local.meta||{})}
   };
