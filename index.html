@@ -170,6 +170,7 @@ function vmCloudSnapshot(){
   return {
     students:Array.isArray(db.students)?db.students:[],
     payments:Array.isArray(db.payments)?db.payments:[],
+    recoveryBin:Array.isArray(db.recoveryBin)?db.recoveryBin:[],
     settings:{...(db.settings||{}),pin:''},
     meta:db.meta||{academicYear:'2026-27'}
   };
@@ -204,12 +205,13 @@ function vmCloudChunks(items,maxBytes=600000){
 }
 async function vmCloudRead(){
   const col=vmCloudDb.collection('users').doc(vmCloudUser.uid).collection('backups');
-  const snap=await col.get();const grouped={students:[],payments:[],settings:[],meta:[]};
+  const snap=await col.get();const grouped={students:[],payments:[],recoveryBin:[],settings:[],meta:[]};
   snap.forEach(doc=>{const d=doc.data();if(grouped[d.kind])grouped[d.kind].push({part:Number(d.part)||0,items:Array.isArray(d.items)?d.items:[]})});
   Object.keys(grouped).forEach(k=>grouped[k].sort((a,b)=>a.part-b.part));
   const payload={
     students:grouped.students.flatMap(x=>x.items),
     payments:grouped.payments.flatMap(x=>x.items),
+    recoveryBin:grouped.recoveryBin.flatMap(x=>x.items),
     settings:grouped.settings.flatMap(x=>x.items)[0]||{},
     meta:grouped.meta.flatMap(x=>x.items)[0]||{academicYear:'2026-27'}
   };
@@ -217,7 +219,7 @@ async function vmCloudRead(){
 }
 async function vmCloudWrite(payload){
   const col=vmCloudDb.collection('users').doc(vmCloudUser.uid).collection('backups');
-  const kinds={students:payload.students||[],payments:payload.payments||[],settings:[payload.settings||{}],meta:[payload.meta||{}]};
+  const kinds={students:payload.students||[],payments:payload.payments||[],recoveryBin:payload.recoveryBin||[],settings:[payload.settings||{}],meta:[payload.meta||{}]};
   const writes=[];
   Object.entries(kinds).forEach(([kind,items])=>{
     vmCloudChunks(items).forEach((chunk,part)=>{
@@ -243,6 +245,7 @@ async function vmCloudRestore(payload){
   db={
     students:Array.isArray(payload.students)?payload.students:[],
     payments:Array.isArray(payload.payments)?payload.payments:[],
+    recoveryBin:Array.isArray(payload.recoveryBin)?payload.recoveryBin:[],
     settings:{...(payload.settings||{}),pin:localPin},
     meta:payload.meta||{academicYear:'2026-27'}
   };
@@ -287,12 +290,13 @@ async function vmCloudStart(){
   const merged={
     students:mergeById(remote.payload.students,local.students),
     payments:mergeById(remote.payload.payments,local.payments),
+    recoveryBin:mergeById(remote.payload.recoveryBin,local.recoveryBin),
     settings:{...(remote.payload.settings||{}),...(local.settings||{}),pin:''},
     meta:{...(remote.payload.meta||{}),...(local.meta||{})}
   };
   await vmCloudWrite(merged);
   const localPin=(db.settings&&db.settings.pin)||'';
-  db={students:merged.students,payments:merged.payments,settings:{...merged.settings,pin:localPin},meta:merged.meta};
+  db={students:merged.students,payments:merged.payments,recoveryBin:merged.recoveryBin,settings:{...merged.settings,pin:localPin},meta:merged.meta};
   localStorage.setItem(KEY,JSON.stringify(db));
   renderAll();
   localStorage.setItem(KEY+'_cloud_hash',vmCloudHash(vmCloudSnapshot()));
