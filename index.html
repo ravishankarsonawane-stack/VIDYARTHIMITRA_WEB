@@ -241,6 +241,7 @@ async function vmCloudWrite(payload){
   localStorage.setItem(KEY+'_cloud_hash',vmCloudHash(payload));
 }
 async function vmCloudRestore(payload){
+  if(!savePreRestoreBackup())throw new Error('Cloud Restore आधी फोनमधील डेटा सुरक्षित करता आला नाही; Restore थांबवला.');
   const localPin=(db.settings&&db.settings.pin)||'';
   db={
     students:Array.isArray(payload.students)?payload.students:[],
@@ -257,7 +258,7 @@ async function vmCloudStart(){
   if(!vmCloudUser||!vmCloudDb)return;
   window.vmCloudReady=false;
   vmCloudStatus('क्लाउडमधील Backup तपासत आहे…');
-  const remote=await vmCloudRead(),local=vmCloudSnapshot(),localHas=local.students.length>0||local.payments.length>0;
+  const remote=await vmCloudRead(),local=vmCloudSnapshot(),localHas=local.students.length>0||local.payments.length>0||local.recoveryBin.length>0;
   if(!remote.hasData){
     await vmCloudWrite(local);window.vmCloudReady=true;
     vmCloudStatus('✓ फोनमधील डेटा पहिल्यांदा Cloud मध्ये सुरक्षित केला.');
