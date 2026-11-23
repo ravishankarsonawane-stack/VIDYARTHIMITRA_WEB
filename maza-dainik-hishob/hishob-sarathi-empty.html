@@ -163,7 +163,7 @@ label{color:#334b6c}
 .profile-choice.active small{color:#f2e6c8}
 .profile-hint{font-size:11px;color:#66758b;margin:9px 2px 0;line-height:1.5}
 @media(max-width:360px){.profile-grid{gap:5px}.profile-choice{padding:8px 3px}.profile-choice b{font-size:11px}.profile-choice small{font-size:9px}}
-#loginGate{position:fixed;inset:0;z-index:1000;background:linear-gradient(145deg,#101216,#252b38);color:#fff;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}#loginGate .login-card{width:min(100%,440px);background:#fff;color:#172033;border-radius:20px;padding:20px;border-top:4px solid #d9b45b;box-shadow:0 16px 50px #0005}#loginGate h2{margin:0 0 8px;color:#183d76}#loginGate .login-muted{font-size:13px;color:#667085;line-height:1.5}#loginGate .login-status{font-size:12px;color:#2458a6;min-height:36px;margin-top:10px}#loginGate .login-step{display:none}#loginGate .login-step.active{display:block}#loginGate .login-logo{display:flex;justify-content:center;align-items:center;margin:0 auto 12px;width:112px;height:112px;padding:5px;background:linear-gradient(145deg,#fff,#eaf3ff);border:2px solid #d9b45b;border-radius:26px;box-shadow:0 5px 18px #102b5222}#loginGate .login-logo img{display:block;width:100%;height:100%;object-fit:contain;border-radius:18px}#loginGate button{margin-top:8px}#loginGate .login-secondary{background:#edf2fa;color:#1f4d8d}
+#loginGate[hidden]{display:none!important}#loginGate{position:fixed;inset:0;z-index:1000;background:linear-gradient(145deg,#101216,#252b38);color:#fff;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}#loginGate .login-card{width:min(100%,440px);background:#fff;color:#172033;border-radius:20px;padding:20px;border-top:4px solid #d9b45b;box-shadow:0 16px 50px #0005}#loginGate h2{margin:0 0 8px;color:#183d76}#loginGate .login-muted{font-size:13px;color:#667085;line-height:1.5}#loginGate .login-status{font-size:12px;color:#2458a6;min-height:36px;margin-top:10px}#loginGate .login-step{display:none}#loginGate .login-step.active{display:block}#loginGate .login-logo{display:flex;justify-content:center;align-items:center;margin:0 auto 12px;width:112px;height:112px;padding:5px;background:linear-gradient(145deg,#fff,#eaf3ff);border:2px solid #d9b45b;border-radius:26px;box-shadow:0 5px 18px #102b5222}#loginGate .login-logo img{display:block;width:100%;height:100%;object-fit:contain;border-radius:18px}#loginGate button{margin-top:8px}#loginGate .login-secondary{background:#edf2fa;color:#1f4d8d}
 /* Two clear account areas: personal ledger and homemaker ledger */
 .profile-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}
 .profile-heading h2{margin:4px 0 0}
@@ -984,9 +984,19 @@ async function gatePinHash(pin,salt){
 }
 
 const LOCAL_APP_PIN_KEY='hishobSarathiLocalPin_v1';
+function hideLocalPinGate(){
+ const gate=document.getElementById('loginGate');
+ if(!gate)return;
+ gate.hidden=true;
+ gate.setAttribute('aria-hidden','true');
+ gate.style.setProperty('display','none','important');
+ gate.style.setProperty('visibility','hidden','important');
+ gate.style.setProperty('pointer-events','none','important');
+}
 function showLocalPinGate(){
  const saved=localStorage.getItem(LOCAL_APP_PIN_KEY);
- document.getElementById('loginGate').style.display='flex';
+ const gate=document.getElementById('loginGate');
+ if(gate){gate.hidden=false;gate.removeAttribute('aria-hidden');gate.style.removeProperty('visibility');gate.style.removeProperty('pointer-events');gate.style.setProperty('display','flex','important')}
  gateStep(saved?'localPinUnlock':'localPinSetup');
  gateMessage(saved?'तुमचा 6 अंकी PIN टाका.':'पहिल्यांदा तुमचा 6 अंकी PIN तयार करा.');
 }
@@ -1006,8 +1016,7 @@ window.saveLocalAppPin=async function(){
   document.getElementById('localPin1').value='';document.getElementById('localPin2').value='';
   // Force the gate out of every reset/setup step before opening the app.
   gateStep('localPinUnlock');
-  const gate=document.getElementById('loginGate');
-  if(gate)gate.style.display='none';
+  hideLocalPinGate();
   gateMessage('नवीन PIN सुरक्षितपणे सेव्ह झाला. ॲप उघडत आहे…');
   try{showPage('workspace')}catch(pageError){console.error('Workspace open failed after PIN save:',pageError);throw new Error('PIN सेव्ह झाला; पण मुख्य स्क्रीन उघडताना अडथळा आला. ॲप बंद करून पुन्हा उघडा.');}
  }catch(e){gateMessage('PIN सेव्ह करता आला नाही: '+(e.message||e))}
@@ -1025,11 +1034,11 @@ window.unlockLocalAppPin=async function(){
   const legacyHash=await gateHash(pin,saved.salt);
   if(currentHash!==saved.hash&&legacyHash!==saved.hash){gateMessage('PIN जुळत नाही. 6 अंकी PIN पुन्हा तपासा किंवा PIN Reset करा.');return}
   document.getElementById('localPinUnlockValue').value='';
-  document.getElementById('loginGate').style.display='none';gateMessage('PIN बरोबर. ॲप उघडत आहे…');showPage('workspace');
+  hideLocalPinGate();gateMessage('PIN बरोबर. ॲप उघडत आहे…');showPage('workspace');
  }catch(e){gateMessage('PIN तपासता आला नाही: '+(e.message||e))}
 };
 window.beginLocalPinReset=function(){
- const gate=document.getElementById('loginGate');if(gate)gate.style.display='flex';
+ const gate=document.getElementById('loginGate');if(gate){gate.hidden=false;gate.removeAttribute('aria-hidden');gate.style.removeProperty('visibility');gate.style.removeProperty('pointer-events');gate.style.setProperty('display','flex','important')}
  gateStep('localPinResetConfirm');
  gateMessage('PIN Reset करण्यापूर्वी खात्री करा. तुमच्या हिशोबाच्या नोंदी डिलीट होणार नाहीत.');
 };
@@ -1045,7 +1054,7 @@ window.confirmLocalPinReset=function(){
   const input=document.getElementById('localPinUnlockValue');if(input)input.value='';
   const a=document.getElementById('localPin1');if(a)a.value='';
   const b=document.getElementById('localPin2');if(b)b.value='';
-  const gate=document.getElementById('loginGate');if(gate)gate.style.display='flex';
+  const gate=document.getElementById('loginGate');if(gate){gate.hidden=false;gate.removeAttribute('aria-hidden');gate.style.removeProperty('visibility');gate.style.removeProperty('pointer-events');gate.style.setProperty('display','flex','important')}
   gateStep('localPinSetup');
   gateMessage('जुना PIN Reset झाला. आता नवीन 6 अंकी PIN तयार करा. हिशोबाच्या नोंदी सुरक्षित आहेत.');
  }catch(e){gateMessage('PIN Reset करता आला नाही: '+(e.message||e))}
