@@ -1000,7 +1000,13 @@ window.unlockLocalAppPin=async function(){
   const pin=(document.getElementById('localPinUnlockValue')?.value||'').trim(),raw=localStorage.getItem(LOCAL_APP_PIN_KEY);
   if(!raw){showLocalPinGate();return}
   const saved=JSON.parse(raw);
-  if(!/^[0-9]{6}$/.test(pin)||await gatePinHash(pin,saved.salt)!==saved.hash){gateMessage('PIN चुकीचा आहे. पुन्हा प्रयत्न करा.');return}
+  if(!/^[0-9]{6}$/.test(pin)){gateMessage('कृपया 6 अंकी PIN टाका.');return}
+  if(!saved||!saved.salt||!saved.hash){gateMessage('जतन केलेला PIN तपशील वाचता येत नाही. PIN Reset करून नवीन PIN तयार करा.');return}
+  // Current PIN uses PBKDF2. Also accept the earlier SHA-256 format so an app update
+  // does not lock out someone whose PIN was created by an older installed build.
+  const currentHash=await gatePinHash(pin,saved.salt);
+  const legacyHash=await gateHash(pin,saved.salt);
+  if(currentHash!==saved.hash&&legacyHash!==saved.hash){gateMessage('PIN जुळत नाही. 6 अंकी PIN पुन्हा तपासा किंवा PIN Reset करा.');return}
   document.getElementById('localPinUnlockValue').value='';
   document.getElementById('loginGate').style.display='none';gateMessage('PIN बरोबर. ॲप उघडत आहे…');showPage('workspace');
  }catch(e){gateMessage('PIN तपासता आला नाही: '+(e.message||e))}
@@ -1012,6 +1018,7 @@ window.resetLocalAppPin=function(){
   const input=document.getElementById('localPinUnlockValue');if(input)input.value='';
   const a=document.getElementById('localPin1');if(a)a.value='';
   const b=document.getElementById('localPin2');if(b)b.value='';
+  document.getElementById('loginGate').style.display='flex';
   gateStep('localPinSetup');gateMessage('जुना PIN Reset झाला. आता नवीन 6 अंकी PIN तयार करा. तुमच्या हिशोबाच्या नोंदी सुरक्षित आहेत.');
  }catch(e){gateMessage('PIN Reset करता आला नाही: '+(e.message||e))}
 };
