@@ -998,10 +998,18 @@ window.saveLocalAppPin=async function(){
   const salt=Array.from(crypto.getRandomValues(new Uint8Array(16))).map(x=>x.toString(16).padStart(2,'0')).join('');
   const hash=await gatePinHash(a,salt);
   const record=JSON.stringify({salt,hash,version:2,createdAt:new Date().toISOString()});
-   localStorage.setItem(LOCAL_APP_PIN_KEY,record);
-   if(localStorage.getItem(LOCAL_APP_PIN_KEY)!==record)throw new Error('PIN फोनमध्ये कायमचा सेव्ह झाला नाही. Storage तपासा.');
+  localStorage.setItem(LOCAL_APP_PIN_KEY,record);
+  const stored=localStorage.getItem(LOCAL_APP_PIN_KEY);
+  if(stored!==record)throw new Error('PIN फोनमध्ये कायमचा सेव्ह झाला नाही. Storage तपासा.');
+  const check=JSON.parse(stored);
+  if(!check || check.version!==2 || check.salt!==salt || check.hash!==hash)throw new Error('सेव्ह केलेला PIN तपशील पडताळता आला नाही.');
   document.getElementById('localPin1').value='';document.getElementById('localPin2').value='';
-  document.getElementById('loginGate').style.display='none';gateMessage('PIN सेव्ह झाला.');showPage('workspace');
+  // Force the gate out of every reset/setup step before opening the app.
+  gateStep('localPinUnlock');
+  const gate=document.getElementById('loginGate');
+  if(gate)gate.style.display='none';
+  gateMessage('नवीन PIN सुरक्षितपणे सेव्ह झाला. ॲप उघडत आहे…');
+  try{showPage('workspace')}catch(pageError){console.error('Workspace open failed after PIN save:',pageError);throw new Error('PIN सेव्ह झाला; पण मुख्य स्क्रीन उघडताना अडथळा आला. ॲप बंद करून पुन्हा उघडा.');}
  }catch(e){gateMessage('PIN सेव्ह करता आला नाही: '+(e.message||e))}
 };
 window.unlockLocalAppPin=async function(){
