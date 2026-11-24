@@ -1,4 +1,5 @@
 name: Build Hishob Sarathi APK
+# Uses the updated circular blue-white logo-h.jpg for app, launcher icon and PDF branding
 
 on:
   workflow_dispatch:
