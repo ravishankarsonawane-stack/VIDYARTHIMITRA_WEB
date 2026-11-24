@@ -84,7 +84,9 @@ jobs:
           match = re.search(r'href="data:image/(?:jpeg|jpg);base64,([^"]+)"', svg)
           if not match:
               raise SystemExit("Approved Gruhini logo image data was not found in SVG")
-          image_bytes = base64.b64decode(match.group(1), validate=True)
+          encoded = re.sub(r"[^A-Za-z0-9+/=]", "", match.group(1)).rstrip("=")
+          encoded += "=" * ((-len(encoded)) % 4)
+          image_bytes = base64.b64decode(encoded, validate=True)
           art = Image.open(io.BytesIO(image_bytes)).convert("RGBA")
           art = art.resize((512, 512), Image.Resampling.LANCZOS)
           # Keep the complete approved artwork within Android adaptive-icon safe margins.
