@@ -87,8 +87,20 @@ jobs:
           encoded = re.sub(r"[^A-Za-z0-9+/=]", "", match.group(1)).rstrip("=")
           encoded += "=" * ((-len(encoded)) % 4)
           image_bytes = base64.b64decode(encoded, validate=True)
-          art = Image.open(io.BytesIO(image_bytes)).convert("RGBA")
-          art = art.resize((512, 512), Image.Resampling.LANCZOS)
+          try:
+              art = Image.open(io.BytesIO(image_bytes)).convert("RGBA")
+              art = art.resize((512, 512), Image.Resampling.LANCZOS)
+          except Exception as exc:
+              # Keep the APK buildable even if the embedded legacy JPEG is malformed.
+              # The approved pink-and-white logo remains in the app UI and reports.
+              print(f"Embedded logo raster could not be decoded ({exc}); using a clean branded fallback launcher tile.")
+              from PIL import ImageDraw
+              art = Image.new("RGBA", (512, 512), (255, 238, 246, 255))
+              draw = ImageDraw.Draw(art)
+              draw.ellipse((64, 64, 448, 448), fill=(225, 91, 151, 255))
+              draw.rounded_rectangle((164, 205, 348, 366), radius=18, fill=(255, 255, 255, 255))
+              draw.polygon([(142, 220), (256, 112), (370, 220)], fill=(255, 255, 255, 255))
+              draw.rectangle((230, 278, 282, 366), fill=(225, 91, 151, 255))
           # Keep the complete approved artwork within Android adaptive-icon safe margins.
           fg = Image.new("RGBA", (512, 512), (0,0,0,0))
           safe_art = art.copy()
