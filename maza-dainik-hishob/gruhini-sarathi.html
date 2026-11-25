@@ -1744,4 +1744,35 @@ if(ready()){
 .pdf-logo img{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;border-radius:50%!important}
 @media(max-height:650px){#loginGate .login-logo,#gruhiniPinGate .pin-logo{width:min(44vw,190px)!important;margin-bottom:10px!important}}
 </style>
+
+<!-- Gruhini Sarathi standalone APK: final household-only pink/white corrections -->
+<style id="gru-apk-household-final">
+:root{--ink:#7a2450;--blue:#c83279;--pink:#df4e98;--bg:#fff5fa;--line:#f1d7e5;--muted:#93677e;--navy:#8d2858;--surface:#fff}
+html,body{background:#fff5fa!important;color:#7a2450!important}
+.hero{background:linear-gradient(135deg,#9f2d64,#d84b91,#f184b8)!important;border-bottom:3px solid #f5bfd9!important}
+.hero:after{border-color:#fff8fc66!important;box-shadow:0 0 0 16px #fff8fc10,0 0 0 34px #fff8fc08!important}
+.hero small,.hero p,.brand-copy small,.brand-copy p,.brand-subline{color:#fff!important}
+.total{border-color:#f1d7e5!important;border-top-color:#df4e98!important;background:#fff!important}
+.total strong{color:#a12e67!important}.total strong.green{color:#178052!important}.total strong.red{color:#c04442!important}
+.panel{border-color:#f1d7e5!important}.panel h2{color:#b52d70!important}.panel h2:before{background:#df4e98!important}
+button,.btn,button.goldbtn{background:#d43d86!important;color:#fff!important;border-color:#e9a9cb!important}
+button.secondary,.login-secondary{background:#fff0f7!important;color:#a82e69!important;border-color:#edc4d9!important}
+.bottom{background:#fff!important;border-top:2px solid #e85b9e!important}.bottom button{color:#a12e67!important}.bottom button.active{background:#ffe3f1!important;color:#a12e67!important}
+.note{background:#fff0f7!important;border-color:#f0bfd7!important;color:#91315f!important}
+.profile-choice[data-profile="rickshaw"],.profile-choice-main[data-profile="my"],.profile-choice[data-profile="my"]{display:none!important}
+#area option[value="rickshaw"],#area option[value="personal"],#catArea option[value="rickshaw"],#catArea option[value="personal"],#reportArea option[value="rickshaw"],#reportArea option[value="all"]{display:none!important}
+#area,#catArea{display:none!important}
+#loginGate .login-step.active{display:block!important}
+</style>
+<script id="gru-login-screen-failsafe">
+/* If Firebase auth initialization stalls, show a usable login action instead of a permanent spinner. */
+window.setTimeout(function(){
+ const loading=document.getElementById('loginLoadingStep');
+ const gate=document.getElementById('loginGate');
+ if(loading&&loading.classList.contains('active')&&gate&&gate.style.display!=='none'){
+  try{gateStep('loginGoogleStep');gateMessage('खाते तपासणीला वेळ लागत आहे. कृपया Google / Gmail ने लॉगिन करा.')}
+  catch(e){loading.innerHTML='<p style="text-align:center;padding:12px 0">खाते तपासणीला वेळ लागत आहे. कृपया Google / Gmail ने लॉगिन करा.</p><button type="button" class="full" onclick="dailyCloudLogin()">Google / Gmail ने लॉगिन करा</button>'}
+ }
+},7000);
+</script>
 </body></html>
