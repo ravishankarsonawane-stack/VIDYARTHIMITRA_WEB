@@ -219,6 +219,19 @@ async function vmCloudRead(){
 }
 async function vmCloudWrite(payload){
   const col=vmCloudDb.collection('users').doc(vmCloudUser.uid).collection('backups');
+  // SAFETY: never overwrite a non-empty cloud backup with an empty local snapshot.
+  const incomingHasData=(payload.students||[]).length>0||(payload.payments||[]).length>0||(payload.recoveryBin||[]).length>0;
+  const old=await col.get();
+  const oldHasData=old.docs.some(d=>{const x=d.data();return (x.kind==='students'||x.kind==='payments'||x.kind==='recoveryBin')&&(Array.isArray(x.items)&&x.items.length>0)});
+  if(!incomingHasData&&oldHasData)throw new Error('सुरक्षा लॉक: रिकाम्या डेटाने जुना Cloud Backup बदलू दिला नाही. आधी Restore/तपासणी करा.');
+  // Keep a timestamped archive of the existing cloud snapshot before changing it.
+  if(old.size){
+    const archiveId='archive_'+new Date().toISOString().replace(/[:.]/g,'-');
+    const archiveCol=vmCloudDb.collection('users').doc(vmCloudUser.uid).collection('backupArchives').doc(archiveId).collection('parts');
+    const archiveBatch=vmCloudDb.batch();
+    old.docs.forEach(d=>archiveBatch.set(archiveCol.doc(d.id),{...d.data(),archivedAt:firebase.firestore.FieldValue.serverTimestamp()}));
+    await archiveBatch.commit();
+  }
   const kinds={students:payload.students||[],payments:payload.payments||[],recoveryBin:payload.recoveryBin||[],settings:[payload.settings||{}],meta:[payload.meta||{}]};
   const writes=[];
   Object.entries(kinds).forEach(([kind,items])=>{
@@ -232,7 +245,7 @@ async function vmCloudWrite(payload){
     await batch.commit();
   }
   const keep=new Set(writes.map(w=>w.ref.id));
-  const old=await col.get();let deletes=old.docs.filter(d=>!keep.has(d.id));
+  const after=await col.get();let deletes=after.docs.filter(d=>!keep.has(d.id));
   for(let i=0;i<deletes.length;i+=400){
     const batch=vmCloudDb.batch();
     deletes.slice(i,i+400).forEach(d=>batch.delete(d.ref));
@@ -314,10 +327,13 @@ async function vmCloudStart(){
 }
 function vmCloudScheduleSync(){
   if(!window.vmCloudReady||!vmCloudUser)return;
+  const snap=vmCloudSnapshot();
+  const hasAny=(snap.students.length>0||snap.payments.length>0||snap.recoveryBin.length>0);
+  if(!hasAny){vmCloudReady=false;vmCloudStatus('सुरक्षा लॉक: रिकामा डेटा Cloud मध्ये Sync केला नाही. जुना Backup सुरक्षित ठेवण्यासाठी Sync थांबवला.',true);return;}
   clearTimeout(vmCloudTimer);
   vmCloudTimer=setTimeout(async()=>{
-    try{await vmCloudWrite(vmCloudSnapshot());vmCloudStatus('✓ बदल Cloud Backup मध्ये सेव्ह झाले.')}
-    catch(e){window.vmCloudReady=false;vmCloudStatus('Cloud Backup अयशस्वी: '+(e.message||e),true)}
+    try{await vmCloudWrite(snap);vmCloudStatus('✓ बदल Cloud Backup मध्ये सेव्ह झाले.')}
+    catch(e){window.vmCloudReady=false;vmCloudStatus('Cloud Backup सुरक्षा लॉक/अयशस्वी: '+(e.message||e),true)}
   },1800);
 }
 window.addEventListener('online',()=>{if(vmCloudUser){vmCloudStatus('इंटरनेट परत आले. Cloud Sync तपासत आहे…');vmCloudStart().catch(e=>vmCloudStatus('Cloud Sync अयशस्वी: '+(e.message||e),true))}});
