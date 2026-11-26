@@ -633,11 +633,28 @@ function runReconciliationAudit(){
  host.innerHTML='<div class="stats"><div class="stat">चालू वर्षाची फी बाकी<b>₹'+grandMonthly.toLocaleString('en-IN')+'</b></div><div class="stat">मागील वर्षाची बाकी<b>₹'+grandOld.toLocaleString('en-IN')+'</b></div><div class="stat">Custom / Carry Forward<b>₹'+grandCustom.toLocaleString('en-IN')+'</b></div><div class="stat">एकूण तपासलेल्या नोंदी<b>'+grandEntries+'</b></div></div><p class="small">हा फक्त तपासणी अहवाल आहे. पेमेंट नोंदी, विद्यार्थ्यांची बाकी किंवा बॅकअपमध्ये कोणताही बदल केलेला नाही. प्रत्येक विद्यार्थ्याचे महिनानिहाय तपशील उघडण्यासाठी नावावर टॅप करा.</p>'+cards;
 }function renderReports(){let paid=db.payments.reduce((a,p)=>a+Number(p.amount||0),0),cash=db.payments.filter(p=>p.mode.includes('Cash')).reduce((a,p)=>a+Number(p.amount||0),0),online=paid-cash;rCash.textContent='₹'+cash;rOnline.textContent='₹'+online;let rows=ACADEMIC_MONTHS.map(m=>{let ps=db.payments.filter(p=>p.month===m);return `<tr><td>${m}</td><td>${ps.length}</td><td>₹${ps.reduce((a,p)=>a+Number(p.amount||0),0)}</td></tr>`}).join('');report.innerHTML='<table><tr><th>महिना / Month</th><th>Entries</th><th>जमा / Amount</th></tr>'+rows+'</table>';pendingList.innerHTML=db.students.map(s=>{let b=studentBalance(s);return b.total>0?`<div class="row" onclick="showStudentReport('${s.id}')" style="cursor:pointer"><div><b style="font-size:20px">${esc(s.name)}</b><div class="small">${(s.contacts||[]).join(', ')}</div></div><span class="pill danger">₹${b.total} बाकी</span></div>`:''}).join('')||'<p class="small">बाकी नाही / No pending</p>'}function showStudentReport(id){
  let s=db.students.find(x=>x.id===id);if(!s)return;
- let ps=db.payments.filter(p=>p.studentId===id).slice().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||''))||String(a.id||'').localeCompare(String(b.id||'')));
+ let ps=db.payments.filter(p=>p.studentId===id).slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))||String(b.id||'').localeCompare(String(a.id||'')));
  let startIdx=academicIndexFromDate(s.joiningDate),eligibleMonths=ACADEMIC_MONTHS.slice(startIdx);
  let rows=eligibleMonths.map(m=>{let mp=ps.filter(p=>p.type==='monthly'&&p.month===m),paid=mp.reduce((a,p)=>a+Number(p.amount||0),0),due=Math.max(0,(Number(s.monthlyFee)||0)-paid);return '<tr><td>'+esc(m)+'</td><td>₹'+paid.toLocaleString('en-IN')+'</td><td>'+(due>0?(paid>0?'अंशतः जमा / PARTIAL':'बाकी / UNPAID'):'जमा / PAID')+'</td><td>₹'+due.toLocaleString('en-IN')+'</td></tr>'}).join('');
  let totalPaid=ps.reduce((a,p)=>a+Number(p.amount||0),0),bal=studentBalance(s);
- let historyRows=ps.slice().reverse().map(p=>'<tr><td>'+esc(p.date||'—')+'</td><td>'+esc(p.month||'—')+'</td><td>'+esc(p.type==='monthly'?'मासिक फी':p.type==='oldBalance'?'जुनी बाकी':p.type||'इतर')+'</td><td style="text-align:right">₹'+Number(p.amount||0).toLocaleString('en-IN')+'</td><td>'+esc(p.mode||'—')+'</td><td>'+esc(p.receipt||'—')+'</td><td>'+esc(p.note||'—')+'</td></tr>').join('');
+ // Group by actual transaction; fallback receipt grouping, then date+mode to retain month allocations.
+ let txGroups=[],seenTx=new Set();
+ ps.slice().reverse().forEach(p=>{
+  let key=p.transactionId||p.id;
+  if(seenTx.has(key))return;
+  let items=paymentGroupFor(p).filter(x=>x.studentId===id);
+  if(!items.length)items=[p];
+  items.forEach(x=>{seenTx.add(x.id);if(x.transactionId)seenTx.add(x.transactionId)});
+  seenTx.add(key);txGroups.push(items);
+ });
+ let historyRows=txGroups.map(items=>{
+  let p=items[0],amount=items.reduce((n,x)=>n+Number(x.amount||0),0);
+  let allocation=[...new Map(items.map(x=>[x.month,Number(x.amount||0)])).entries()];
+  let allocationText=items.reduce((map,x)=>{map[x.month]=(map[x.month]||0)+Number(x.amount||0);return map;},{});
+  let allocationHtml=Object.entries(allocationText).map(([m,a])=>esc(m)+' ₹'+Number(a).toLocaleString('en-IN')).join(' + ');
+  let receipt=items.map(x=>x.receipt).filter(Boolean).join(', ');
+  return '<tr><td colspan="7" style="padding:8px 5px;border-bottom:0"><div style="background:#eaf3ff;border:1px solid #d3e4fa;border-radius:12px;padding:12px 13px;color:#173b68"><div style="font-size:16px;font-weight:800">📅 '+esc(p.date||'—')+' — ₹'+amount.toLocaleString('en-IN')+' जमा</div><div style="margin-top:5px;font-weight:600">('+allocationHtml+')</div><div style="font-size:13px;margin-top:6px;color:#365b82">'+esc(p.mode||'—')+' · पावती क्र. '+esc(receipt||'—')+'</div>'+(p.note?'<div style="font-size:13px;margin-top:4px;color:#365b82">टीप: '+esc(p.note)+'</div>')+'</div></td></tr>';
+ }).join('');
  let html='<div class="card" id="studentDetail">'+
  '<h2>👨‍🎓 '+esc(s.name)+'</h2>'+
  '<h3>विद्यार्थ्याची संपूर्ण माहिती / Student Profile</h3>'+
@@ -656,8 +673,8 @@ function runReconciliationAudit(){
  '<h3>महिन्यानुसार जमा व बाकी / Month-wise Summary</h3>'+
  '<table><tr><th>महिना</th><th>जमा</th><th>स्थिती</th><th>बाकी</th></tr>'+rows+'</table>'+
  '<h3>तारीखवार संपूर्ण पेमेंट हिस्टरी / Date-wise Payment History</h3>'+
- '<p class="small">प्रत्येक नोंद स्वतंत्र दाखवली आहे. एकाच दिवशी अनेक महिन्यांची फी भरल्यास प्रत्येक महिन्याची विभागणी दिसेल; प्रत्यक्ष जमा रक्कम ही त्या नोंदींची बेरीज आहे.</p>'+
- '<div style="overflow-x:auto"><table><tr><th>जमा तारीख</th><th>फी महिना</th><th>प्रकार</th><th>रक्कम</th><th>पद्धत</th><th>पावती क्र.</th><th>टीप</th></tr>'+(historyRows||'<tr><td colspan="7">पेमेंट नोंदी उपलब्ध नाहीत.</td></tr>')+'</table></div>'+
+ '<p class="small">प्रत्येक व्यवहार स्वतंत्र हलक्या निळ्या पट्टीत: जमा तारीख व त्या दिवशीची एकूण रक्कम ठळक, खाली कंसात महिन्यानुसार विभागणी.</p>'+
+ '<div style="overflow-x:auto"><table><tr><th>जमा तारीख / Payment Entries</th></tr>'+(historyRows||'<tr><td>पेमेंट नोंदी उपलब्ध नाहीत.</td></tr>')+'</table></div>'+
  '<h3>एकूण हिशोब / Fee Summary</h3>'+
  '<table><tr><td>चालू वर्षात जमा मासिक फी</td><td>₹'+Number(bal.paid||0).toLocaleString('en-IN')+'</td></tr>'+
  '<tr><td>चालू वर्षाची बाकी</td><td>₹'+Math.max(0,Number(bal.annual||0)-Number(bal.paid||0)).toLocaleString('en-IN')+'</td></tr>'+
