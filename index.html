@@ -640,7 +640,7 @@ function runReconciliationAudit(){
  // Group by actual transaction; fallback receipt grouping, then date+mode to retain month allocations.
  let txGroups=[],seenTx=new Set();
  ps.slice().reverse().forEach(p=>{
-  let receiptBase=String(p.receipt||'').match(/^(AS-\\d+)-\\d+$/);
+  let receiptBase=String(p.receipt||'').match(/^(AS-\d+)-\\d+$/);
   let key=p.transactionId|| (receiptBase?receiptBase[1]+'|'+p.date+'|'+p.mode:p.id);
   if(seenTx.has(key))return;
   let items=p.transactionId?ps.filter(x=>x.transactionId===p.transactionId):
