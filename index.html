@@ -147,9 +147,25 @@ const LOGO='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDA
 let db={"students":[],"payments":[],"settings":{"reminderOptIn":false,"pin":""},"meta":{"academicYear":"2026-27"}};
 
 const KEY='auto_seva_fee_v3';
-try{const saved=localStorage.getItem(KEY);if(saved)db=JSON.parse(saved)}catch(e){}
+let vmLocalDataProblem=null;
+try{
+  const saved=localStorage.getItem(KEY);
+  if(saved){
+    const parsed=JSON.parse(saved);
+    if(!parsed||typeof parsed!=='object'||!Array.isArray(parsed.students)||!Array.isArray(parsed.payments)||!parsed.settings||typeof parsed.settings!=='object'){
+      throw new Error('Saved data structure is incomplete');
+    }
+    db=parsed;
+  }
+}catch(e){
+  vmLocalDataProblem=e&&e.message?e.message:String(e);
+  try{const raw=localStorage.getItem(KEY);if(raw)localStorage.setItem(KEY+'_recovery_raw',raw)}catch(copyErr){}
+}
 if(!Array.isArray(db.recoveryBin))db.recoveryBin=[];
-function persist(){localStorage.setItem(KEY,JSON.stringify(db));renderAll();if(window.vmCloudReady)vmCloudScheduleSync()}
+function persist(){
+  if(vmLocalDataProblem){alert('सुरक्षा: फोनमधील जुना डेटा वाचताना त्रुटी आढळली. नवीन/रिकामा डेटा सेव्ह करणे थांबवले आहे. आधी Recovery तपासणी करा.');return}
+  localStorage.setItem(KEY,JSON.stringify(db));renderAll();if(window.vmCloudReady)vmCloudScheduleSync()
+}
 
 // Firebase Cloud Backup — user-scoped Firestore documents; PIN is never uploaded.
 const vmFirebaseConfig={
@@ -269,6 +285,7 @@ async function vmCloudRestore(payload){
 }
 async function vmCloudStart(){
   if(!vmCloudUser||!vmCloudDb)return;
+  if(vmLocalDataProblem){window.vmCloudReady=false;vmCloudStatus('सुरक्षा लॉक: फोनमधील डेटा वाचताना त्रुटी. रिकामा डेटा Cloud मध्ये Sync/Restore न करता थांबवले.',true);return;}
   window.vmCloudReady=false;
   vmCloudStatus('क्लाउडमधील Backup तपासत आहे…');
   const remote=await vmCloudRead(),local=vmCloudSnapshot(),localHas=local.students.length>0||local.payments.length>0||local.recoveryBin.length>0;
@@ -768,5 +785,5 @@ function importLegacyFile(e){let f=e.target.files[0];if(!f)return;let r=new File
 function convertLegacy(arr){if(!savePreRestoreBackup())return;db.recoveryBin=db.recoveryBin||[];db.students=[];db.payments=[];arr.forEach((s,i)=>{let id='s'+Date.now()+'_'+i;let n=+s.yearly||0;let join=s.joiningDate||'';let nMonths=dueMonths(join);let monthly=s.monthly||Math.round(n/Math.max(1,nMonths));db.students.push({id,name:s.name||'',joiningDate:join,monthlyFee:monthly,annualFee:n||monthly*nMonths,contacts:s.contact?[s.contact]:[],oldBalance:+s.oldBalance||0,notes:'Imported legacy backup',active:true});let md=s.monthData||{};ACADEMIC_MONTHS.forEach(m=>{let d=md[m]||{};if(+d.paid>0)db.payments.push({id:'lp'+i+m,studentId:id,type:'monthly',month:m,date:d.date||'',amount:+d.paid,mode:String(d.mode).toLowerCase().includes('online')?'ऑनलाइन / Online':'नकद / Cash',receipt:'LEGACY-'+(i+1)+'-'+m,note:'Imported'});})});persist()}
 function savePin(){let v=pinInput.value.trim();if(!/^\d{4,8}$/.test(v))return alert('4 ते 8 अंकी PIN द्या / Enter 4-8 digit PIN');db.settings.pin=v;persist();alert('🔐 App Lock Activate झाला. पुढच्या वेळी App उघडताना PIN लागेल.')} function removePin(){if(!db.settings.pin)return alert('Lock आधीच बंद आहे');let p=prompt('सध्याचा PIN / Current PIN');if(p!==db.settings.pin)return alert('चुकीचा PIN / Wrong PIN');db.settings.pin='';pinInput.value='';persist();alert('🔓 App Lock बंद झाला / Lock disabled')}
 function localToday(){let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
-function init(){fillMonths();fDate.value=new Date().toISOString().slice(0,10);renderAll();if(db.settings.pin){setTimeout(()=>{let p=prompt('विद्यार्थीमित्र PIN / Enter PIN');if(p!==db.settings.pin){document.body.innerHTML='<div style="padding:50px;text-align:center;font-family:Arial"><h2>🔐 App Locked</h2><p>चुकीचा PIN / Wrong PIN</p></div>'}},150)}}init();
+function init(){fillMonths();fDate.value=new Date().toISOString().slice(0,10);renderAll();if(vmLocalDataProblem){setTimeout(()=>alert('फोनमधील सेव्ह डेटा वाचताना अडचण आली. मूळ डेटा सुरक्षित ठेवण्यासाठी सेव्ह आणि Cloud Sync थांबवले आहेत. Recovery Raw Copy local storage मध्ये सुरक्षित ठेवण्याचा प्रयत्न केला आहे. कृपया अॅपमध्ये नवीन नोंदी करू नका; Recovery तपासणी आवश्यक आहे.'),250)}if(db.settings.pin){setTimeout(()=>{let p=prompt('विद्यार्थीमित्र PIN / Enter PIN');if(p!==db.settings.pin){document.body.innerHTML='<div style="padding:50px;text-align:center;font-family:Arial"><h2>🔐 App Locked</h2><p>चुकीचा PIN / Wrong PIN</p></div>'}},150)}}init();
 </script><footer style="text-align:center;padding:16px 8px;color:#173c6a;font-size:12px;font-weight:800">विद्यार्थीमित्र / VIDYARTHIMITRA · Student Transport Service · सुरक्षित प्रवास, विश्वासार्ह सेवा</footer></body></html>
