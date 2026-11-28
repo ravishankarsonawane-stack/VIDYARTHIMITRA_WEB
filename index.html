@@ -67,6 +67,14 @@ input,select,textarea{min-height:45px;border-radius:11px}
 @media(min-width:600px){.shortcut-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.tabs{left:50%;right:auto;transform:translateX(-50%);width:min(100%,760px);border-radius:16px 16px 0 0}}
 @media(max-width:360px){.brand h1{font-size:21px}.logo{width:55px;height:55px}.tabs button{font-size:9px}.stat{padding:10px 7px}}
 
+
+/* MOBILE NAV FIX: single consistent bottom navigation, remove conflicting sticky overrides */
+@media (max-width: 900px){
+ .tabs{position:fixed!important;top:auto!important;bottom:0!important;left:0!important;right:0!important;transform:none!important;width:100%!important;max-width:none!important;z-index:9999!important;display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;overflow-y:hidden!important;white-space:nowrap!important;gap:4px!important;padding:6px 5px calc(7px + env(safe-area-inset-bottom))!important;margin:0!important;border-radius:0!important;background:rgba(255,255,255,.98)!important;border-top:1px solid #d9e4f1!important;border-bottom:0!important;box-shadow:0 -5px 18px #08295720!important;}
+ .tabs button{flex:0 0 auto!important;min-width:76px!important;max-width:100px!important;min-height:52px!important;pointer-events:auto!important;touch-action:manipulation!important;}
+ .wrap{padding-bottom:100px!important;}
+}
+@media (min-width:901px){.tabs{position:sticky!important;top:0!important;left:auto!important;right:auto!important;transform:none!important;width:100%!important;z-index:40!important;}}
 </style><style>
 html,body{height:100%;overflow:hidden}.top{flex-shrink:0}.tabs{position:sticky;top:0;z-index:50;display:flex;overflow-x:auto;white-space:nowrap}.tabs button{flex:1;min-width:62px}.wrap{height:calc(100dvh - 155px);overflow:hidden;padding-bottom:8px}.page{display:none!important;height:100%;overflow-y:auto;overscroll-behavior:contain;padding-bottom:16px}.page.on{display:block!important}#dash{overflow:hidden!important}#dash .card{margin-bottom:10px}#dash .stats{gap:8px}#dash .stat{padding:10px 7px}#dash .home-shortcuts{margin-bottom:0}#dash .shortcut-grid{gap:10px}#dash .shortcut{min-height:105px;padding:12px 8px}#dash .shortcut span{font-size:27px}#dash .shortcut small{display:none}#settings .card{margin-bottom:12px}
 @media(max-height:720px){.wrap{height:calc(100dvh - 135px)}#dash .card{padding:10px}#dash .shortcut{min-height:82px}#dash .stats .stat{font-size:12px}}
